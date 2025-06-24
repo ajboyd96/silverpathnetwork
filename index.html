@@ -3,8 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SilverPath Network - Final Expense Insurance Made Simple</title>
-    <style>
+    <title>Final Expense Insurance - Silver Path Network</title>
+    <meta name="description" content="Get affordable final expense insurance coverage to protect your family from burial and funeral costs. Free quotes and expert guidance.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="#home">Silver Path Network</a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="#quiz" class="nav-link">Get Quote</a></li>
+                    <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Protect Your Family's Future with Final Expense Insurance</h1>
+                <p>Don't burden your loved ones with funeral and burial costs. Get affordable coverage that provides peace of mind.</p>
+                <div class="hero-cta">
+                    <button class="cta-button primary" onclick="startQuiz()">Get Your Free Quote</button>
+                    <button class="cta-button secondary" onclick="scrollToSection('about')">Learn More</button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">$50K+</span>
+                        <span class="stat-label">Average Funeral Cost</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">2 Min</span>
+                        <span class="stat-label">Quote Process</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">No Exam</span>
+                        <span class="stat-label">Required</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="quiz-section">
+            <div class="container">
+                <h2>Get Your Final Expense Insurance Quote</h2>
+                <p class="quiz-subtitle">Answer a few quick questions to get your personalized quote</p>
+                
+                <div class="quiz-container">
+                    <div class="quiz-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <span class="progress-text">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">8</span></span>
+                    </div>
+
+                    <div class="quiz-content" id="quizContent"></div>
+
+                    <div class="quiz-navigation">
+                        <button class="quiz-btn secondary" id="prevBtn" onclick="previousQuestion()" style="display: none;">Previous</button>
+                        <button class="quiz-btn primary" id="nextBtn" onclick="nextQuestion()">Next</button>
+                    </div>
+                </div>
+
+                <div class="lead-form-container" id="leadForm" style="display: none;">
+                    <h3>Get Your Personalized Quote</h3>
+                    <form class="lead-form" netlify name="final-expense-leads" onsubmit="submitLead(event)">
+                        <div class="form-row">
+                            <input type="text" name="firstName" placeholder="First Name" required>
+                            <input type="text" name="lastName" placeholder="Last Name" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="email" name="email" placeholder="Email Address" required>
+                            <input type="tel" name="phone" placeholder="Phone Number" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="text" name="zip" placeholder="ZIP Code" required>
+                            <select name="bestTime" required>
+                                <option value="">Best Time to Call</option>
+                                <option value="morning">Morning (8AM-12PM)</option>
+                                <option value="afternoon">Afternoon (12PM-5PM)</option>
+                                <option value="evening">Evening (5PM-8PM)</option>
+                            </select>
+                        </div>
+                        <input type="hidden" name="quiz-answers" id="quizAnswersField">
+                        <button type="submit" class="submit-btn">Get My Free Quote</button>
+                        <p class="privacy-notice">Your information is secure and will only be used to provide your quote.</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="about" class="features">
+            <div class="container">
+                <h2>Why Choose Silver Path Network?</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🛡️</div>
+                        <h3>No Medical Exam</h3>
+                        <p>Most policies require only health questions, no physical exam needed.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💰</div>
+                        <h3>Affordable Premiums</h3>
+                        <p>Coverage starting as low as $15/month for qualified applicants.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Guaranteed Acceptance</h3>
+                        <p>Options available for those with health conditions.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">❤️</div>
+                        <h3>Cash Value</h3>
+                        <p>Whole life policies build cash value you can borrow against.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <h2>Get Help Choosing the Right Coverage</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h3>Speak with an Expert</h3>
+                        <p>Our licensed insurance professionals are here to help you find the perfect final expense coverage for your needs and budget.</p>
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <strong>Call:</strong> 1-800-FINAL-EX
+                            </div>
+                            <div class="contact-method">
+                                <strong>Email:</strong> quotes@silverpathnetwork.com
+                            </div>
+                            <div class="contact-method">
+                                <strong>Hours:</strong> Mon-Fri 8AM-8PM EST
+                            </div>
+                        </div>
+                    </div>
+                    <div class="quick-contact">
+                        <h3>Quick Contact</h3>
+                        <form class="contact-form" netlify name="contact-form" onsubmit="submitContact(event)">
+                            <input type="text" name="name" placeholder="Your Name" required>
+                            <input type="email" name="email" placeholder="Email Address" required>
+                            <input type="tel" name="phone" placeholder="Phone Number" required>
+                            <textarea name="message" placeholder="How can we help you?" rows="4"></textarea>
+                            <button type="submit" class="submit-btn">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Silver Path Network</h4>
+                    <p>Protecting families with comprehensive final expense insurance solutions.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#quiz">Get Quote</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>1-800-FINAL-EX<br>quotes@silverpathnetwork.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Silver Path Network. All rights reserved. | <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
         * {
             margin: 0;
             padding: 0;
