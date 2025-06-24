@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SilverPath Network - Final Expense Insurance That Honors Your Life</title>
+    <meta name="description" content="Final expense insurance starting at 50¢ per day. No medical exams, guaranteed acceptance, protect your family from financial burden.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #4a5568, #718096);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #e2e8f0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #90cdf4;
+        }
+
+        /* Hero Section - InsuranceIan Inspired */
+        .hero {
+            background: linear-gradient(135deg, #4a5568, #718096);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.05"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero .subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+            opacity: 0.9;
+        }
+
+        .hero .price-highlight {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.3s both;
+            color: #90cdf4;
+            font-weight: 600;
+        }
+
+        .hero-cta {
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #2b6cb0, #3182ce);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(43, 108, 176, 0.3);
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, #2c5282, #2a69ac);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(43, 108, 176, 0.4);
+        }
+
+        .trust-indicators {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+        }
+
+        .trust-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .trust-indicator::before {
+            content: '✓';
+            color: #68d391;
+            font-weight: bold;
+        }
+
+        /* Problem/Solution Section - InsuranceIan Style */
+        .problem-solution {
+            padding: 80px 0;
+            background: #f7fafc;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .problem-solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .problem-block {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border-left: 4px solid #e53e3e;
+        }
+
+        .solution-block {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border-left: 4px solid #38a169;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 1rem;
+            background: #fed7d7;
+            border-radius: 8px;
+        }
+
+        .stat .number {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #c53030;
+        }
+
+        .stat .label {
+            font-size: 0.9rem;
+            color: #4a5568;
+            margin-top: 0.5rem;
+        }
+
+        .benefits-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .benefits-list li {
+            padding: 0.5rem 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .benefits-list li::before {
+            content: '✓';
+            color: #38a169;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Why Final Expense Section */
+        .why-final-expense {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .purpose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .purpose-card {
+            background: #f7fafc;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #e2e8f0;
+        }
+
+        .purpose-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+        .purpose-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .purpose-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 80px 0;
+            background: #f7fafc;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #2b6cb0, #3182ce);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+            font-weight: 600;
+        }
+
+        /* Enhanced Quiz Section */
+        .quiz-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .quiz-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .quiz-form {
+            background: #f7fafc;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3182ce;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .radio-option:hover {
+            border-color: #3182ce;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            color: #3182ce;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: #2d3748;
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .footer-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #e2e8f0;
+        }
+
+        .footer-content p {
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero .price-highlight {
+                font-size: 1.5rem;
+            }
+
+            .trust-indicators {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .problem-solution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+            }
+
+            .quiz-form {
+                padding: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+
+            .cta-button {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">SilverPath Network</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="#quiz">Get Quote</a></li>
+                <li><a href="blog.html">Resources</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="testimonials.html">Reviews</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section - InsuranceIan Style -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Final Expense Insurance That Honors Your Life</h1>
+                <p class="subtitle">Protect your family from financial burden when they need comfort most</p>
+                <p class="price-highlight">Starting at just 50¢ per day</p>
+                <div class="hero-cta">
+                    <a href="#quiz" class="cta-button">Find My Coverage in 2 Minutes</a>
+                </div>
+                <div class="trust-indicators">
+                    <div class="trust-indicator">No Medical Exams Required</div>
+                    <div class="trust-indicator">Guaranteed Acceptance</div>
+                    <div class="trust-indicator">Premiums Never Increase</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem/Solution Section -->
+    <section class="problem-solution">
+        <div class="container">
+            <div class="section-header">
+                <h2>The Hidden Truth About Final Expenses</h2>
+                <p>Most families are caught off guard by the real costs of final arrangements</p>
+            </div>
+            
+            <div class="problem-solution-grid">
+                <div class="problem-block">
+                    <h3>🚨 The Problem</h3>
+                    <p>Final expenses can devastate families financially when they're already grieving.</p>
+                    <div class="stat-grid">
+                        <div class="stat">
+                            <span class="number">$12,000</span>
+                            <span class="label">Average Funeral Cost</span>
+                        </div>
+                        <div class="stat">
+                            <span class="number">73%</span>
+                            <span class="label">Families Struggle With Costs</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="solution-block">
+                    <h3>✅ The Silver Path Solution</h3>
+                    <p>We make final expense protection simple, affordable, and guaranteed.</p>
+                    <ul class="benefits-list">
+                        <li>No medical exams required</li>
+                        <li>Guaranteed acceptance (ages 50-85)</li>
+                        <li>Premiums locked for life</li>
+                        <li>Coverage starts immediately</li>
+                        <li>Claims paid quickly to your family</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Final Expense Section -->
+    <section class="why-final-expense">
+        <div class="container">
+            <div class="section-header">
+                <h2>Leave Love, Not Financial Burden</h2>
+                <p>Final expense insurance serves four essential purposes for your family</p>
+            </div>
+            
+            <div class="purpose-grid">
+                <div class="purpose-card">
+                    <div class="purpose-icon">⚱️</div>
+                    <h3>Funeral & Burial Costs</h3>
+                    <p>Preserve dignity in your final arrangements without financial stress for your loved ones.</p>
+                </div>
+                <div class="purpose-card">
+                    <div class="purpose-icon">🏥</div>
+                    <h3>Outstanding Medical Bills</h3>
+                    <p>Don't leave healthcare debt behind. Cover final medical expenses and outstanding bills.</p>
+                </div>
+                <div class="purpose-card">
+                    <div class="purpose-icon">💳</div>
+                    <h3>Credit Card & Personal Debts</h3>
+                    <p>Provide a clean financial slate for your family by covering remaining personal debts.</p>
+                </div>
+                <div class="purpose-card">
+                    <div class="purpose-icon">💝</div>
+                    <h3>Peace of Mind</h3>
+                    <p>Your loved ones can focus on grieving and healing, not worrying about money.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>How Silver Path Works</h2>
+                <p>Get protected in three simple steps - no complicated medical processes</p>
+            </div>
+            
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Quick Assessment</h3>
+                    <p>Answer a few simple questions about your age, health, and coverage needs. Takes just 2 minutes with no medical records required.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>We Find Your Perfect Match</h3>
+                    <p>Our system compares top-rated insurance carriers to find the best rate and coverage for your specific situation.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Get Instant Coverage</h3>
+                    <p>Same-day approval available with coverage beginning immediately. Your family is protected from day one.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Quiz Section -->
+    <section class="quiz-section" id="quiz">
+        <div class="container">
+            <div class="quiz-container">
+                <h2>Get Your Free Quote in 2 Minutes</h2>
+                <p>See exactly how affordable final expense protection can be for your situation</p>
+                
+                <form class="quiz-form" id="quoteForm" action="/thank-you.html" method="POST" netlify>
+                    <div class="form-group">
+                        <label for="age">What is your age?</label>
+                        <select id="age" name="age" required>
+                            <option value="">Select your age range</option>
+                            <option value="45-54">45-54</option>
+                            <option value="55-64">55-64</option>
+                            <option value="65-74">65-74</option>
+                            <option value="75-84">75-84</option>
+                            <option value="85+">85+</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Are you a tobacco user?</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="tobacco" value="no" required>
+                                <span>No</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="tobacco" value="yes">
+                                <span>Yes</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="coverage">How much coverage do you need?</label>
+                        <select id="coverage" name="coverage" required>
+                            <option value="">Select coverage amount</option>
+                            <option value="5000">$5,000</option>
+                            <option value="10000">$10,000</option>
+                            <option value="15000">$15,000</option>
+                            <option value="20000">$20,000</option>
+                            <option value="25000">$25,000+</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <button type="submit" class="cta-button">Get My Free Quote Now</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <h3>SilverPath Network</h3>
+                <p>Honoring your life by protecting your family's future</p>
+                <p>Licensed final expense insurance specialists</p>
+                <p>© 2025 SilverPath Network. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Enhanced header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(45, 55, 72, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #4a5568, #718096)';
+                header.style.backdropFilter = 'none';
+            }
+        });
+
+        // Form validation and submission
+        document.getElementById('quoteForm').addEventListener('submit', function(e) {
+            // Let Netlify handle the form submission
+            console.log('Form submitted to Netlify');
+        });
+
+        // Radio button styling
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Remove selected class from all options in this group
+                document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => {
+                    r.closest('.radio-option').style.borderColor = '#e2e8f0';
+                    r.closest('.radio-option').style.backgroundColor = 'white';
+                });
+                
+                // Add selected styling to chosen option
+                if (this.checked) {
+                    this.closest('.radio-option').style.borderColor = '#3182ce';
+                    this.closest('.radio-option').style.backgroundColor = '#ebf8ff';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
