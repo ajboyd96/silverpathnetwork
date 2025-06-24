@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequently Asked Questions - SilverPath Network</title>
+    <meta name="description" content="Get answers to common questions about final expense insurance, coverage options, and the application process.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #f39c12;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .main-content {
+            padding: 60px 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-section {
+            margin-bottom: 3rem;
+        }
+
+        .faq-section h2 {
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            background: #e9ecef;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-answer.active {
+            padding: 1.5rem;
+            max-height: 500px;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-toggle.active {
+            transform: rotate(180deg);
+        }
+
+        .cta-section {
+            background: #f8f9fa;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .cta-button {
+            background: #f39c12;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: #e67e22;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">SilverPath Network</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="index.html#quiz">Get Quote</a></li>
+                <li><a href="blog.html">Resources</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="testimonials.html">Reviews</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Frequently Asked Questions</h1>
+            <p>Get answers to the most common questions about final expense insurance</p>
+        </div>
+    </section>
+
+    <main class="main-content container">
+        <div class="faq-section">
+            <h2>General Questions</h2>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    What is final expense insurance?
+                    <span class="faq-toggle">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Final expense insurance is a type of whole life insurance designed to cover end-of-life costs such as funeral expenses, medical bills, and outstanding debts. It provides peace of mind by ensuring your family won't face financial hardship during an already difficult time.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    How much does final expense insurance cost?
+                    <span class="faq-toggle">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Premiums start as low as $15 per month and vary based on your age, health, coverage amount, and tobacco use. Most people find it surprisingly affordable, especially compared to the potential costs it covers.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Do I need a medical exam?
+                    <span class="faq-toggle">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p>No medical exam is required for most final expense policies. You'll only need to answer a few simple health questions. This makes it accessible even if you have pre-existing health conditions.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2>Coverage & Benefits</h2>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    How much coverage do I need?
+                    <span class="faq-toggle">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Most people choose between $5,000 and $25,000 in coverage. Consider funeral costs ($7,000-$15,000), outstanding medical bills, credit card debt, and any final expenses you want covered. Our quiz helps determine the right amount for your situation.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What does final expense insurance cover?
+                    <span class="faq-toggle">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Final expense insurance provides a cash benefit that can be used for any purpose, including funeral and burial costs, outstanding medical bills, credit card debt, mortgage payments, or any other final expenses your family may face.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Are there waiting periods?
+                    <span class="faq-toggle">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Most policies have immediate coverage for accidental death. For natural death, some policies have a 2-year waiting period, while others offer immediate full coverage. We work with carriers that offer immediate coverage options.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2>Application Process</h2>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    How long does it take to get approved?
+                    <span class="faq-toggle">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Most applications are approved within 24-48 hours. Some carriers offer instant approval for qualified applicants. The simple application process means you can get covered quickly.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Can I be denied coverage?
+                    <span class="faq-toggle">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Final expense insurance has very lenient underwriting. Most people qualify regardless of health conditions. Even if you have serious health issues, guaranteed issue policies are available that accept all applicants.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What information do I need to apply?
+                    <span class="faq-toggle">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p>You'll need basic personal information, your Social Security number, and answers to a few simple health questions. The entire application takes just a few minutes to complete.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2>Policy Details</h2>
+            
+            <div class="faq-item">
+                <button class="faq-question">
+                    Will my premiums increase over time?
+                    <span class="faq-toggle">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p>No, your premiums are locked in and will never increase. This is one of the key benefits of final expense insurance - predictable, affordable monthly payments for life.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Can I change my beneficiary?
+                    <span class="faq-toggle">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes, you can change your beneficiary at any time by contacting your insurance carrier. This flexibility ensures your policy always reflects your current wishes.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What happens if I stop paying premiums?
+                    <span class="faq-toggle">▼</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Most final expense policies build cash value over time. If you stop paying premiums, you may have options like using the cash value to keep the policy in force or receiving a reduced paid-up policy.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Still Have Questions?</h2>
+            <p>Get personalized answers and your free quote in just 2 minutes</p>
+            <a href="index.html#quiz" class="cta-button">Get My Free Quote</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <h3>SilverPath Network</h3>
+            <p>Protecting families with affordable final expense insurance</p>
+            <p>© 2025 SilverPath Network. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle Functionality
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                const toggle = button.querySelector('.faq-toggle');
+                
+                // Close other open FAQs
+                document.querySelectorAll('.faq-answer').forEach(otherAnswer => {
+                    if (otherAnswer !== answer) {
+                        otherAnswer.classList.remove('active');
+                        otherAnswer.previousElementSibling.querySelector('.faq-toggle').classList.remove('active');
+                    }
+                });
+                
+                // Toggle current FAQ
+                answer.classList.toggle('active');
+                toggle.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
