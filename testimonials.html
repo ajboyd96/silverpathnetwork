@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Testimonials - SilverPath Network</title>
+    <meta name="description" content="Read real stories from satisfied customers who chose SilverPath Network for their final expense insurance needs.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #f39c12;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .main-content {
+            padding: 60px 0;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .testimonial-quote {
+            font-size: 3rem;
+            color: #3498db;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: #555;
+            margin: 1rem 0 1.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #3498db, #2c3e50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .author-info h4 {
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
+
+        .author-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .stars {
+            color: #f39c12;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .stats-section {
+            background: #f8f9fa;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3498db;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-section {
+            background: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .cta-button {
+            background: #f39c12;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: #e67e22;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">SilverPath Network</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="index.html#quiz">Get Quote</a></li>
+                <li><a href="blog.html">Resources</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="testimonials.html">Reviews</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>What Our Customers Say</h1>
+            <p>Real stories from families we've helped protect</p>
+        </div>
+    </section>
+
+    <main class="main-content container">
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"</div>
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">The process was so simple and fast. I got approved in less than 24 hours without any medical exams. Now I have peace of mind knowing my family won't struggle with funeral costs. The monthly premium is very affordable on my fixed income.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">M</div>
+                    <div class="author-info">
+                        <h4>Martha S.</h4>
+                        <p>Age 67, Texas</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"</div>
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">After my husband passed, I realized how important this coverage is. SilverPath Network made it easy for me to get my own policy. The agent was patient and explained everything clearly. I wish we had done this sooner.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">D</div>
+                    <div class="author-info">
+                        <h4>Dorothy R.</h4>
+                        <p>Age 72, Florida</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"</div>
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">I was worried about getting life insurance with my diabetes, but SilverPath Network found me a policy with no medical exam required. The whole family feels better knowing this burden won't fall on them.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">R</div>
+                    <div class="author-info">
+                        <h4>Robert L.</h4>
+                        <p>Age 64, Ohio</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"</div>
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">The customer service is outstanding. When I had questions about my policy, they explained everything in terms I could understand. I'm paying less than $30 a month for $15,000 in coverage - much better than I expected.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">B</div>
+                    <div class="author-info">
+                        <h4>Betty J.</h4>
+                        <p>Age 69, California</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"</div>
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">My children encouraged me to get final expense insurance, and I'm glad I listened. The application was simple, and I was approved the same day. Now my kids don't have to worry about how they'll pay for my funeral.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">H</div>
+                    <div class="author-info">
+                        <h4>Harold M.</h4>
+                        <p>Age 74, Arizona</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"</div>
+                <div class="stars">★★★★★</div>
+                <p class="testimonial-text">I appreciate that there's no waiting period for accidental death coverage. The peace of mind is worth every penny. SilverPath Network made the whole process stress-free and transparent.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">S</div>
+                    <div class="author-info">
+                        <h4>Susan K.</h4>
+                        <p>Age 61, Michigan</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="stats-section">
+        <div class="container">
+            <h2>Why Families Choose SilverPath Network</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">98%</span>
+                    <p>Customer Satisfaction Rate</p>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">10,000+</span>
+                    <p>Families Protected</p>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24hrs</span>
+                    <p>Average Approval Time</p>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">$15</span>
+                    <p>Starting Monthly Premium</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Join Thousands of Satisfied Customers</h2>
+            <p>Get your personalized final expense insurance quote today</p>
+            <a href="index.html#quiz" class="cta-button">Get My Free Quote</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <h3>SilverPath Network</h3>
+            <p>Protecting families with affordable final expense insurance</p>
+            <p>© 2025 SilverPath Network. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
