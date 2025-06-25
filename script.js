@@ -385,8 +385,24 @@ const observer = new IntersectionObserver(function(entries) {
     });
 }, observerOptions);
 
+// FAQ functionality
+function toggleFAQ(index) {
+    const faqItems = document.querySelectorAll('.faq-item');
+    const currentItem = faqItems[index];
+    
+    // Close all other FAQ items
+    faqItems.forEach((item, i) => {
+        if (i !== index) {
+            item.classList.remove('active');
+        }
+    });
+    
+    // Toggle current item
+    currentItem.classList.toggle('active');
+}
+
 // Observe elements when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    const elementsToObserve = document.querySelectorAll('.feature-card, .stat');
+    const elementsToObserve = document.querySelectorAll('.feature-card, .stat, .faq-item');
     elementsToObserve.forEach(el => observer.observe(el));
 });
