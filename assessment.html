@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Expense Insurance Assessment - Silver Path Network</title>
+    <meta name="description" content="Take our free final expense insurance assessment to get a personalized quote and find the right coverage for your family.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional styles for assessment page */
+        .assessment-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+        
+        .assessment-intro {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .assessment-intro h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .assessment-intro p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .assessment-benefits {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .benefit-icon {
+            color: #ffd93d;
+            font-size: 1.2rem;
+        }
+        
+        .quiz-section {
+            padding: 60px 0 80px;
+            background: #f8f9fa;
+        }
+        
+        .quiz-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .quiz-intro h2 {
+            font-size: 2rem;
+            color: #2c5282;
+            margin-bottom: 1rem;
+        }
+        
+        .quiz-intro p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .progress-container {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .step.completed {
+            background: #28a745;
+            color: white;
+        }
+        
+        .quiz-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        
+        .question-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .question h3 {
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+            line-height: 1.4;
+        }
+        
+        .question-options {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .option {
+            padding: 1rem 1.5rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1rem;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+        }
+        
+        .option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .option-icon {
+            font-size: 1.5rem;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .quiz-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .quiz-btn.primary {
+            background: #667eea;
+            color: white;
+            flex: 1;
+            max-width: 200px;
+            margin-left: auto;
+        }
+        
+        .quiz-btn.primary:hover:not(:disabled) {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+        
+        .quiz-btn.primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .quiz-btn.secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .quiz-btn.secondary:hover {
+            background: #5a6268;
+        }
+        
+        /* Lead form specific styles */
+        .lead-form-section {
+            background: white;
+            padding: 60px 0;
+        }
+        
+        .lead-form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border: 3px solid #667eea;
+        }
+        
+        .lead-form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .lead-form-header h2 {
+            color: #2c5282;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .lead-form-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .estimated-premium {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .estimated-premium h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .premium-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        
+        .premium-note {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .assessment-intro h1 {
+                font-size: 2rem;
+            }
+            
+            .assessment-benefits {
+                gap: 1rem;
+            }
+            
+            .quiz-container {
+                padding: 2rem 1.5rem;
+                margin: 0 1rem;
+            }
+            
+            .question-options {
+                gap: 0.8rem;
+            }
+            
+            .option {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .quiz-navigation {
+                flex-direction: column;
+            }
+            
+            .quiz-btn.primary {
+                max-width: none;
+                order: 2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html">Silver Path Network</a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="assessment.html" class="nav-link">Get Quote</a></li>
+                    <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+                    <li class="nav-item"><a href="index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Assessment Hero Section -->
+        <section class="assessment-hero" id="assessment">
+            <div class="assessment-intro">
+                <h1>Final Expense Insurance Assessment</h1>
+                <p>Get a personalized quote in just 2 minutes. Our simple assessment helps us find the perfect coverage for your needs and budget.</p>
+                
+                <div class="assessment-benefits">
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>No Medical Exam Required</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>Instant Quote</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>Licensed Agents</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>100% Free</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section class="quiz-section">
+            <div class="container">
+                <div class="quiz-intro">
+                    <h2>Answer a Few Quick Questions</h2>
+                    <p>Help us understand your needs so we can provide you with the most accurate quote and coverage options.</p>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="step-indicator">
+                        <div class="step active" id="step1">1</div>
+                        <div class="step" id="step2">2</div>
+                        <div class="step" id="step3">3</div>
+                        <div class="step" id="step4">4</div>
+                        <div class="step" id="step5">5</div>
+                        <div class="step" id="step6">6</div>
+                        <div class="step" id="step7">7</div>
+                        <div class="step" id="step8">8</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="question-number" id="questionNumber">1</div>
+                    <div class="quiz-content" id="quizContent"></div>
+                    
+                    <div class="quiz-navigation">
+                        <button class="quiz-btn secondary" id="prevBtn" onclick="previousQuestion()" style="display: none;">← Previous</button>
+                        <button class="quiz-btn primary" id="nextBtn" onclick="nextQuestion()">Next →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lead Form Section (hidden initially) -->
+        <section class="lead-form-section" id="leadFormSection" style="display: none;">
+            <div class="container">
+                <div class="lead-form-container">
+                    <div class="lead-form-header">
+                        <h2>Great! Here's Your Estimated Premium</h2>
+                        <p>Based on your answers, here's what your coverage could cost:</p>
+                    </div>
+
+                    <div class="estimated-premium" id="premiumEstimate">
+                        <h3>Estimated Monthly Premium</h3>
+                        <div class="premium-amount" id="premiumAmount">$45</div>
+                        <div class="premium-note">*Final rate subject to underwriting approval</div>
+                    </div>
+
+                    <form class="lead-form" netlify name="final-expense-assessment" onsubmit="submitLead(event)">
+                        <h3 style="text-align: center; margin-bottom: 1.5rem; color: #2c5282;">Get Your Official Quote</h3>
+                        
+                        <div class="form-row">
+                            <input type="text" name="firstName" placeholder="First Name" required>
+                            <input type="text" name="lastName" placeholder="Last Name" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="email" name="email" placeholder="Email Address" required>
+                            <input type="tel" name="phone" placeholder="Phone Number" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="text" name="zip" placeholder="ZIP Code" required>
+                            <select name="bestTime" required>
+                                <option value="">Best Time to Call</option>
+                                <option value="morning">Morning (8AM-12PM)</option>
+                                <option value="afternoon">Afternoon (12PM-5PM)</option>
+                                <option value="evening">Evening (5PM-8PM)</option>
+                            </select>
+                        </div>
+                        <input type="hidden" name="quiz-answers" id="quizAnswersField">
+                        <input type="hidden" name="estimated-premium" id="estimatedPremiumField">
+                        
+                        <button type="submit" class="submit-btn">Get My Official Quote</button>
+                        <p class="privacy-notice">Your information is secure and will only be used to provide your quote. A licensed agent will contact you within 24 hours.</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Silver Path Network</h4>
+                    <p>Protecting families with comprehensive final expense insurance solutions.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="assessment.html">Get Quote</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>1-800-FINAL-EX<br>quotes@silverpathnetwork.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Silver Path Network. All rights reserved. | <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assessment-script.js"></script>
+</body>
+</html>
