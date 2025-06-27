@@ -207,7 +207,7 @@ function selectOption(index, value) {
 
 function nextQuestion() {
     if (!assessmentAnswers[currentQuestionIndex]) {
-        alert('Please select an answer before continuing.');
+        showMessage('Please select an answer before continuing.', 'error');
         return;
     }
     
@@ -299,7 +299,7 @@ function showResults(estimatedPremium) {
     document.getElementById('resultsContainer').innerHTML = `
         <h2>🎉 Great News!</h2>
         <div class="results-image">
-            <img src="silverpath website photos/image4.png" alt="Happy couple celebrating their coverage" style="max-width: 300px; border-radius: 15px;">
+            <img src="silverpath website photos/happycouplewhite.png" alt="Happy couple celebrating their coverage" style="max-width: 300px; border-radius: 15px;">
         </div>
         
         <p style="font-size: 20px; color: #666; margin-bottom: 30px;">
@@ -441,7 +441,7 @@ function sendVerificationCode() {
     const phone = document.getElementById('phone').value.trim();
     
     if (!firstName || !lastName || !email || !phone) {
-        alert('Please fill in all required fields before sending verification code.');
+        showMessage('Please fill in all required fields before sending verification code.', 'error');
         return;
     }
     
@@ -454,7 +454,7 @@ function sendVerificationCode() {
     // Show loading state
     const nextBtn = document.getElementById('contactNextBtn');
     const originalText = nextBtn.textContent;
-    nextBtn.textContent = 'Sending...';
+    nextBtn.innerHTML = '<span>Sending...</span> <div style="display: inline-block; width: 12px; height: 12px; border: 2px solid #fff; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; margin-left: 8px;"></div>';
     nextBtn.disabled = true;
     
     // Create hidden iframe for form submission
@@ -475,7 +475,7 @@ function sendVerificationCode() {
     
     // Validate phone number length
     if (cleanPhone.length !== 10) {
-        alert('Please enter a valid 10-digit phone number.');
+        showMessage('Please enter a valid 10-digit phone number.', 'error');
         return;
     }
     
