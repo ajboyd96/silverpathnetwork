@@ -201,6 +201,9 @@ function selectOption(index, value) {
         answerText: value
     };
     
+    console.log('✅ Stored answer for question', currentQuestionIndex + 1, ':', value);
+    console.log('📊 Current assessment answers:', assessmentAnswers);
+    
     // Update navigation buttons
     updateNavigationButtons();
 }
@@ -947,18 +950,30 @@ function showMessage(message, type) {
 
 // Log successful verification and send quiz data to Google Sheets
 function logVerificationSuccess() {
-    if (!currentVerificationData) return;
+    if (!currentVerificationData) {
+        console.error('❌ No current verification data available');
+        return;
+    }
     
     console.log('📊 Logging verification success and quiz data to Google Sheets');
+    console.log('👤 Current verification data:', currentVerificationData);
+    
+    // Check if we have any quiz answers
+    if (!assessmentAnswers || Object.keys(assessmentAnswers).length === 0) {
+        console.warn('⚠️ No assessment answers found! User may have skipped quiz.');
+        console.log('📝 Assessment answers object:', assessmentAnswers);
+    }
     
     // Prepare quiz answers in a structured format
+    console.log('📝 Raw assessment answers:', assessmentAnswers);
+    
     const quizData = {
-        q1: assessmentAnswers[0]?.answer || '', // Age Range
-        q2: assessmentAnswers[1]?.answer || '', // Tobacco Use
-        q3: assessmentAnswers[2]?.answer || '', // Coverage Amount
-        q4: assessmentAnswers[3]?.answer || '', // Insurance Goal
-        q5: assessmentAnswers[4]?.answer || '', // Health Status
-        q6: assessmentAnswers[5]?.answer || ''  // Coverage Timing
+        q1: (assessmentAnswers[0] && assessmentAnswers[0].answer) ? assessmentAnswers[0].answer : 'No answer',
+        q2: (assessmentAnswers[1] && assessmentAnswers[1].answer) ? assessmentAnswers[1].answer : 'No answer', 
+        q3: (assessmentAnswers[2] && assessmentAnswers[2].answer) ? assessmentAnswers[2].answer : 'No answer',
+        q4: (assessmentAnswers[3] && assessmentAnswers[3].answer) ? assessmentAnswers[3].answer : 'No answer',
+        q5: (assessmentAnswers[4] && assessmentAnswers[4].answer) ? assessmentAnswers[4].answer : 'No answer',
+        q6: (assessmentAnswers[5] && assessmentAnswers[5].answer) ? assessmentAnswers[5].answer : 'No answer'
     };
     
     console.log('Quiz answers being sent:', quizData);
