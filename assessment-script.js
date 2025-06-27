@@ -286,18 +286,73 @@ function calculatePremiumEstimate() {
 }
 
 function showLeadForm() {
-    // Hide quiz section
-    document.querySelector('.quiz-section').style.display = 'none';
+    // Hide quiz sections
+    document.getElementById('progressSection').style.display = 'none';
+    document.getElementById('questionContainer').style.display = 'none';
+    document.getElementById('navigationSection').style.display = 'none';
     
     // Calculate and display premium estimate
     const estimatedPremium = calculatePremiumEstimate();
-    document.getElementById('premiumAmount').textContent = `$${estimatedPremium}`;
     
-    // Show lead form section
-    document.getElementById('leadFormSection').style.display = 'block';
+    // Show results container with "Get Your Quote" button
+    showResults(estimatedPremium);
+}
+
+function showResults(estimatedPremium) {
+    // Update results container content
+    document.getElementById('resultsContainer').innerHTML = `
+        <h2>🎉 Great News!</h2>
+        <div class="results-image">
+            <img src="silverpath website photos/image4.png" alt="Happy couple celebrating their coverage" style="max-width: 300px; border-radius: 15px;">
+        </div>
+        
+        <p style="font-size: 20px; color: #666; margin-bottom: 30px;">
+            You qualify for final expense coverage!
+        </p>
+        
+        <div class="premium-estimate" style="background: #f8f9fa; padding: 30px; border-radius: 15px; margin: 30px 0; text-align: center;">
+            <h3 style="color: #1B365D; margin-bottom: 15px;">Your Estimated Monthly Premium</h3>
+            <div id="premiumAmount" style="font-size: 48px; font-weight: bold; color: #28a745; margin-bottom: 15px;">$${estimatedPremium}</div>
+            <p style="color: #666; margin: 0;">Based on your assessment answers</p>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <button onclick="showContactForm()" class="quiz-btn" style="font-size: 20px; padding: 20px 40px; background: #1B365D;">
+                Get Your Personalized Quote →
+            </button>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #fff3cd; border-radius: 10px; border-left: 4px solid #ffc107;">
+            <p style="margin: 0; color: #856404; font-size: 14px;">
+                <strong>Next Step:</strong> Complete your contact information to receive your free, personalized quote from a licensed insurance professional.
+            </p>
+        </div>
+    `;
     
-    // Scroll to lead form
-    document.getElementById('leadFormSection').scrollIntoView({ behavior: 'smooth' });
+    // Show results container
+    document.getElementById('resultsContainer').style.display = 'block';
+    
+    // Scroll to results
+    document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth' });
+}
+
+function showContactForm() {
+    // Hide results container
+    document.getElementById('resultsContainer').style.display = 'none';
+    
+    // Show contact form container
+    document.getElementById('contactFormContainer').style.display = 'block';
+    
+    // Add event listeners for form validation
+    const form = document.getElementById('contactForm');
+    const inputs = form.querySelectorAll('input[required]');
+    
+    inputs.forEach(input => {
+        input.addEventListener('input', validateContactForm);
+    });
+    
+    // Scroll to contact form
+    document.getElementById('contactFormContainer').scrollIntoView({ behavior: 'smooth' });
 }
 
 // Verification flow variables
@@ -571,18 +626,23 @@ function submitLead(event) {
 function resetAssessment() {
     currentQuestionIndex = 0;
     assessmentAnswers = {};
+    currentVerificationData = null;
     
-    // Show quiz section
-    document.querySelector('.quiz-section').style.display = 'block';
+    // Show quiz sections
+    document.getElementById('progressSection').style.display = 'block';
+    document.getElementById('questionContainer').style.display = 'block';
+    document.getElementById('navigationSection').style.display = 'block';
     
-    // Hide lead form section
-    document.getElementById('leadFormSection').style.display = 'none';
+    // Hide other sections
+    document.getElementById('contactFormContainer').style.display = 'none';
+    document.getElementById('resultsContainer').style.display = 'none';
+    document.getElementById('verificationSection').style.display = 'none';
     
     // Reset to first question
     displayQuestion();
     
     // Scroll back to assessment
-    document.getElementById('assessment').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('progressSection').scrollIntoView({ behavior: 'smooth' });
 }
 
 // Scroll effects
