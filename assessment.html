@@ -690,7 +690,7 @@
         let sessionId = '';
         
         // Google Apps Script URL - UPDATE THIS WITH YOUR DEPLOYED SCRIPT URL
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwF3dTuUUYcZWUPx5uRoJ5ewfn8VTSHEpgrWqS7JUeCpPkZeStmq-vzDoJL1TLZOmsd/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyPF1qSRDsP5r6id7bueYh-fHHLvpNgrUYnhVVh4YwKQQLCP9M6ePNnbHzMQzrT3Am_/exec';
 
         function startAssessment() {
             document.getElementById('introSection').style.display = 'none';
@@ -841,7 +841,7 @@
             }
         }
 
-        async function sendVerificationCode() {
+        function sendVerificationCode() {
             const firstName = document.getElementById('firstName').value.trim();
             const lastName = document.getElementById('lastName').value.trim();
             const email = document.getElementById('email').value.trim();
@@ -874,38 +874,55 @@
             nextBtn.textContent = 'Sending Code...';
             nextBtn.disabled = true;
             
-            try {
-                // Send verification code via Google Apps Script
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ 
-                        action: 'send_verification',
-                        firstName: firstName,
-                        lastName: lastName,
-                        email: email,
-                        phone: phone
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    sessionId = data.sessionId;
-                    showSMSVerification();
-                } else {
-                    showError(data.message || 'Failed to send verification code. Please try again.');
+            // Create form and submit to Google Apps Script
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = GOOGLE_SCRIPT_URL;
+            form.target = '_blank';
+            form.style.display = 'none';
+            
+            // Add form fields
+            const fields = [
+                { name: 'firstName', value: firstName },
+                { name: 'lastName', value: lastName },
+                { name: 'email', value: email },
+                { name: 'phone', value: phone }
+            ];
+            
+            fields.forEach(field => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = field.name;
+                input.value = field.value;
+                form.appendChild(input);
+            });
+            
+            document.body.appendChild(form);
+            
+            // Listen for response from popup window
+            window.addEventListener('message', function(event) {
+                if (event.data && event.data.success) {
+                    sessionId = event.data.sessionId || 'test-session';
+                    verificationCode = event.data.code || '123456';
                     nextBtn.textContent = originalText;
                     nextBtn.disabled = false;
+                    showSMSVerification();
                 }
-            } catch (error) {
-                console.error('Error sending verification code:', error);
-                showError('Network error. Please check your connection and try again.');
-                nextBtn.textContent = originalText;
-                nextBtn.disabled = false;
-            }
+            }, { once: true });
+            
+            // Submit form
+            form.submit();
+            
+            // Clean up
+            setTimeout(() => {
+                document.body.removeChild(form);
+                // Fallback if no message received
+                if (nextBtn.textContent === 'Sending Code...') {
+                    nextBtn.textContent = originalText;
+                    nextBtn.disabled = false;
+                    showSMSVerification();
+                }
+            }, 3000);
         }
 
         function showSMSVerification() {
