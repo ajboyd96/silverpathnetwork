@@ -472,16 +472,8 @@ function sendVerificationCode() {
             nextBtn.textContent = originalText;
             nextBtn.disabled = false;
             
-            // Show popup message
-            showCodeSentPopup();
-            
-            // Hide contact form and show verification section after popup
-            setTimeout(() => {
-                document.getElementById('contactFormContainer').style.display = 'none';
-                document.getElementById('verificationSection').style.display = 'block';
-                document.getElementById('smsCode').focus();
-                document.getElementById('verificationSection').scrollIntoView({ behavior: 'smooth' });
-            }, 2000);
+            // Go directly to verification page
+            showVerificationPage();
         }
     });
     
@@ -494,62 +486,15 @@ function sendVerificationCode() {
     }, 1000);
 }
 
-function showCodeSentPopup() {
-    // Create popup overlay
-    const overlay = document.createElement('div');
-    overlay.id = 'codePopupOverlay';
-    overlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    `;
+function showVerificationPage() {
+    // Hide contact form
+    document.getElementById('contactFormContainer').style.display = 'none';
+    document.getElementById('contactFormContainer').classList.remove('visible');
     
-    // Create popup content
-    const popup = document.createElement('div');
-    popup.style.cssText = `
-        background: white;
-        padding: 40px;
-        border-radius: 15px;
-        text-align: center;
-        max-width: 400px;
-        margin: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    `;
-    
-    popup.innerHTML = `
-        <div style="font-size: 48px; margin-bottom: 20px;">✅</div>
-        <h2 style="color: #1B365D; margin-bottom: 15px;">Code Sent!</h2>
-        <p style="color: #666; margin-bottom: 25px;">
-            A verification code has been sent to your phone. Please check your messages.
-        </p>
-        <button onclick="closeCodePopup()" class="quiz-btn" style="background: #1B365D; padding: 12px 30px;">
-            OK, Got It
-        </button>
-    `;
-    
-    overlay.appendChild(popup);
-    document.body.appendChild(overlay);
-    
-    // Auto-close after 5 seconds
-    setTimeout(() => {
-        if (document.getElementById('codePopupOverlay')) {
-            closeCodePopup();
-        }
-    }, 5000);
-}
-
-function closeCodePopup() {
-    const overlay = document.getElementById('codePopupOverlay');
-    if (overlay) {
-        overlay.remove();
-    }
+    // Show verification section
+    document.getElementById('verificationSection').style.display = 'block';
+    document.getElementById('smsCode').focus();
+    document.getElementById('verificationSection').scrollIntoView({ behavior: 'smooth' });
 }
 
 // Verify entered code
@@ -659,36 +604,24 @@ function resendVerificationCode() {
 
 // Show message to user
 function showMessage(message, type) {
-    // Remove any existing messages
-    const existingMessage = document.querySelector('.verification-message');
-    if (existingMessage) {
-        existingMessage.remove();
-    }
+    // Use the existing error div in verification section
+    const errorDiv = document.getElementById('smsError');
     
-    // Create message element
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `verification-message ${type}`;
-    messageDiv.style.cssText = `
-        padding: 15px;
-        margin: 15px 0;
-        border-radius: 8px;
-        font-weight: bold;
-        text-align: center;
-        ${type === 'success' ? 'background: #d4edda; color: #155724; border: 1px solid #c3e6cb;' : 'background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;'}
-    `;
-    messageDiv.textContent = message;
-    
-    // Insert message above verification section
-    const verificationSection = document.getElementById('verificationSection');
-    verificationSection.parentNode.insertBefore(messageDiv, verificationSection);
-    
-    // Auto-remove error messages after 5 seconds
-    if (type === 'error') {
-        setTimeout(() => {
-            if (messageDiv.parentNode) {
-                messageDiv.remove();
-            }
-        }, 5000);
+    if (errorDiv) {
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+        errorDiv.style.color = type === 'success' ? '#155724' : '#dc3545';
+        errorDiv.style.background = type === 'success' ? '#d4edda' : '#f8d7da';
+        errorDiv.style.border = type === 'success' ? '1px solid #c3e6cb' : '1px solid #f5c6cb';
+        errorDiv.style.padding = '10px';
+        errorDiv.style.borderRadius = '5px';
+        
+        // Auto-remove error messages after 5 seconds
+        if (type === 'error') {
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
     }
 }
 
