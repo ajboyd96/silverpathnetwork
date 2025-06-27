@@ -373,6 +373,12 @@
                 grid-template-columns: 1fr;
                 gap: 15px;
             }
+            
+            .sms-consent-disclaimer {
+                font-size: 11px !important;
+                line-height: 1.3 !important;
+                margin-top: 8px !important;
+            }
         }
     </style>
 </head>
@@ -497,6 +503,9 @@
                     <div class="form-group" style="margin-bottom: 30px;">
                         <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #1B365D;">Phone Number</label>
                         <input type="tel" id="phone" required placeholder="(555) 123-4567" style="width: 100%; padding: 15px; border: 2px solid #e1e1e1; border-radius: 8px; font-size: 16px;">
+                        <div class="sms-consent-disclaimer" style="margin-top: 10px; font-size: 12px; line-height: 1.4; color: #6b7280; text-align: left;">
+                            By submitting your phone number, you agree to receive a one-time SMS verification code from Silver Path Network to confirm your identity. Message and data rates may apply. Consent is not required to get a quote. We do not send promotional messages. View our <a href="privacy-policy.html" style="color: #1B365D; text-decoration: underline; transition: all 0.2s ease;" onmouseover="this.style.fontWeight='bold'; this.style.color='#0f172a';" onmouseout="this.style.fontWeight='normal'; this.style.color='#1B365D';">Privacy Policy</a> and <a href="terms.html" style="color: #1B365D; text-decoration: underline; transition: all 0.2s ease;" onmouseover="this.style.fontWeight='bold'; this.style.color='#0f172a';" onmouseout="this.style.fontWeight='normal'; this.style.color='#1B365D';">Terms of Use</a>.
+                        </div>
                     </div>
                 </form>
             </div>
@@ -825,28 +834,65 @@
             }
         }
 
-        function sendVerificationCode() {
+        async function sendVerificationCode() {
             const firstName = document.getElementById('firstName').value.trim();
             const lastName = document.getElementById('lastName').value.trim();
             const email = document.getElementById('email').value.trim();
             const phone = document.getElementById('phone').value.trim();
             
             if (!firstName || !lastName || !email || !phone) {
-                alert('Please fill in all fields');
+                showError('Please fill in all fields');
+                return;
+            }
+            
+            // Validate email
+            if (!email.includes('@')) {
+                showError('Please enter a valid email address');
+                return;
+            }
+            
+            // Validate phone number
+            const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+            if (!phoneRegex.test(phone)) {
+                showError('Please enter a valid 10-digit phone number');
                 return;
             }
             
             // Store contact info
             userContact = { firstName, lastName, email, phone };
             
-            // Generate verification code (in real implementation, this would be sent via SMS service)
-            verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+            // Show loading state
+            const nextBtn = document.getElementById('nextBtn');
+            const originalText = nextBtn.textContent;
+            nextBtn.textContent = 'Sending Code...';
+            nextBtn.disabled = true;
             
-            // For demo purposes, log the code (in production, this would be sent via SMS)
-            console.log('Verification code:', verificationCode);
-            
-            // Show SMS verification
-            showSMSVerification();
+            try {
+                // Send verification code via API
+                const response = await fetch('/api/send-verification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ phone: phone })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Show SMS verification
+                    showSMSVerification();
+                } else {
+                    showError(data.message || 'Failed to send verification code. Please try again.');
+                    nextBtn.textContent = originalText;
+                    nextBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error sending verification code:', error);
+                showError('Network error. Please check your connection and try again.');
+                nextBtn.textContent = originalText;
+                nextBtn.disabled = false;
+            }
         }
 
         function showSMSVerification() {
@@ -878,18 +924,40 @@
             });
             
             // Handle resend code
-            document.getElementById('resendCode').onclick = function() {
-                verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-                console.log('New verification code:', verificationCode);
-                
+            document.getElementById('resendCode').onclick = async function() {
                 const button = this;
-                button.textContent = 'Code sent!';
+                const originalText = button.textContent;
+                button.textContent = 'Sending...';
                 button.disabled = true;
                 
-                setTimeout(() => {
-                    button.textContent = 'Didn\'t receive code? Resend';
+                try {
+                    const response = await fetch('/api/send-verification', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ phone: userContact.phone })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        button.textContent = 'Code sent!';
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                            button.disabled = false;
+                        }, 30000); // 30 second cooldown
+                    } else {
+                        showError(data.message || 'Failed to resend code');
+                        button.textContent = originalText;
+                        button.disabled = false;
+                    }
+                } catch (error) {
+                    console.error('Error resending code:', error);
+                    showError('Network error. Please try again.');
+                    button.textContent = originalText;
                     button.disabled = false;
-                }, 3000);
+                }
             };
             
             document.getElementById('smsVerificationContainer').scrollIntoView({ 
@@ -898,19 +966,47 @@
             });
         }
 
-        function verifyCode() {
+        async function verifyCode() {
             const enteredCode = document.getElementById('smsCode').value;
             const errorDiv = document.getElementById('smsError');
+            const nextBtn = document.getElementById('nextBtn');
             
-            if (enteredCode === verificationCode) {
-                isVerified = true;
-                errorDiv.style.display = 'none';
-                showResults();
-            } else {
-                errorDiv.textContent = 'Invalid code. Please try again.';
+            // Show loading state
+            const originalText = nextBtn.textContent;
+            nextBtn.textContent = 'Verifying...';
+            nextBtn.disabled = true;
+            
+            try {
+                const response = await fetch('/api/verify-code', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        phone: userContact.phone,
+                        code: enteredCode 
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    isVerified = true;
+                    errorDiv.style.display = 'none';
+                    showResults();
+                } else {
+                    errorDiv.textContent = data.message || 'Invalid code. Please try again.';
+                    errorDiv.style.display = 'block';
+                    document.getElementById('smsCode').value = '';
+                    nextBtn.textContent = originalText;
+                    nextBtn.disabled = true;
+                }
+            } catch (error) {
+                console.error('Error verifying code:', error);
+                errorDiv.textContent = 'Network error. Please try again.';
                 errorDiv.style.display = 'block';
-                document.getElementById('smsCode').value = '';
-                document.getElementById('nextBtn').disabled = true;
+                nextBtn.textContent = originalText;
+                nextBtn.disabled = true;
             }
         }
 
@@ -940,25 +1036,75 @@
             calculateRecommendations();
         }
 
-        function submitLead() {
+        async function submitLead() {
             const leadData = {
-                timestamp: new Date().toISOString(),
-                contact: userContact,
-                answers: assessmentAnswers,
-                assessmentData: assessmentData,
-                verified: isVerified
+                firstName: userContact.firstName,
+                lastName: userContact.lastName,
+                email: userContact.email,
+                phone: userContact.phone,
+                assessmentData: {
+                    timestamp: new Date().toISOString(),
+                    answers: assessmentAnswers,
+                    questions: assessmentData.map(q => q.question)
+                },
+                isVerified: isVerified
             };
             
-            // In production, send this to your backend/CRM
-            console.log('Lead submitted:', leadData);
+            try {
+                const response = await fetch('/api/submit-assessment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(leadData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    console.log('Lead submitted successfully:', data.leadId);
+                    // Could show success message or track conversion here
+                } else {
+                    console.error('Failed to submit lead:', data.message);
+                }
+            } catch (error) {
+                console.error('Error submitting lead:', error);
+                // Still show results to user even if backend submission fails
+            }
+        }
+        
+        // Error handling utility function
+        function showError(message) {
+            // Create or update error display
+            let errorDiv = document.getElementById('globalError');
+            if (!errorDiv) {
+                errorDiv = document.createElement('div');
+                errorDiv.id = 'globalError';
+                errorDiv.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #dc3545;
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 8px;
+                    z-index: 10000;
+                    font-weight: bold;
+                    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+                `;
+                document.body.appendChild(errorDiv);
+            }
             
-            // You could also send to Netlify Forms, Zapier, or your CRM here
-            // Example: 
-            // fetch('/api/submit-lead', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(leadData)
-            // });
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                if (errorDiv) {
+                    errorDiv.style.display = 'none';
+                }
+            }, 5000);
         }
 
         function calculateRecommendations() {
