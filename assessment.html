@@ -691,7 +691,7 @@
         let correctCodes = new Set(); // Store valid codes for this session
         
         // Google Apps Script URL - UPDATE THIS WITH YOUR DEPLOYED SCRIPT URL
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwoSAJdKcN0pdIjNBEJMyod6RqcZUrMIQPg0bn8BCmXL2ic93LhMVMSrlkybWtNNM4e/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzXo5TmjTg36pnTalTPn4lKtpBjl_ZyqaKh_cFMwNcYRUyXlkdk41K0aEdqT5bM9Fxw/exec';
 
         function startAssessment() {
             document.getElementById('introSection').style.display = 'none';
@@ -907,8 +907,6 @@
             window.addEventListener('message', function(event) {
                 if (event.data && event.data.success) {
                     sessionId = event.data.sessionId || 'test-session';
-                    // Store a secret that will be sent in the email
-                    verificationSecret = Math.random().toString(36).substring(2, 15);
                     nextBtn.textContent = originalText;
                     nextBtn.disabled = false;
                     showSMSVerification();
@@ -1011,14 +1009,7 @@
             });
         }
 
-        // Function to add valid codes (you can call this from browser console)
-        function addValidCode(code) {
-            correctCodes.add(code.toString());
-            console.log('Added valid code:', code);
-            console.log('Valid codes:', Array.from(correctCodes));
-        }
-        
-        function verifyCode() {
+        async function verifyCode() {
             const enteredCode = document.getElementById('smsCode').value;
             const errorDiv = document.getElementById('smsError');
             const nextBtn = document.getElementById('nextBtn');
@@ -1028,25 +1019,38 @@
             nextBtn.textContent = 'Verifying...';
             nextBtn.disabled = true;
             
-            // Check if code is in our valid codes set
-            if (enteredCode && correctCodes.has(enteredCode)) {
-                isVerified = true;
-                errorDiv.style.display = 'none';
-                nextBtn.textContent = originalText;
-                nextBtn.disabled = false;
-                // Remove the code so it can't be reused
-                correctCodes.delete(enteredCode);
-                showResults();
-            } else if (enteredCode && enteredCode.length === 6 && /^\d{6}$/.test(enteredCode)) {
-                errorDiv.textContent = 'Invalid verification code. Please check your text message.';
+            // Validate format first
+            if (!enteredCode || enteredCode.length !== 6 || !/^\d{6}$/.test(enteredCode)) {
+                errorDiv.textContent = 'Please enter the 6-digit verification code you received.';
                 errorDiv.style.display = 'block';
                 document.getElementById('smsCode').value = '';
                 nextBtn.textContent = originalText;
                 nextBtn.disabled = true;
-            } else {
-                errorDiv.textContent = 'Please enter the 6-digit verification code you received.';
+                return;
+            }
+            
+            try {
+                // Call Google Apps Script to verify the code
+                const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=verify&phone=${encodeURIComponent(userContact.phone)}&code=${encodeURIComponent(enteredCode)}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    isVerified = true;
+                    errorDiv.style.display = 'none';
+                    nextBtn.textContent = originalText;
+                    nextBtn.disabled = false;
+                    showResults();
+                } else {
+                    errorDiv.textContent = data.message || 'Invalid verification code. Please check your text message.';
+                    errorDiv.style.display = 'block';
+                    document.getElementById('smsCode').value = '';
+                    nextBtn.textContent = originalText;
+                    nextBtn.disabled = true;
+                }
+            } catch (error) {
+                console.error('Verification error:', error);
+                errorDiv.textContent = 'Error verifying code. Please try again.';
                 errorDiv.style.display = 'block';
-                document.getElementById('smsCode').value = '';
                 nextBtn.textContent = originalText;
                 nextBtn.disabled = true;
             }
