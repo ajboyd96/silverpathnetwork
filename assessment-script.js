@@ -154,7 +154,7 @@ function displayQuestion() {
     // Display options (simple text, no icons)
     if (questionOptions) {
         const optionsHTML = question.options.map((option, index) => `
-            <div class="option" onclick="selectOption(${index}, '${option}')">
+            <div class="option" onclick="selectOption(${index}, \`${option.replace(/`/g, '\\`')}\`)">
                 ${option}
             </div>
         `).join('');

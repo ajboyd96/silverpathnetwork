@@ -110,6 +110,15 @@
         }
         
         .progress-bar {
+            background: #f0f0f0;
+            height: 100%;
+            border-radius: 25px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
             background: linear-gradient(90deg, #ffd700, #ffed4a);
             height: 100%;
             border-radius: 25px;
@@ -118,7 +127,7 @@
             position: relative;
         }
         
-        .progress-bar::after {
+        .progress-fill::after {
             content: '';
             position: absolute;
             top: 0;
@@ -517,14 +526,16 @@
             </div>
 
             <!-- Navigation -->
-            <div id="navigationSection" class="question-nav" style="display: none; display: flex; justify-content: space-between; align-items: center; gap: 20px; width: 100%;">
-                <button id="prevBtn" class="quiz-btn secondary" onclick="previousQuestion()" style="display: none;">
-                    ← Previous
-                </button>
-                <div style="flex: 1;"></div>
-                <button id="nextBtn" class="quiz-btn" onclick="nextQuestion()" disabled>
-                    Next →
-                </button>
+            <div id="navigationSection" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 20px;">
+                    <button id="prevBtn" class="quiz-btn secondary" onclick="previousQuestion()" style="display: none;">
+                        ← Previous
+                    </button>
+                    <div style="flex: 1;"></div>
+                    <button id="nextBtn" class="quiz-btn" onclick="nextQuestion()" disabled>
+                        Next →
+                    </button>
+                </div>
             </div>
 
             <!-- Contact Form -->
