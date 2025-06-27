@@ -649,7 +649,7 @@
             },
             {
                 question: "What's your primary goal for this insurance?",
-                image: "silverpath website photos/image4.png",
+                image: "silverpath website photos/fatherdaughter.png",
                 options: [
                     "Cover funeral and burial costs",
                     "Pay off existing debts",
@@ -659,7 +659,7 @@
             },
             {
                 question: "How would you describe your overall health?",
-                image: "silverpath website photos/image5.png",
+                image: "silverpath website photos/garden.png",
                 options: [
                     "Excellent health",
                     "Good health with minor issues",
@@ -669,7 +669,7 @@
             },
             {
                 question: "When would you like coverage to start?",
-                image: "silverpath website photos/image6.png",
+                image: "silverpath website photos/carwave.png",
                 options: [
                     "As soon as possible",
                     "Within the next month",
@@ -718,7 +718,7 @@
             let optionsHTML = '';
             question.options.forEach((option, index) => {
                 optionsHTML += `
-                    <div class="option" onclick="selectOption(${index}, '${option}')">
+                    <div class="option" onclick="selectOption(${index}, ${index})">
                         ${option}
                     </div>
                 `;
@@ -741,7 +741,7 @@
             }
         }
 
-        function selectOption(index, value) {
+        function selectOption(index) {
             // Remove previous selections
             document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
             
