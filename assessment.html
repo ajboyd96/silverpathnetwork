@@ -687,6 +687,10 @@
         let userContact = {};
         let verificationCode = '';
         let isVerified = false;
+        let sessionId = '';
+        
+        // Google Apps Script URL - UPDATE THIS WITH YOUR DEPLOYED SCRIPT URL
+        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
 
         function startAssessment() {
             document.getElementById('introSection').style.display = 'none';
@@ -871,19 +875,25 @@
             nextBtn.disabled = true;
             
             try {
-                // Send verification code via API
-                const response = await fetch('/api/send-verification', {
+                // Send verification code via Google Apps Script
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ phone: phone })
+                    body: JSON.stringify({ 
+                        action: 'send_verification',
+                        firstName: firstName,
+                        lastName: lastName,
+                        email: email,
+                        phone: phone
+                    })
                 });
                 
                 const data = await response.json();
                 
                 if (data.success) {
-                    // Show SMS verification
+                    sessionId = data.sessionId;
                     showSMSVerification();
                 } else {
                     showError(data.message || 'Failed to send verification code. Please try again.');
@@ -934,17 +944,24 @@
                 button.disabled = true;
                 
                 try {
-                    const response = await fetch('/api/send-verification', {
+                    const response = await fetch(GOOGLE_SCRIPT_URL, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ phone: userContact.phone })
+                        body: JSON.stringify({ 
+                            action: 'send_verification',
+                            firstName: userContact.firstName,
+                            lastName: userContact.lastName,
+                            email: userContact.email,
+                            phone: userContact.phone
+                        })
                     });
                     
                     const data = await response.json();
                     
                     if (data.success) {
+                        sessionId = data.sessionId; // Update session ID
                         button.textContent = 'Code sent!';
                         setTimeout(() => {
                             button.textContent = originalText;
@@ -980,13 +997,14 @@
             nextBtn.disabled = true;
             
             try {
-                const response = await fetch('/api/verify-code', {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ 
-                        phone: userContact.phone,
+                        action: 'verify_code',
+                        sessionId: sessionId,
                         code: enteredCode 
                     })
                 });
@@ -996,6 +1014,10 @@
                 if (data.success) {
                     isVerified = true;
                     errorDiv.style.display = 'none';
+                    // Update user contact with verified data
+                    if (data.leadData) {
+                        userContact = data.leadData;
+                    }
                     showResults();
                 } else {
                     errorDiv.textContent = data.message || 'Invalid code. Please try again.';
@@ -1054,12 +1076,19 @@
             };
             
             try {
-                const response = await fetch('/api/submit-assessment', {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(leadData)
+                    body: JSON.stringify({
+                        action: 'submit_lead',
+                        sessionId: sessionId,
+                        assessmentData: {
+                            answers: Object.values(assessmentAnswers),
+                            timestamp: new Date().toISOString()
+                        }
+                    })
                 });
                 
                 const data = await response.json();
