@@ -808,11 +808,12 @@ function verifyCode() {
             showMessage('Invalid verification code. Please try again.', 'error');
             document.getElementById('smsCode').value = '';
             document.getElementById('smsCode').focus();
+            
+            // Only reset button text if verification failed
+            const verifyBtn = document.getElementById('verifyCodeBtn');
+            verifyBtn.textContent = originalText;
+            verifyBtn.disabled = false;
         }
-        
-        // Reset button
-        verifyBtn.textContent = originalText;
-        verifyBtn.disabled = false;
     }, 1000); // Short delay to show loading state
 }
 
