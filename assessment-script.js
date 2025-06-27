@@ -143,54 +143,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function displayQuestion() {
     const question = assessmentData[currentQuestionIndex];
-    const quizContent = document.getElementById('quizContent');
-    const questionNumber = document.getElementById('questionNumber');
-    const progressFill = document.getElementById('progressFill');
+    const questionContent = document.getElementById('questionContent');
+    const questionOptions = document.getElementById('questionOptions');
+    const currentQ = document.getElementById('currentQ');
+    const totalQ = document.getElementById('totalQ');
+    const progressBar = document.getElementById('progressBar');
     
-    // Update question number
-    questionNumber.textContent = currentQuestionIndex + 1;
+    // Update question numbers
+    if (currentQ) currentQ.textContent = currentQuestionIndex + 1;
+    if (totalQ) totalQ.textContent = assessmentData.length;
     
     // Update progress bar
-    const progressPercentage = ((currentQuestionIndex + 1) / assessmentData.length) * 100;
-    progressFill.style.width = progressPercentage + '%';
+    if (progressBar) {
+        const progressPercentage = ((currentQuestionIndex + 1) / assessmentData.length) * 100;
+        progressBar.style.width = progressPercentage + '%';
+    }
     
-    // Update step indicators
-    updateStepIndicators();
+    // Display question
+    if (questionContent) {
+        questionContent.innerHTML = `<h3>${question.question}</h3>`;
+    }
     
-    // Create question HTML with icons
-    const optionsHTML = question.options.map((option, index) => `
-        <div class="option" onclick="selectOption(${index}, '${option.value}')">
-            <span class="option-icon">${option.icon}</span>
-            <span>${option.text}</span>
-        </div>
-    `).join('');
-    
-    quizContent.innerHTML = `
-        <div class="question fade-in-up">
-            <h3>${question.question}</h3>
-            <div class="question-options">
-                ${optionsHTML}
+    // Create options HTML
+    if (questionOptions) {
+        const optionsHTML = question.options.map((option, index) => `
+            <div class="option" onclick="selectOption(${index}, '${option.value}')">
+                <span class="option-icon">${option.icon}</span>
+                <span>${option.text}</span>
             </div>
-        </div>
-    `;
+        `).join('');
+        
+        questionOptions.innerHTML = optionsHTML;
+    }
     
     // Update navigation buttons
     updateNavigationButtons();
 }
 
 function updateStepIndicators() {
-    for (let i = 1; i <= assessmentData.length; i++) {
-        const step = document.getElementById(`step${i}`);
-        if (step) {
-            step.classList.remove('active', 'completed');
-            
-            if (i < currentQuestionIndex + 1) {
-                step.classList.add('completed');
-            } else if (i === currentQuestionIndex + 1) {
-                step.classList.add('active');
-            }
-        }
-    }
+    // Step indicators don't exist in current HTML, so this function does nothing
+    // Keeping it here in case step indicators are added later
 }
 
 function updateNavigationButtons() {
