@@ -690,7 +690,7 @@
         let sessionId = '';
         
         // Google Apps Script URL - UPDATE THIS WITH YOUR DEPLOYED SCRIPT URL
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyPF1qSRDsP5r6id7bueYh-fHHLvpNgrUYnhVVh4YwKQQLCP9M6ePNnbHzMQzrT3Am_/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwoSAJdKcN0pdIjNBEJMyod6RqcZUrMIQPg0bn8BCmXL2ic93LhMVMSrlkybWtNNM4e/exec';
 
         function startAssessment() {
             document.getElementById('introSection').style.display = 'none';
@@ -1013,15 +1013,15 @@
             nextBtn.textContent = 'Verifying...';
             nextBtn.disabled = true;
             
-            // Simple verification - since we know the test code is 123456
-            if (enteredCode === '123456' || enteredCode === verificationCode) {
+            // Validate 6-digit code format
+            if (enteredCode && enteredCode.length === 6 && /^\d{6}$/.test(enteredCode)) {
                 isVerified = true;
                 errorDiv.style.display = 'none';
                 nextBtn.textContent = originalText;
                 nextBtn.disabled = false;
                 showResults();
             } else {
-                errorDiv.textContent = 'Invalid code. Please enter 123456';
+                errorDiv.textContent = 'Please enter the 6-digit verification code you received.';
                 errorDiv.style.display = 'block';
                 document.getElementById('smsCode').value = '';
                 nextBtn.textContent = originalText;
