@@ -346,39 +346,76 @@ function showContactForm() {
     contactFormContainer.style.display = 'block';
     contactFormContainer.classList.add('visible');
     
+    // Add navigation buttons below the phone number
+    addNavigationToContactForm();
+    
     // Add event listeners for form validation
     const form = document.getElementById('contactForm');
     const inputs = form.querySelectorAll('input[required]');
     
     inputs.forEach(input => {
-        input.addEventListener('input', validateContactForm);
+        input.addEventListener('input', validateContactFormButtons);
     });
     
     // Scroll to contact form
     contactFormContainer.scrollIntoView({ behavior: 'smooth' });
 }
 
+function addNavigationToContactForm() {
+    // Check if navigation already exists
+    if (document.getElementById('contactNextBtn')) return;
+    
+    // Find the form
+    const form = document.getElementById('contactForm');
+    
+    // Create navigation container
+    const navContainer = document.createElement('div');
+    navContainer.className = 'contact-form-nav';
+    navContainer.innerHTML = `
+        <div class="question-nav" style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px;">
+            <button type="button" id="contactPrevBtn" class="quiz-btn secondary" onclick="goBackToResults()" style="font-size: 16px; padding: 12px 24px;">
+                ← Previous
+            </button>
+            <button type="button" id="contactNextBtn" class="quiz-btn" onclick="sendVerificationCode()" disabled style="font-size: 16px; padding: 12px 24px;">
+                Send Verification Code →
+            </button>
+        </div>
+    `;
+    
+    // Append to form
+    form.appendChild(navContainer);
+}
+
+function goBackToResults() {
+    // Hide contact form
+    document.getElementById('contactFormContainer').style.display = 'none';
+    document.getElementById('contactFormContainer').classList.remove('visible');
+    
+    // Show results
+    document.getElementById('resultsContainer').style.display = 'block';
+    document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth' });
+}
+
 // Verification flow variables
 let currentVerificationData = null;
 
 // Contact form validation to enable Send Code button
-function validateContactForm() {
+function validateContactFormButtons() {
     const firstName = document.getElementById('firstName').value.trim();
     const lastName = document.getElementById('lastName').value.trim();
     const email = document.getElementById('email').value.trim();
     const phone = document.getElementById('phone').value.trim();
-    const zip = document.getElementById('zip').value.trim();
     
-    const sendCodeBtn = document.getElementById('sendCodeBtn');
+    const nextBtn = document.getElementById('contactNextBtn');
     
-    if (firstName && lastName && email && phone && zip) {
-        sendCodeBtn.disabled = false;
-        sendCodeBtn.style.opacity = '1';
-        sendCodeBtn.style.background = '#28a745';
-    } else {
-        sendCodeBtn.disabled = true;
-        sendCodeBtn.style.opacity = '0.5';
-        sendCodeBtn.style.background = '#cccccc';
+    if (nextBtn && firstName && lastName && email && phone && email.includes('@') && phone.length >= 10) {
+        nextBtn.disabled = false;
+        nextBtn.style.opacity = '1';
+        nextBtn.style.background = '#1B365D';
+    } else if (nextBtn) {
+        nextBtn.disabled = true;
+        nextBtn.style.opacity = '0.5';
+        nextBtn.style.background = '#cccccc';
     }
 }
 
@@ -395,10 +432,10 @@ function sendVerificationCode() {
     }
     
     // Show loading state
-    const sendCodeBtn = document.getElementById('sendCodeBtn');
-    const originalText = sendCodeBtn.textContent;
-    sendCodeBtn.textContent = 'Sending...';
-    sendCodeBtn.disabled = true;
+    const nextBtn = document.getElementById('contactNextBtn');
+    const originalText = nextBtn.textContent;
+    nextBtn.textContent = 'Sending...';
+    nextBtn.disabled = true;
     
     // Create form for submission
     const form = document.createElement('form');
@@ -431,16 +468,20 @@ function sendVerificationCode() {
     // Listen for popup communication
     window.addEventListener('message', function(event) {
         if (event.data && event.data.success) {
-            // Show verification section
-            document.getElementById('verificationSection').style.display = 'block';
-            document.getElementById('smsCode').focus();
-            
             // Reset button
-            sendCodeBtn.textContent = originalText;
-            sendCodeBtn.disabled = false;
+            nextBtn.textContent = originalText;
+            nextBtn.disabled = false;
             
-            // Show success message
-            showMessage('Code sent! Please check your text messages and enter the 6-digit code below.', 'success');
+            // Show popup message
+            showCodeSentPopup();
+            
+            // Hide contact form and show verification section after popup
+            setTimeout(() => {
+                document.getElementById('contactFormContainer').style.display = 'none';
+                document.getElementById('verificationSection').style.display = 'block';
+                document.getElementById('smsCode').focus();
+                document.getElementById('verificationSection').scrollIntoView({ behavior: 'smooth' });
+            }, 2000);
         }
     });
     
@@ -451,6 +492,64 @@ function sendVerificationCode() {
     setTimeout(() => {
         document.body.removeChild(form);
     }, 1000);
+}
+
+function showCodeSentPopup() {
+    // Create popup overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'codePopupOverlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    `;
+    
+    // Create popup content
+    const popup = document.createElement('div');
+    popup.style.cssText = `
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        text-align: center;
+        max-width: 400px;
+        margin: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    `;
+    
+    popup.innerHTML = `
+        <div style="font-size: 48px; margin-bottom: 20px;">✅</div>
+        <h2 style="color: #1B365D; margin-bottom: 15px;">Code Sent!</h2>
+        <p style="color: #666; margin-bottom: 25px;">
+            A verification code has been sent to your phone. Please check your messages.
+        </p>
+        <button onclick="closeCodePopup()" class="quiz-btn" style="background: #1B365D; padding: 12px 30px;">
+            OK, Got It
+        </button>
+    `;
+    
+    overlay.appendChild(popup);
+    document.body.appendChild(overlay);
+    
+    // Auto-close after 5 seconds
+    setTimeout(() => {
+        if (document.getElementById('codePopupOverlay')) {
+            closeCodePopup();
+        }
+    }, 5000);
+}
+
+function closeCodePopup() {
+    const overlay = document.getElementById('codePopupOverlay');
+    if (overlay) {
+        overlay.remove();
+    }
 }
 
 // Verify entered code
@@ -640,6 +739,13 @@ function resetAssessment() {
     const contactFormContainer = document.getElementById('contactFormContainer');
     contactFormContainer.style.display = 'none';
     contactFormContainer.classList.remove('visible');
+    
+    // Remove contact form navigation if it exists
+    const existingNav = document.querySelector('.contact-form-nav');
+    if (existingNav) {
+        existingNav.remove();
+    }
+    
     document.getElementById('resultsContainer').style.display = 'none';
     document.getElementById('verificationSection').style.display = 'none';
     

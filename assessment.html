@@ -554,35 +554,35 @@
                         </div>
                     </div>
                     
-                    <!-- Send Code Button -->
-                    <div style="text-align: center; margin-bottom: 30px;">
-                        <button type="button" id="sendCodeBtn" class="quiz-btn" onclick="sendVerificationCode()" style="background: #28a745; font-size: 18px; padding: 15px 30px;" disabled>
-                            Send Verification Code
+                    <!-- Navigation buttons will be inserted here by JavaScript -->
+                </form>
+            </div>
+
+            <!-- Verification Code Section -->
+            <div id="verificationSection" class="question-container" style="display: none;">
+                <div class="question">
+                    <h2>Enter Verification Code</h2>
+                    <p style="color: #666; margin-bottom: 30px;">Please enter the 6-digit code sent to your phone</p>
+                </div>
+                <div style="max-width: 400px; margin: 0 auto;">
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <input type="text" id="smsCode" maxlength="6" placeholder="123456" style="width: 100%; padding: 20px; border: 2px solid #e1e1e1; border-radius: 8px; font-size: 24px; text-align: center; letter-spacing: 5px;">
+                    </div>
+                    
+                    <div id="smsError" style="color: #dc3545; text-align: center; margin-bottom: 20px; display: none;"></div>
+                    
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <button type="button" id="verifyCodeBtn" class="quiz-btn" onclick="verifyCode()" style="background: #1B365D; font-size: 18px; padding: 15px 30px;">
+                            Verify Code
                         </button>
                     </div>
                     
-                    <!-- Verification Code Section -->
-                    <div id="verificationSection" style="display: none; margin-bottom: 30px;">
-                        <div class="form-group" style="margin-bottom: 20px;">
-                            <label style="display: block; margin-bottom: 10px; font-weight: bold; color: #1B365D; text-align: center;">Enter 6-Digit Verification Code</label>
-                            <input type="text" id="smsCode" maxlength="6" placeholder="123456" style="width: 100%; padding: 20px; border: 2px solid #e1e1e1; border-radius: 8px; font-size: 24px; text-align: center; letter-spacing: 5px;">
-                        </div>
-                        
-                        <div id="smsError" style="color: #dc3545; text-align: center; margin-bottom: 20px; display: none;"></div>
-                        
-                        <div style="text-align: center; margin-bottom: 20px;">
-                            <button type="button" id="verifyCodeBtn" class="quiz-btn" onclick="verifyCode()" style="background: #1B365D; font-size: 18px; padding: 15px 30px;">
-                                Verify Code
-                            </button>
-                        </div>
-                        
-                        <div style="text-align: center;">
-                            <button type="button" id="resendCode" onclick="resendVerificationCode()" style="background: none; border: none; color: #1B365D; text-decoration: underline; cursor: pointer; font-size: 16px;">
-                                Didn't receive code? Resend
-                            </button>
-                        </div>
+                    <div style="text-align: center;">
+                        <button type="button" id="resendCode" onclick="resendVerificationCode()" style="background: none; border: none; color: #1B365D; text-decoration: underline; cursor: pointer; font-size: 16px;">
+                            Didn't receive code? Resend
+                        </button>
                     </div>
-                </form>
+                </div>
             </div>
 
 
