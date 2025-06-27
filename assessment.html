@@ -248,15 +248,15 @@
             background: #1B365D;
             color: white;
             border: 2px solid #1B365D;
-            padding: 12px 24px;
+            padding: 12px 20px;
             border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-width: 130px;
-            max-width: 170px;
-            height: 48px;
+            min-width: 140px;
+            width: auto;
+            height: 50px;
             text-align: center;
             display: inline-flex;
             align-items: center;
@@ -283,7 +283,7 @@
             color: #1B365D;
             border: 2px solid #1B365D;
             font-weight: 600;
-            height: 48px;
+            height: 50px;
         }
         
         .quiz-btn.secondary:hover:not(:disabled) {
@@ -392,11 +392,11 @@
             
             .quiz-btn {
                 flex: 0 0 auto;
-                min-width: 110px;
-                max-width: 140px;
+                min-width: 120px;
+                width: auto !important;
                 padding: 10px 16px !important;
                 font-size: 14px !important;
-                height: 40px !important;
+                height: 44px !important;
                 margin: 0 5px;
             }
             
@@ -615,11 +615,6 @@
                             Didn't receive code? Resend
                         </button>
                         
-                        <!-- Debug button - remove after testing -->
-                        <br><br>
-                        <button type="button" onclick="console.log('Expected code:', currentVerificationCode); alert('Expected code: ' + currentVerificationCode)" style="background: #ff6b6b; color: white; border: none; padding: 15px 20px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold;">
-                            🐛 DEBUG: Show Expected Code
-                        </button>
                     </div>
                 </div>
             </div>

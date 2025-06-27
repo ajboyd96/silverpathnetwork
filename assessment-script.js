@@ -546,8 +546,7 @@ function showVerificationPage() {
     document.getElementById('smsCode').focus();
     document.getElementById('verificationSection').scrollIntoView({ behavior: 'smooth' });
     
-    // Show an alert with the code for debugging
-    alert('DEBUG: Generated verification code is: ' + currentVerificationCode);
+    // Code generation completed
 }
 
 // Simple verification - just compare with locally stored code
