@@ -583,15 +583,31 @@ function verifyCode() {
     setTimeout(() => {
         if (enteredCode === currentVerificationCode) {
             console.log('✅ VERIFICATION SUCCESSFUL - Codes match!');
-            showMessage('Code verified successfully! Redirecting...', 'success');
+            showMessage('Code verified successfully! Redirecting in 3 seconds...', 'success');
+            
+            // Add a manual redirect button for backup
+            const verifyBtn = document.getElementById('verifyCodeBtn');
+            verifyBtn.textContent = 'Continue to Results →';
+            verifyBtn.onclick = function() {
+                window.location.href = 'thank-you.html';
+            };
+            verifyBtn.disabled = false;
+            verifyBtn.style.background = '#28a745';
             
             // Log successful verification 
             logVerificationSuccess();
             
-            // Redirect after short delay
+            // Automatic redirect after delay
             setTimeout(() => {
-                window.location.href = 'thank-you.html';
-            }, 2000);
+                console.log('Attempting redirect to thank-you.html');
+                try {
+                    window.location.href = 'thank-you.html';
+                } catch (error) {
+                    console.error('Redirect error:', error);
+                    // Show manual button if redirect fails
+                    showMessage('Verification successful! Click "Continue to Results" button to proceed.', 'success');
+                }
+            }, 3000);
         } else {
             console.log('❌ VERIFICATION FAILED - Codes do not match');
             showMessage('Invalid verification code. Please try again.', 'error');
