@@ -63,8 +63,8 @@ function sendVerificationCode(data) {
       return createResponse(false, 'All fields are required');
     }
     
-    // Get available verification code
-    const verificationCode = getAvailableCode();
+    // Get verification code for this lead (assigns random code or reuses existing)
+    const verificationCode = getVerificationCodeForLead(phone);
     if (!verificationCode) {
       return createResponse(false, 'No verification codes available. Please try again later.');
     }
@@ -236,30 +236,77 @@ function submitLead(data) {
 }
 
 /**
- * Get an available verification code from the sheet
+ * Get verification code for a lead (assigns random code or returns existing)
  */
-function getAvailableCode() {
+function getVerificationCodeForLead(phone) {
   try {
     const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(CODES_SHEET_NAME);
     const data = sheet.getDataRange().getValues();
     
-    // Skip header row, find first available code
+    // Check if this phone number already has an assigned code
     for (let i = 1; i < data.length; i++) {
-      const code = data[i][1]; // Assuming code is in column B
-      const used = data[i][2]; // Assuming "used" status is in column C
-      
-      if (code && !used) {
-        // Mark code as used
-        sheet.getRange(i + 1, 3).setValue('TRUE'); // Mark as used in column C
-        sheet.getRange(i + 1, 4).setValue(new Date()); // Timestamp in column D
-        
+      const assignedPhone = data[i][3]; // Column D: Assigned phone number
+      if (assignedPhone === phone) {
+        const code = data[i][1]; // Column B: Code
+        console.log(`Reusing existing code for phone ${phone}: ${code}`);
         return code.toString();
       }
     }
     
-    return null; // No available codes
+    // No existing code for this lead, assign a new random code
+    const availableCodes = [];
+    for (let i = 1; i < data.length; i++) {
+      const code = data[i][1]; // Column B: Code
+      const assignedPhone = data[i][3]; // Column D: Assigned phone number
+      
+      if (code && !assignedPhone) {
+        availableCodes.push({
+          code: code,
+          rowIndex: i + 1
+        });
+      }
+    }
+    
+    if (availableCodes.length === 0) {
+      // All codes assigned, start reusing from the beginning
+      console.log('All codes assigned, resetting assignment cycle');
+      
+      // Clear all phone assignments to start over
+      for (let i = 1; i < data.length; i++) {
+        sheet.getRange(i + 1, 4).setValue(''); // Clear column D (assigned phone)
+        sheet.getRange(i + 1, 5).setValue(''); // Clear column E (assignment timestamp)
+      }
+      
+      // Now get all codes as available again
+      for (let i = 1; i < data.length; i++) {
+        const code = data[i][1];
+        if (code) {
+          availableCodes.push({
+            code: code,
+            rowIndex: i + 1
+          });
+        }
+      }
+    }
+    
+    if (availableCodes.length === 0) {
+      console.error('No codes available in sheet');
+      return null;
+    }
+    
+    // Pick random code from available codes
+    const randomIndex = Math.floor(Math.random() * availableCodes.length);
+    const selectedCode = availableCodes[randomIndex];
+    
+    // Assign this code to the phone number
+    sheet.getRange(selectedCode.rowIndex, 4).setValue(phone); // Column D: Assigned phone
+    sheet.getRange(selectedCode.rowIndex, 5).setValue(new Date()); // Column E: Assignment timestamp
+    
+    console.log(`Assigned new random code for phone ${phone}: ${selectedCode.code}`);
+    return selectedCode.code.toString();
+    
   } catch (error) {
-    console.error('Error getting verification code:', error);
+    console.error('Error getting verification code for lead:', error);
     return null;
   }
 }

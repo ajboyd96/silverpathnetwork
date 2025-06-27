@@ -11,8 +11,9 @@ This system uses Google Apps Script to manage verification codes from a Google S
 2. **Set up Sheet 1 (Verification Codes):**
    - Column A: Row numbers (1, 2, 3, etc.)
    - Column B: 6-digit codes (the 50 codes you generated)
-   - Column C: Used status (TRUE/FALSE) - leave blank initially
-   - Column D: Timestamp used - leave blank initially
+   - Column C: Code description (optional) - leave blank
+   - Column D: Assigned phone number - leave blank initially
+   - Column E: Assignment timestamp - leave blank initially
 
 3. **Create Sheet 2 (Lead Info):**
    - Create a new sheet tab named "Lead Info"
@@ -81,11 +82,18 @@ This system uses Google Apps Script to manage verification codes from a Google S
 
 ### Email Flow:
 1. **Lead fills form** → Triggers Google Apps Script
-2. **Script picks unused code** from Sheet 1, marks it as used
-3. **Sends email to ajboyd96@gmail.com** with lead info and code
-4. **Also sends email to lead** with their verification code
-5. **Lead enters code** → Script verifies against stored session
-6. **Successful verification** → Lead data saved to Sheet 2
+2. **Script picks random code** from Sheet 1, assigns to phone number
+3. **If same lead clicks again** → Script reuses their assigned code
+4. **Sends email to ajboyd96@gmail.com** with lead info and code
+5. **Also sends email to lead** with their verification code
+6. **Lead enters code** → Script verifies against stored session
+7. **Successful verification** → Lead data saved to Sheet 2
+
+### Code Assignment Logic:
+- **First time lead:** Gets random code from available pool
+- **Same lead requests again:** Gets same code as before
+- **After 50 codes assigned:** System resets and starts over
+- **Codes are reusable** across different cycles
 
 ### Email Templates:
 
@@ -131,11 +139,11 @@ Silver Path Network Team
 ## 📊 Google Sheet Structure
 
 ### Sheet 1: Verification Codes
-| A (Row) | B (Code) | C (Used) | D (Timestamp) |
-|---------|----------|----------|---------------|
-| 1       | 123456   | TRUE     | 2024-01-01... |
-| 2       | 789012   |          |               |
-| 3       | 345678   |          |               |
+| A (Row) | B (Code) | C (Description) | D (Assigned Phone) | E (Assignment Time) |
+|---------|----------|-----------------|-------------------|-------------------|
+| 1       | 123456   |                 | 5551234567        | 2024-01-01...     |
+| 2       | 789012   |                 |                   |                   |
+| 3       | 345678   |                 | 5559876543        | 2024-01-01...     |
 
 ### Sheet 2: Lead Info
 | Lead ID | Timestamp | First Name | Last Name | Email | Phone | Code Used | Age Range | Tobacco | Coverage | Goal | Health | Timing | Status |
