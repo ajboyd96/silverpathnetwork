@@ -247,18 +247,22 @@
         .quiz-btn {
             background: #1B365D;
             color: white;
-            border: none;
-            padding: 15px 30px;
+            border: 2px solid #1B365D;
+            padding: 12px 24px;
             border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-width: 140px;
-            max-width: 180px;
+            min-width: 130px;
+            max-width: 170px;
+            height: 48px;
             text-align: center;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             white-space: nowrap;
+            box-sizing: border-box;
         }
         
         .quiz-btn:hover:not(:disabled) {
@@ -275,14 +279,18 @@
         }
         
         .quiz-btn.secondary {
-            background: transparent;
+            background: #f8f9fa;
             color: #1B365D;
             border: 2px solid #1B365D;
+            font-weight: 600;
+            height: 48px;
         }
         
         .quiz-btn.secondary:hover:not(:disabled) {
             background: #1B365D;
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(27, 54, 93, 0.3);
         }
         
         .results-container {
@@ -384,10 +392,11 @@
             
             .quiz-btn {
                 flex: 0 0 auto;
-                min-width: 120px;
-                max-width: 160px;
-                padding: 12px 20px !important;
+                min-width: 110px;
+                max-width: 140px;
+                padding: 10px 16px !important;
                 font-size: 14px !important;
+                height: 40px !important;
                 margin: 0 5px;
             }
             
