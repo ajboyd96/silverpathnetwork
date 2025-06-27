@@ -550,7 +550,10 @@
                     </div>
                     <div class="form-group" style="margin-bottom: 20px;">
                         <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #1B365D;">Phone Number</label>
-                        <input type="tel" id="phone" required placeholder="(555) 123-4567" style="width: 100%; padding: 15px; border: 2px solid #e1e1e1; border-radius: 8px; font-size: 16px;">
+                        <input type="tel" id="phone" required placeholder="Any format: (555) 123-4567, 555-123-4567, 5551234567" style="width: 100%; padding: 15px; border: 2px solid #e1e1e1; border-radius: 8px; font-size: 16px;">
+                        <div style="margin-top: 5px; font-size: 11px; color: #666; font-style: italic;">
+                            Accepts any format: with/without parentheses, dashes, spaces, or +1 prefix
+                        </div>
                         <div class="sms-consent-disclaimer" style="margin-top: 10px; font-size: 12px; line-height: 1.4; color: #6b7280; text-align: left;">
                             By submitting your phone number, you agree to receive a one-time SMS verification code from Silver Path Network to confirm your identity. Message and data rates may apply. Consent is not required to get a quote. We do not send promotional messages. View our <a href="privacy-policy.html#sms-policy" style="color: #1B365D; text-decoration: underline; transition: all 0.2s ease;" onmouseover="this.style.fontWeight='bold'; this.style.color='#0f172a';" onmouseout="this.style.fontWeight='normal'; this.style.color='#1B365D';">SMS Policy</a>, <a href="privacy-policy.html" style="color: #1B365D; text-decoration: underline; transition: all 0.2s ease;" onmouseover="this.style.fontWeight='bold'; this.style.color='#0f172a';" onmouseout="this.style.fontWeight='normal'; this.style.color='#1B365D';">Privacy Policy</a> and <a href="terms.html" style="color: #1B365D; text-decoration: underline; transition: all 0.2s ease;" onmouseover="this.style.fontWeight='bold'; this.style.color='#0f172a';" onmouseout="this.style.fontWeight='normal'; this.style.color='#1B365D';">Terms of Use</a>.
                         </div>
@@ -582,6 +585,12 @@
                     <div style="text-align: center;">
                         <button type="button" id="resendCode" onclick="resendVerificationCode()" style="background: none; border: none; color: #1B365D; text-decoration: underline; cursor: pointer; font-size: 16px;">
                             Didn't receive code? Resend
+                        </button>
+                        
+                        <!-- Debug button - remove after testing -->
+                        <br><br>
+                        <button type="button" onclick="console.log('Expected code:', currentVerificationCode); alert('Expected code: ' + currentVerificationCode)" style="background: #ff6b6b; color: white; border: none; padding: 15px 20px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold;">
+                            🐛 DEBUG: Show Expected Code
                         </button>
                     </div>
                 </div>

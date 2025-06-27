@@ -394,6 +394,20 @@ function goBackToResults() {
 
 // Verification flow variables
 let currentVerificationData = null;
+let currentVerificationCode = null; // Store code locally for simple verification
+
+// Phone number normalization function
+function normalizePhoneNumber(phone) {
+    // Remove all non-digits
+    let cleanPhone = phone.replace(/\D/g, '');
+    
+    // Handle 11-digit numbers (remove leading 1 if present)
+    if (cleanPhone.length === 11 && cleanPhone.startsWith('1')) {
+        cleanPhone = cleanPhone.substring(1);
+    }
+    
+    return cleanPhone;
+}
 
 // Contact form validation to enable Send Code button
 function validateContactFormButtons() {
@@ -404,7 +418,11 @@ function validateContactFormButtons() {
     
     const nextBtn = document.getElementById('contactNextBtn');
     
-    if (nextBtn && firstName && lastName && email && phone && email.includes('@') && phone.length >= 10) {
+    // Validate phone number
+    const normalizedPhone = normalizePhoneNumber(phone);
+    const isValidPhone = normalizedPhone.length === 10;
+    
+    if (nextBtn && firstName && lastName && email && phone && email.includes('@') && isValidPhone) {
         nextBtn.disabled = false;
         nextBtn.style.opacity = '1';
         nextBtn.style.background = '#1B365D';
@@ -446,12 +464,25 @@ function sendVerificationCode() {
     form.target = 'hidden-verification';
     form.style.display = 'none';
     
-    // Add form fields
+    // Clean and normalize phone number - handle any format
+    const cleanPhone = normalizePhoneNumber(phone);
+    
+    // Validate phone number length
+    if (cleanPhone.length !== 10) {
+        alert('Please enter a valid 10-digit phone number.');
+        return;
+    }
+    
+    console.log('Original phone:', phone);
+    console.log('Normalized phone for storage:', cleanPhone);
+    
+    // Add form fields including the generated code
     const fields = {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        phone: phone
+        phone: cleanPhone,
+        verificationCode: currentVerificationCode // Send our code to be emailed
     };
     
     Object.keys(fields).forEach(key => {
@@ -464,11 +495,15 @@ function sendVerificationCode() {
     
     document.body.appendChild(form);
     
-    // Store verification data
-    currentVerificationData = { firstName, lastName, email, phone };
+    // Store verification data with clean phone number
+    currentVerificationData = { firstName, lastName, email, phone: cleanPhone };
     
     // Submit form
     form.submit();
+    
+    // Generate verification code locally for simple comparison
+    currentVerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    console.log('Generated verification code:', currentVerificationCode);
     
     // Add debugging - listen for iframe load to detect if script ran
     iframe.onload = function() {
@@ -495,6 +530,9 @@ function sendVerificationCode() {
 }
 
 function showVerificationPage() {
+    console.log('=== SHOWING VERIFICATION PAGE ===');
+    console.log('Current verification code:', currentVerificationCode);
+    
     // Hide contact form
     document.getElementById('contactFormContainer').style.display = 'none';
     document.getElementById('contactFormContainer').classList.remove('visible');
@@ -503,9 +541,12 @@ function showVerificationPage() {
     document.getElementById('verificationSection').style.display = 'block';
     document.getElementById('smsCode').focus();
     document.getElementById('verificationSection').scrollIntoView({ behavior: 'smooth' });
+    
+    // Show an alert with the code for debugging
+    alert('DEBUG: Generated verification code is: ' + currentVerificationCode);
 }
 
-// Verify entered code
+// Simple verification - just compare with locally stored code
 function verifyCode() {
     const enteredCode = document.getElementById('smsCode').value.trim();
     
@@ -519,44 +560,49 @@ function verifyCode() {
         return;
     }
     
+    if (!currentVerificationCode) {
+        showMessage('No verification code found. Please send a new code.', 'error');
+        return;
+    }
+    
     // Show loading state
     const verifyBtn = document.getElementById('verifyCodeBtn');
     const originalText = verifyBtn.textContent;
     verifyBtn.textContent = 'Verifying...';
     verifyBtn.disabled = true;
     
-    // Verify code via GET request
-    const verifyUrl = `https://script.google.com/macros/s/AKfycbzXo5TmjTg36pnTalTPn4lKtpBjl_ZyqaKh_cFMwNcYRUyXlkdk41K0aEdqT5bM9Fxw/exec?action=verify&phone=${encodeURIComponent(currentVerificationData.phone)}&code=${encodeURIComponent(enteredCode)}`;
+    console.log('=== SIMPLE VERIFICATION DEBUG ===');
+    console.log('Entered code:', enteredCode);
+    console.log('Entered code type:', typeof enteredCode);
+    console.log('Expected code:', currentVerificationCode);
+    console.log('Expected code type:', typeof currentVerificationCode);
+    console.log('Codes match:', enteredCode === currentVerificationCode);
+    console.log('Codes match (loose):', enteredCode == currentVerificationCode);
     
-    fetch(verifyUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Success - proceed to thank you
-                showMessage('Code verified successfully! Redirecting...', 'success');
-                
-                // Log successful verification to sheets
-                logVerificationSuccess();
-                
-                // Redirect after short delay
-                setTimeout(() => {
-                    window.location.href = 'thank-you.html';
-                }, 2000);
-            } else {
-                showMessage(data.message || 'Invalid verification code. Please try again.', 'error');
-                document.getElementById('smsCode').value = '';
-                document.getElementById('smsCode').focus();
-            }
-        })
-        .catch(error => {
-            console.error('Verification error:', error);
-            showMessage('Verification failed. Please try again or request a new code.', 'error');
-        })
-        .finally(() => {
-            // Reset button
-            verifyBtn.textContent = originalText;
-            verifyBtn.disabled = false;
-        });
+    // Simple comparison - no server needed!
+    setTimeout(() => {
+        if (enteredCode === currentVerificationCode) {
+            console.log('✅ VERIFICATION SUCCESSFUL - Codes match!');
+            showMessage('Code verified successfully! Redirecting...', 'success');
+            
+            // Log successful verification 
+            logVerificationSuccess();
+            
+            // Redirect after short delay
+            setTimeout(() => {
+                window.location.href = 'thank-you.html';
+            }, 2000);
+        } else {
+            console.log('❌ VERIFICATION FAILED - Codes do not match');
+            showMessage('Invalid verification code. Please try again.', 'error');
+            document.getElementById('smsCode').value = '';
+            document.getElementById('smsCode').focus();
+        }
+        
+        // Reset button
+        verifyBtn.textContent = originalText;
+        verifyBtn.disabled = false;
+    }, 1000); // Short delay to show loading state
 }
 
 // Resend verification code
@@ -579,12 +625,13 @@ function resendVerificationCode() {
     form.target = 'hidden-resend';
     form.style.display = 'none';
     
-    // Add form fields with resend flag
+    // Add form fields with resend flag (phone should already be clean from initial send)
     const fields = {
         firstName: currentVerificationData.firstName,
         lastName: currentVerificationData.lastName,
         email: currentVerificationData.email,
-        phone: currentVerificationData.phone,
+        phone: currentVerificationData.phone, // Already cleaned when stored
+        verificationCode: currentVerificationCode, // Use same code for resend
         resend: 'true'
     };
     
@@ -640,6 +687,31 @@ function testGoogleScript() {
     document.body.appendChild(testForm);
     testForm.submit();
     document.body.removeChild(testForm);
+}
+
+// Test verification endpoint directly 
+function testVerificationEndpoint() {
+    console.log('Testing verification endpoint...');
+    
+    const testUrl = 'https://script.google.com/macros/s/AKfycbzXo5TmjTg36pnTalTPn4lKtpBjl_ZyqaKh_cFMwNcYRUyXlkdk41K0aEdqT5bM9Fxw/exec?action=verify&phone=5551234567&code=123456';
+    
+    fetch(testUrl)
+        .then(response => {
+            console.log('Test verification response status:', response.status);
+            return response.text();
+        })
+        .then(text => {
+            console.log('Test verification response:', text);
+            try {
+                const data = JSON.parse(text);
+                console.log('Test verification parsed:', data);
+            } catch (e) {
+                console.log('Test verification - not JSON:', text);
+            }
+        })
+        .catch(error => {
+            console.error('Test verification error:', error);
+        });
 }
 
 // Show message to user
