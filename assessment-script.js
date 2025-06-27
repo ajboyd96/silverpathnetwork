@@ -442,7 +442,7 @@ function sendVerificationCode() {
     // Create form for submission
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbyr3D8cG-GG6df5zCIO3q78VJRRcNI9vPgd9dTXsoj3JBXnsG4yVBPQ93kXEh3pnOKr/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbzXo5TmjTg36pnTalTPn4lKtpBjl_ZyqaKh_cFMwNcYRUyXlkdk41K0aEdqT5bM9Fxw/exec';
     form.target = 'hidden-verification';
     form.style.display = 'none';
     
@@ -526,7 +526,7 @@ function verifyCode() {
     verifyBtn.disabled = true;
     
     // Verify code via GET request
-    const verifyUrl = `https://script.google.com/macros/s/AKfycbyr3D8cG-GG6df5zCIO3q78VJRRcNI9vPgd9dTXsoj3JBXnsG4yVBPQ93kXEh3pnOKr/exec?action=verify&phone=${encodeURIComponent(currentVerificationData.phone)}&code=${encodeURIComponent(enteredCode)}`;
+    const verifyUrl = `https://script.google.com/macros/s/AKfycbzXo5TmjTg36pnTalTPn4lKtpBjl_ZyqaKh_cFMwNcYRUyXlkdk41K0aEdqT5bM9Fxw/exec?action=verify&phone=${encodeURIComponent(currentVerificationData.phone)}&code=${encodeURIComponent(enteredCode)}`;
     
     fetch(verifyUrl)
         .then(response => response.json())
@@ -575,7 +575,7 @@ function resendVerificationCode() {
     // Create form for resend
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbyr3D8cG-GG6df5zCIO3q78VJRRcNI9vPgd9dTXsoj3JBXnsG4yVBPQ93kXEh3pnOKr/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbzXo5TmjTg36pnTalTPn4lKtpBjl_ZyqaKh_cFMwNcYRUyXlkdk41K0aEdqT5bM9Fxw/exec';
     form.target = 'hidden-resend';
     form.style.display = 'none';
     
@@ -619,7 +619,7 @@ function testGoogleScript() {
     
     const testForm = document.createElement('form');
     testForm.method = 'POST';
-    testForm.action = 'https://script.google.com/macros/s/AKfycbyr3D8cG-GG6df5zCIO3q78VJRRcNI9vPgd9dTXsoj3JBXnsG4yVBPQ93kXEh3pnOKr/exec';
+    testForm.action = 'https://script.google.com/macros/s/AKfycbzXo5TmjTg36pnTalTPn4lKtpBjl_ZyqaKh_cFMwNcYRUyXlkdk41K0aEdqT5bM9Fxw/exec';
     testForm.target = '_blank';
     
     const fields = {
