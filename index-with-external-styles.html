@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Expense Insurance - Silver Path Network</title>
+    <meta name="description" content="Get affordable final expense insurance coverage to protect your family from burial and funeral costs. Free quotes and expert guidance.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="#home">Silver Path Network</a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="assessment.html" class="nav-link">Get Quote</a></li>
+                    <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Protect Your Family's Future with Final Expense Insurance</h1>
+                <p>Don't burden your loved ones with funeral and burial costs. Get affordable coverage that provides peace of mind.</p>
+                <div class="hero-cta">
+                    <a href="assessment.html" class="cta-button primary">Get Your Free Quote</a>
+                    <button class="cta-button secondary" onclick="scrollToSection('about')">Learn More</button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">$50K+</span>
+                        <span class="stat-label">Average Funeral Cost</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">2 Min</span>
+                        <span class="stat-label">Quote Process</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">No Exam</span>
+                        <span class="stat-label">Required</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="quiz-section">
+            <div class="container">
+                <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                    <h2>Ready to Get Your Quote?</h2>
+                    <p class="quiz-subtitle">Take our simple 2-minute assessment to get your personalized final expense insurance quote</p>
+                    <a href="assessment.html" class="cta-button primary" style="display: inline-block; margin-top: 1rem;">Start Your Assessment</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="about" class="features">
+            <div class="container">
+                <h2>Why Choose Silver Path Network?</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🛡️</div>
+                        <h3>No Medical Exam</h3>
+                        <p>Most policies require only health questions, no physical exam needed.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💰</div>
+                        <h3>Affordable Premiums</h3>
+                        <p>Coverage starting as low as $15/month for qualified applicants.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Guaranteed Acceptance</h3>
+                        <p>Options available for those with health conditions.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">❤️</div>
+                        <h3>Cash Value</h3>
+                        <p>Whole life policies build cash value you can borrow against.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="faq-section">
+            <div class="container">
+                <h2>Frequently Asked Questions</h2>
+                <p class="faq-subtitle">Get answers to the most common questions about final expense insurance</p>
+                
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(0)">
+                            <h3>What is final expense insurance?</h3>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Final expense insurance, also known as burial insurance, is a type of whole life insurance specifically designed to cover end-of-life costs such as funeral expenses, burial costs, medical bills, and other final expenses. These policies typically range from $5,000 to $50,000 and are easier to qualify for than traditional life insurance.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(1)">
+                            <h3>How much does final expense insurance cost?</h3>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Final expense insurance premiums typically range from $15 to $100+ per month, depending on your age, gender, health, coverage amount, and tobacco use. For example, a healthy 65-year-old non-smoker might pay around $35-45 per month for $15,000 in coverage. Our assessment tool provides personalized estimates based on your specific situation.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(2)">
+                            <h3>Do I need a medical exam?</h3>
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Most final expense insurance policies do not require a medical exam. Instead, you'll answer a few simple health questions on the application. Some policies even offer guaranteed acceptance with no health questions at all, though these may have a waiting period before full benefits are available.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <h2>Get Help Choosing the Right Coverage</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h3>Speak with an Expert</h3>
+                        <p>Our licensed insurance professionals are here to help you find the perfect final expense coverage for your needs and budget.</p>
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <strong>Call:</strong> 1-800-FINAL-EX
+                            </div>
+                            <div class="contact-method">
+                                <strong>Email:</strong> quotes@silverpathnetwork.com
+                            </div>
+                            <div class="contact-method">
+                                <strong>Hours:</strong> Mon-Fri 8AM-8PM EST
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Silver Path Network</h4>
+                    <p>Protecting families with comprehensive final expense insurance solutions.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="assessment.html">Get Quote</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>1-800-FINAL-EX<br>quotes@silverpathnetwork.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Silver Path Network. All rights reserved. | <a href="#privacy">Privacy Policy</a> | <a href="#terms">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
