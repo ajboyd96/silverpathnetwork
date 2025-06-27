@@ -345,13 +345,18 @@ function showContactForm() {
     // Add navigation buttons below the phone number
     addNavigationToContactForm();
     
-    // Add event listeners for form validation
+    // Add event listeners for enhanced form validation
     const form = document.getElementById('contactForm');
     const inputs = form.querySelectorAll('input[required]');
     
     inputs.forEach(input => {
         input.addEventListener('input', validateContactFormButtons);
+        input.addEventListener('blur', validateContactFormButtons);
     });
+    
+    // Initialize field-specific validation
+    validateEmailField();
+    validatePhoneField();
     
     // Scroll to contact form
     contactFormContainer.scrollIntoView({ behavior: 'smooth' });
@@ -409,7 +414,7 @@ function normalizePhoneNumber(phone) {
     return cleanPhone;
 }
 
-// Contact form validation to enable Send Code button
+// Enhanced contact form validation with detailed feedback
 function validateContactFormButtons() {
     const firstName = document.getElementById('firstName').value.trim();
     const lastName = document.getElementById('lastName').value.trim();
@@ -418,30 +423,224 @@ function validateContactFormButtons() {
     
     const nextBtn = document.getElementById('contactNextBtn');
     
-    // Validate phone number
-    const normalizedPhone = normalizePhoneNumber(phone);
-    const isValidPhone = normalizedPhone.length === 10;
+    // Clear previous validation messages
+    clearValidationErrors();
     
-    if (nextBtn && firstName && lastName && email && phone && email.includes('@') && isValidPhone) {
-        nextBtn.disabled = false;
-        nextBtn.style.opacity = '1';
-        nextBtn.style.background = '#1B365D';
-    } else if (nextBtn) {
-        nextBtn.disabled = true;
-        nextBtn.style.opacity = '0.5';
-        nextBtn.style.background = '#cccccc';
+    let isValid = true;
+    const errors = [];
+    
+    // Validate first name
+    if (!firstName) {
+        showFieldError('firstName', 'First name is required');
+        errors.push('First name required');
+        isValid = false;
+    } else if (firstName.length < 2) {
+        showFieldError('firstName', 'First name must be at least 2 characters');
+        errors.push('First name too short');
+        isValid = false;
+    } else if (!/^[a-zA-Z\s'-]+$/.test(firstName)) {
+        showFieldError('firstName', 'First name contains invalid characters');
+        errors.push('Invalid first name format');
+        isValid = false;
     }
+    
+    // Validate last name
+    if (!lastName) {
+        showFieldError('lastName', 'Last name is required');
+        errors.push('Last name required');
+        isValid = false;
+    } else if (lastName.length < 2) {
+        showFieldError('lastName', 'Last name must be at least 2 characters');
+        errors.push('Last name too short');
+        isValid = false;
+    } else if (!/^[a-zA-Z\s'-]+$/.test(lastName)) {
+        showFieldError('lastName', 'Last name contains invalid characters');
+        errors.push('Invalid last name format');
+        isValid = false;
+    }
+    
+    // Validate email
+    if (!email) {
+        showFieldError('email', 'Email address is required');
+        errors.push('Email required');
+        isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showFieldError('email', 'Please enter a valid email address');
+        errors.push('Invalid email format');
+        isValid = false;
+    }
+    
+    // Validate phone number
+    if (!phone) {
+        showFieldError('phone', 'Phone number is required');
+        errors.push('Phone required');
+        isValid = false;
+    } else {
+        const normalizedPhone = normalizePhoneNumber(phone);
+        if (normalizedPhone.length !== 10) {
+            showFieldError('phone', 'Please enter a valid 10-digit phone number');
+            errors.push('Invalid phone format');
+            isValid = false;
+        } else if (!/^[2-9]\d{9}$/.test(normalizedPhone)) {
+            showFieldError('phone', 'Phone number format is invalid');
+            errors.push('Invalid phone number');
+            isValid = false;
+        }
+    }
+    
+    // Update button state
+    if (nextBtn) {
+        if (isValid) {
+            nextBtn.disabled = false;
+            nextBtn.style.opacity = '1';
+            nextBtn.style.background = '#1B365D';
+            nextBtn.title = 'Send verification code';
+        } else {
+            nextBtn.disabled = true;
+            nextBtn.style.opacity = '0.5';
+            nextBtn.style.background = '#cccccc';
+            nextBtn.title = 'Please fix validation errors: ' + errors.join(', ');
+        }
+    }
+    
+    return isValid;
+}
+
+// Show field-specific validation error
+function showFieldError(fieldId, message) {
+    const field = document.getElementById(fieldId);
+    if (!field) return;
+    
+    // Add error styling to field
+    field.style.borderColor = '#dc3545';
+    field.style.backgroundColor = '#fff5f5';
+    
+    // Remove existing error message
+    const existingError = field.parentNode.querySelector('.field-error');
+    if (existingError) {
+        existingError.remove();
+    }
+    
+    // Add error message
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'field-error';
+    errorDiv.style.color = '#dc3545';
+    errorDiv.style.fontSize = '12px';
+    errorDiv.style.marginTop = '5px';
+    errorDiv.textContent = message;
+    field.parentNode.appendChild(errorDiv);
+    
+    // Remove error styling when user starts typing
+    field.addEventListener('input', function clearError() {
+        field.style.borderColor = '#e1e1e1';
+        field.style.backgroundColor = '#fff';
+        const errorMsg = field.parentNode.querySelector('.field-error');
+        if (errorMsg) {
+            errorMsg.remove();
+        }
+        field.removeEventListener('input', clearError);
+    }, { once: true });
+}
+
+// Clear all validation errors
+function clearValidationErrors() {
+    const errorMessages = document.querySelectorAll('.field-error');
+    errorMessages.forEach(error => error.remove());
+    
+    // Reset field styling
+    ['firstName', 'lastName', 'email', 'phone'].forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            field.style.borderColor = '#e1e1e1';
+            field.style.backgroundColor = '#fff';
+        }
+    });
+}
+
+// Enhanced phone number validation
+function isValidPhoneNumber(phone) {
+    const normalizedPhone = normalizePhoneNumber(phone);
+    
+    // Check length
+    if (normalizedPhone.length !== 10) {
+        return false;
+    }
+    
+    // Check format (first digit can't be 0 or 1)
+    if (!/^[2-9]\d{9}$/.test(normalizedPhone)) {
+        return false;
+    }
+    
+    // Check for obvious invalid patterns
+    const invalidPatterns = [
+        /^0{10}$/, // All zeros
+        /^1{10}$/, // All ones
+        /^(\d)\1{9}$/, // Same digit repeated
+        /^1234567890$/, // Sequential
+        /^5555555555$/ // Common test number
+    ];
+    
+    return !invalidPatterns.some(pattern => pattern.test(normalizedPhone));
+}
+
+// Real-time email validation feedback
+function validateEmailField() {
+    const emailField = document.getElementById('email');
+    if (!emailField) return;
+    
+    emailField.addEventListener('blur', function() {
+        const email = emailField.value.trim();
+        if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showFieldError('email', 'Please enter a valid email address');
+        }
+    });
+}
+
+// Real-time phone validation feedback
+function validatePhoneField() {
+    const phoneField = document.getElementById('phone');
+    if (!phoneField) return;
+    
+    phoneField.addEventListener('input', function() {
+        const phone = phoneField.value.trim();
+        if (phone) {
+            const normalizedPhone = normalizePhoneNumber(phone);
+            if (normalizedPhone.length > 10) {
+                phoneField.value = phone.substring(0, phone.length - 1);
+            }
+        }
+    });
+    
+    phoneField.addEventListener('blur', function() {
+        const phone = phoneField.value.trim();
+        if (phone && !isValidPhoneNumber(phone)) {
+            showFieldError('phone', 'Please enter a valid 10-digit phone number');
+        }
+    });
 }
 
 // Send verification code via form submission
 function sendVerificationCode() {
+    // Run detailed validation first
+    if (!validateContactFormButtons()) {
+        showMessage('Please fix all form errors before sending verification code.', 'error');
+        return;
+    }
+    
     const firstName = document.getElementById('firstName').value.trim();
     const lastName = document.getElementById('lastName').value.trim();
     const email = document.getElementById('email').value.trim();
     const phone = document.getElementById('phone').value.trim();
     
+    // Double-check required fields
     if (!firstName || !lastName || !email || !phone) {
         showMessage('Please fill in all required fields before sending verification code.', 'error');
+        return;
+    }
+    
+    // Validate phone number format one more time
+    if (!isValidPhoneNumber(phone)) {
+        showMessage('Please enter a valid phone number before sending verification code.', 'error');
         return;
     }
     
@@ -466,7 +665,7 @@ function sendVerificationCode() {
     // Create form for submission
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbwGZfLw4KvTCoJTRPlxYVOmp_QsGQ0p2Xy52egQCouYejsRcA3mnRn0xLeMl1xmfckN/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbxsKIWjfj2SDGhR7EWMvfXPEWIe8jb_GJLh-boHLPicYoCIES0gL-nYyMsOQUC8qVJ6/exec';
     form.target = 'hidden-verification';
     form.style.display = 'none';
     
@@ -630,7 +829,7 @@ function resendVerificationCode() {
     // Create form for resend
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbwGZfLw4KvTCoJTRPlxYVOmp_QsGQ0p2Xy52egQCouYejsRcA3mnRn0xLeMl1xmfckN/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbxsKIWjfj2SDGhR7EWMvfXPEWIe8jb_GJLh-boHLPicYoCIES0gL-nYyMsOQUC8qVJ6/exec';
     form.target = 'hidden-resend';
     form.style.display = 'none';
     
@@ -746,30 +945,68 @@ function showMessage(message, type) {
     }
 }
 
-// Log successful verification to Google Sheets
+// Log successful verification and send quiz data to Google Sheets
 function logVerificationSuccess() {
     if (!currentVerificationData) return;
     
-    const estimatedPremium = document.getElementById('premiumAmount').textContent;
-    const zip = document.getElementById('zip').value.trim();
-    const bestTime = document.getElementById('bestTime').value;
+    console.log('📊 Logging verification success and quiz data to Google Sheets');
     
-    const leadData = {
-        firstName: currentVerificationData.firstName,
-        lastName: currentVerificationData.lastName,
-        email: currentVerificationData.email,
-        phone: currentVerificationData.phone,
-        zip: zip,
-        bestTime: bestTime,
-        estimatedPremium: estimatedPremium,
-        assessmentAnswers: assessmentAnswers,
-        timestamp: new Date().toISOString(),
-        source: 'assessment-page',
-        verified: true
+    // Prepare quiz answers in a structured format
+    const quizData = {
+        q1: assessmentAnswers[0]?.answer || '', // Age Range
+        q2: assessmentAnswers[1]?.answer || '', // Tobacco Use
+        q3: assessmentAnswers[2]?.answer || '', // Coverage Amount
+        q4: assessmentAnswers[3]?.answer || '', // Insurance Goal
+        q5: assessmentAnswers[4]?.answer || '', // Health Status
+        q6: assessmentAnswers[5]?.answer || ''  // Coverage Timing
     };
     
-    // Log lead data (this would typically go to your CRM/database)
-    console.log('Verified Lead Data:', leadData);
+    console.log('Quiz answers being sent:', quizData);
+    
+    // Create form to send quiz data to Google Apps Script
+    const iframe = document.createElement('iframe');
+    iframe.name = 'hidden-quiz-submit';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+    
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://script.google.com/macros/s/AKfycbxsKIWjfj2SDGhR7EWMvfXPEWIe8jb_GJLh-boHLPicYoCIES0gL-nYyMsOQUC8qVJ6/exec';
+    form.target = 'hidden-quiz-submit';
+    form.style.display = 'none';
+    
+    // Add form fields
+    const fields = {
+        action: 'submit_lead',
+        phone: currentVerificationData.phone,
+        quizAnswers: JSON.stringify(quizData),
+        firstName: currentVerificationData.firstName,
+        lastName: currentVerificationData.lastName,
+        email: currentVerificationData.email
+    };
+    
+    Object.keys(fields).forEach(key => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = fields[key];
+        form.appendChild(input);
+    });
+    
+    document.body.appendChild(form);
+    form.submit();
+    
+    // Clean up after short delay
+    setTimeout(() => {
+        if (document.body.contains(form)) {
+            document.body.removeChild(form);
+        }
+        if (document.body.contains(iframe)) {
+            document.body.removeChild(iframe);
+        }
+    }, 3000);
+    
+    console.log('✅ Quiz data submitted to Google Sheets');
 }
 
 function submitLead(event) {
