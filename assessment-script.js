@@ -1,80 +1,63 @@
-// Enhanced quiz data for final expense insurance assessment
+// Original quiz data with images and simple text options
 const assessmentData = [
     {
-        question: "What is your age?",
-        type: "radio",
+        question: "What's your age range?",
+        image: "silverpath website photos/image1.png",
         options: [
-            { text: "Under 50", value: "under-50", icon: "👶" },
-            { text: "50-60", value: "50-60", icon: "👤" },
-            { text: "61-70", value: "61-70", icon: "👨" },
-            { text: "71-80", value: "71-80", icon: "👴" },
-            { text: "Over 80", value: "over-80", icon: "👵" }
-        ]
-    },
-    {
-        question: "What is your gender?",
-        type: "radio",
-        options: [
-            { text: "Male", value: "male", icon: "👨" },
-            { text: "Female", value: "female", icon: "👩" }
+            "50-60 years old",
+            "61-70 years old", 
+            "71-80 years old",
+            "Over 80 years old"
         ]
     },
     {
         question: "Do you currently use tobacco products?",
-        type: "radio",
+        image: "silverpath website photos/image2.png",
         options: [
-            { text: "Yes, I currently smoke/use tobacco", value: "current-smoker", icon: "🚬" },
-            { text: "No, I don't use tobacco", value: "non-smoker", icon: "🚭" },
-            { text: "I quit within the last 12 months", value: "recent-quit", icon: "🔄" }
+            "No, I don't smoke",
+            "Yes, I smoke occasionally",
+            "Yes, I smoke regularly",
+            "I quit in the last 2 years"
         ]
     },
     {
-        question: "What coverage amount are you looking for?",
-        type: "radio",
+        question: "What coverage amount interests you most?",
+        image: "silverpath website photos/image3.png",
         options: [
-            { text: "$5,000 - $10,000", value: "5k-10k", icon: "💰" },
-            { text: "$10,000 - $25,000", value: "10k-25k", icon: "💵" },
-            { text: "$25,000 - $50,000", value: "25k-50k", icon: "💸" },
-            { text: "$50,000 or more", value: "50k-plus", icon: "🏦" }
+            "$5,000 - $10,000",
+            "$10,000 - $25,000",
+            "$25,000 - $50,000",
+            "More than $50,000"
         ]
     },
     {
-        question: "Have you been declined for life insurance in the past?",
-        type: "radio",
+        question: "What's your primary goal for this insurance?",
+        image: "silverpath website photos/fatherdaughter.png",
         options: [
-            { text: "Yes, I was declined", value: "declined", icon: "❌" },
-            { text: "No, I was not declined", value: "not-declined", icon: "✅" },
-            { text: "I've never applied before", value: "never-applied", icon: "❓" }
+            "Cover funeral and burial costs",
+            "Pay off existing debts",
+            "Leave money for my family",
+            "All of the above"
         ]
     },
     {
-        question: "How would you describe your current health?",
-        type: "radio",
+        question: "How would you describe your overall health?",
+        image: "silverpath website photos/garden.png",
         options: [
-            { text: "Excellent - No health issues", value: "excellent", icon: "💪" },
-            { text: "Good - Minor health issues", value: "good", icon: "👍" },
-            { text: "Fair - Some health conditions", value: "fair", icon: "⚕️" },
-            { text: "Poor - Multiple health issues", value: "poor", icon: "🏥" }
+            "Excellent health",
+            "Good health with minor issues",
+            "Fair health with some conditions",
+            "Poor health with major conditions"
         ]
     },
     {
-        question: "What is your primary goal for this insurance?",
-        type: "radio",
+        question: "When would you like coverage to start?",
+        image: "silverpath website photos/carwave.png",
         options: [
-            { text: "Cover funeral and burial expenses", value: "funeral-costs", icon: "⚰️" },
-            { text: "Pay off remaining debts", value: "debt-payoff", icon: "💳" },
-            { text: "Leave money for family", value: "family-inheritance", icon: "👨‍👩‍👧‍👦" },
-            { text: "All of the above", value: "all-goals", icon: "🎯" }
-        ]
-    },
-    {
-        question: "When would you like coverage to begin?",
-        type: "radio",
-        options: [
-            { text: "As soon as possible", value: "immediate", icon: "⚡" },
-            { text: "Within 30 days", value: "30-days", icon: "📅" },
-            { text: "Within 60 days", value: "60-days", icon: "📆" },
-            { text: "I'm just comparing options", value: "comparing", icon: "🔍" }
+            "As soon as possible",
+            "Within the next month",
+            "Within the next 3 months",
+            "Just exploring options"
         ]
     }
 ];
@@ -88,7 +71,8 @@ function startAssessment() {
     document.getElementById('introSection').style.display = 'none';
     
     // Show quiz sections
-    document.querySelector('.quiz-section').style.display = 'block';
+    document.getElementById('progressSection').style.display = 'block';
+    document.getElementById('questionContainer').style.display = 'block';
     document.getElementById('navigationSection').style.display = 'block';
     
     // Start with first question
@@ -96,7 +80,7 @@ function startAssessment() {
     displayQuestion();
     
     // Scroll to quiz
-    document.querySelector('.quiz-section').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('progressSection').scrollIntoView({ behavior: 'smooth' });
 }
 
 // Initialize the assessment
@@ -142,7 +126,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function displayQuestion() {
     const question = assessmentData[currentQuestionIndex];
-    const quizContent = document.getElementById('quizContent');
+    const questionImage = document.getElementById('questionImage');
+    const questionContent = document.getElementById('questionContent');
+    const questionOptions = document.getElementById('questionOptions');
     const questionNumber = document.getElementById('questionNumber');
     const progressFill = document.getElementById('progressFill');
     
@@ -155,26 +141,25 @@ function displayQuestion() {
         progressFill.style.width = progressPercentage + '%';
     }
     
-    // Update step indicators
-    updateStepIndicators();
+    // Display question image
+    if (questionImage) {
+        questionImage.innerHTML = `<img src="${question.image}" alt="Question ${currentQuestionIndex + 1}">`;
+    }
     
-    // Create question HTML with icons
-    if (quizContent) {
+    // Display question text
+    if (questionContent) {
+        questionContent.innerHTML = `<h2>${question.question}</h2>`;
+    }
+    
+    // Display options (simple text, no icons)
+    if (questionOptions) {
         const optionsHTML = question.options.map((option, index) => `
-            <div class="option" onclick="selectOption(${index}, '${option.value}')">
-                <span class="option-icon">${option.icon}</span>
-                <span>${option.text}</span>
+            <div class="option" onclick="selectOption(${index}, '${option}')">
+                ${option}
             </div>
         `).join('');
         
-        quizContent.innerHTML = `
-            <div class="question fade-in-up">
-                <h3>${question.question}</h3>
-                <div class="question-options">
-                    ${optionsHTML}
-                </div>
-            </div>
-        `;
+        questionOptions.innerHTML = optionsHTML;
     }
     
     // Update navigation buttons
@@ -209,11 +194,11 @@ function selectOption(index, value) {
         options[index].classList.add('selected');
     }
     
-    // Store answer
+    // Store answer (value is the text since options are simple strings)
     assessmentAnswers[currentQuestionIndex] = {
         question: assessmentData[currentQuestionIndex].question,
         answer: value,
-        answerText: assessmentData[currentQuestionIndex].options[index].text
+        answerText: value
     };
     
     // Update navigation buttons
@@ -298,7 +283,8 @@ function calculatePremiumEstimate() {
 
 function showLeadForm() {
     // Hide quiz sections
-    document.querySelector('.quiz-section').style.display = 'none';
+    document.getElementById('progressSection').style.display = 'none';
+    document.getElementById('questionContainer').style.display = 'none';
     document.getElementById('navigationSection').style.display = 'none';
     
     // Calculate and display premium estimate
@@ -674,7 +660,8 @@ function resetAssessment() {
     currentVerificationData = null;
     
     // Show quiz sections
-    document.querySelector('.quiz-section').style.display = 'block';
+    document.getElementById('progressSection').style.display = 'block';
+    document.getElementById('questionContainer').style.display = 'block';
     document.getElementById('navigationSection').style.display = 'block';
     
     // Hide other sections
