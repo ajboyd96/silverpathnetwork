@@ -341,7 +341,9 @@ function showContactForm() {
     document.getElementById('resultsContainer').style.display = 'none';
     
     // Show contact form container
-    document.getElementById('contactFormContainer').style.display = 'block';
+    const contactFormContainer = document.getElementById('contactFormContainer');
+    contactFormContainer.style.display = 'block';
+    contactFormContainer.classList.add('visible');
     
     // Add event listeners for form validation
     const form = document.getElementById('contactForm');
@@ -352,7 +354,7 @@ function showContactForm() {
     });
     
     // Scroll to contact form
-    document.getElementById('contactFormContainer').scrollIntoView({ behavior: 'smooth' });
+    contactFormContainer.scrollIntoView({ behavior: 'smooth' });
 }
 
 // Verification flow variables
@@ -634,7 +636,9 @@ function resetAssessment() {
     document.getElementById('navigationSection').style.display = 'block';
     
     // Hide other sections
-    document.getElementById('contactFormContainer').style.display = 'none';
+    const contactFormContainer = document.getElementById('contactFormContainer');
+    contactFormContainer.style.display = 'none';
+    contactFormContainer.classList.remove('visible');
     document.getElementById('resultsContainer').style.display = 'none';
     document.getElementById('verificationSection').style.display = 'none';
     
