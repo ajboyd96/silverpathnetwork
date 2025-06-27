@@ -248,15 +248,17 @@
             background: #1B365D;
             color: white;
             border: none;
-            padding: 18px 35px;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: bold;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-width: 150px;
-            width: 150px;
+            min-width: 140px;
+            max-width: 180px;
             text-align: center;
+            display: inline-block;
+            white-space: nowrap;
         }
         
         .quiz-btn:hover:not(:disabled) {
@@ -381,11 +383,12 @@
             }
             
             .quiz-btn {
-                flex: 1;
-                min-width: 150px;
-                max-width: 200px;
-                padding: 18px 35px !important;
-                font-size: 18px !important;
+                flex: 0 0 auto;
+                min-width: 120px;
+                max-width: 160px;
+                padding: 12px 20px !important;
+                font-size: 14px !important;
+                margin: 0 5px;
             }
             
             .intro-features {
@@ -531,8 +534,8 @@
             </div>
 
             <!-- Navigation -->
-            <div id="navigationSection" style="display: none;">
-                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 20px;">
+            <div id="navigationSection" style="display: none; margin-top: 30px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 500px; margin: 0 auto;">
                     <button id="prevBtn" class="quiz-btn secondary" onclick="previousQuestion()" style="display: none;">
                         ← Previous
                     </button>
