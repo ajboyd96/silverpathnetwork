@@ -89,15 +89,31 @@ function sendVerificationCode(data) {
       JSON.stringify(verificationData)
     );
     
-    // Send verification email
-    const emailSubject = `Silver Path Network - Verification Code for ${firstName}`;
-    const emailBody = `Hi ${firstName},\n\nThanks for your submission! Use code ${verificationCode} to verify your number with Silver Path Network.\n\nThis code expires in 5 minutes.\n\nBest regards,\nSilver Path Network Team`;
+    // Send verification email to admin with complete lead info
+    const adminEmailSubject = `Silver Path Network - New Lead Verification: ${firstName} ${lastName}`;
+    const adminEmailBody = `Hi ${firstName},
+
+Thanks for your submission! Use code ${verificationCode} to verify your number with Silver Path Network.
+
+LEAD INFORMATION:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 Name: ${firstName} ${lastName}
+📧 Email: ${email}
+📱 Phone: ${phone}
+🔐 Verification Code: ${verificationCode}
+⏰ Code Expires: 5 minutes from now
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This lead is requesting final expense insurance information. They will need to enter the verification code above to complete their application.
+
+Best regards,
+Silver Path Network System`;
     
-    // Send email to admin (ajboyd96@gmail.com)
+    // Send email to admin (ajboyd96@gmail.com) with all lead details
     GmailApp.sendEmail(
       ADMIN_EMAIL,
-      emailSubject,
-      emailBody
+      adminEmailSubject,
+      adminEmailBody
     );
     
     // Optional: Also send to the lead's email

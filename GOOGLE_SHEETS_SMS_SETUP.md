@@ -91,16 +91,25 @@ This system uses Google Apps Script to manage verification codes from a Google S
 
 **Admin Email (to ajboyd96@gmail.com):**
 ```
-Subject: Silver Path Network - Verification Code for [FirstName]
+Subject: Silver Path Network - New Lead Verification: [FirstName] [LastName]
 
 Hi [FirstName],
 
 Thanks for your submission! Use code [6-digit code] to verify your number with Silver Path Network.
 
-This code expires in 5 minutes.
+LEAD INFORMATION:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 Name: [FirstName] [LastName]
+📧 Email: [email@domain.com]
+📱 Phone: [phone number]
+🔐 Verification Code: [6-digit code]
+⏰ Code Expires: 5 minutes from now
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This lead is requesting final expense insurance information. They will need to enter the verification code above to complete their application.
 
 Best regards,
-Silver Path Network Team
+Silver Path Network System
 ```
 
 **Lead Email:**
