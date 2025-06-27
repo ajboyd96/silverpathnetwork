@@ -88,8 +88,7 @@ function startAssessment() {
     document.getElementById('introSection').style.display = 'none';
     
     // Show quiz sections
-    document.getElementById('progressSection').style.display = 'block';
-    document.getElementById('questionContainer').style.display = 'block';
+    document.querySelector('.quiz-section').style.display = 'block';
     document.getElementById('navigationSection').style.display = 'block';
     
     // Start with first question
@@ -97,7 +96,7 @@ function startAssessment() {
     displayQuestion();
     
     // Scroll to quiz
-    document.getElementById('progressSection').scrollIntoView({ behavior: 'smooth' });
+    document.querySelector('.quiz-section').scrollIntoView({ behavior: 'smooth' });
 }
 
 // Initialize the assessment
@@ -143,29 +142,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function displayQuestion() {
     const question = assessmentData[currentQuestionIndex];
-    const questionContent = document.getElementById('questionContent');
-    const questionOptions = document.getElementById('questionOptions');
-    const currentQ = document.getElementById('currentQ');
-    const totalQ = document.getElementById('totalQ');
-    const progressBar = document.getElementById('progressBar');
+    const quizContent = document.getElementById('quizContent');
+    const questionNumber = document.getElementById('questionNumber');
+    const progressFill = document.getElementById('progressFill');
     
-    // Update question numbers
-    if (currentQ) currentQ.textContent = currentQuestionIndex + 1;
-    if (totalQ) totalQ.textContent = assessmentData.length;
+    // Update question number
+    if (questionNumber) questionNumber.textContent = currentQuestionIndex + 1;
     
     // Update progress bar
-    if (progressBar) {
+    if (progressFill) {
         const progressPercentage = ((currentQuestionIndex + 1) / assessmentData.length) * 100;
-        progressBar.style.width = progressPercentage + '%';
+        progressFill.style.width = progressPercentage + '%';
     }
     
-    // Display question
-    if (questionContent) {
-        questionContent.innerHTML = `<h3>${question.question}</h3>`;
-    }
+    // Update step indicators
+    updateStepIndicators();
     
-    // Create options HTML
-    if (questionOptions) {
+    // Create question HTML with icons
+    if (quizContent) {
         const optionsHTML = question.options.map((option, index) => `
             <div class="option" onclick="selectOption(${index}, '${option.value}')">
                 <span class="option-icon">${option.icon}</span>
@@ -173,7 +167,14 @@ function displayQuestion() {
             </div>
         `).join('');
         
-        questionOptions.innerHTML = optionsHTML;
+        quizContent.innerHTML = `
+            <div class="question fade-in-up">
+                <h3>${question.question}</h3>
+                <div class="question-options">
+                    ${optionsHTML}
+                </div>
+            </div>
+        `;
     }
     
     // Update navigation buttons
@@ -297,8 +298,7 @@ function calculatePremiumEstimate() {
 
 function showLeadForm() {
     // Hide quiz sections
-    document.getElementById('progressSection').style.display = 'none';
-    document.getElementById('questionContainer').style.display = 'none';
+    document.querySelector('.quiz-section').style.display = 'none';
     document.getElementById('navigationSection').style.display = 'none';
     
     // Calculate and display premium estimate
@@ -674,8 +674,7 @@ function resetAssessment() {
     currentVerificationData = null;
     
     // Show quiz sections
-    document.getElementById('progressSection').style.display = 'block';
-    document.getElementById('questionContainer').style.display = 'block';
+    document.querySelector('.quiz-section').style.display = 'block';
     document.getElementById('navigationSection').style.display = 'block';
     
     // Hide other sections
