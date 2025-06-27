@@ -470,6 +470,11 @@ function sendVerificationCode() {
     // Submit form
     form.submit();
     
+    // Add debugging - listen for iframe load to detect if script ran
+    iframe.onload = function() {
+        console.log('Google Apps Script response received');
+    };
+    
     // Go directly to verification page after short delay (allows email to be sent)
     setTimeout(() => {
         // Reset button
@@ -480,9 +485,13 @@ function sendVerificationCode() {
         showVerificationPage();
         
         // Clean up form and iframe
-        document.body.removeChild(form);
-        document.body.removeChild(iframe);
-    }, 2000);
+        if (document.body.contains(form)) {
+            document.body.removeChild(form);
+        }
+        if (document.body.contains(iframe)) {
+            document.body.removeChild(iframe);
+        }
+    }, 3000); // Increased to 3 seconds to ensure script has time to run
 }
 
 function showVerificationPage() {
@@ -602,6 +611,35 @@ function resendVerificationCode() {
         document.body.removeChild(form);
         document.body.removeChild(iframe);
     }, 2000);
+}
+
+// Test function to check if Google Apps Script is working (for debugging)
+function testGoogleScript() {
+    console.log('Testing Google Apps Script...');
+    
+    const testForm = document.createElement('form');
+    testForm.method = 'POST';
+    testForm.action = 'https://script.google.com/macros/s/AKfycbyr3D8cG-GG6df5zCIO3q78VJRRcNI9vPgd9dTXsoj3JBXnsG4yVBPQ93kXEh3pnOKr/exec';
+    testForm.target = '_blank';
+    
+    const fields = {
+        firstName: 'Test',
+        lastName: 'User', 
+        email: 'test@example.com',
+        phone: '5551234567'
+    };
+    
+    Object.keys(fields).forEach(key => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = fields[key];
+        testForm.appendChild(input);
+    });
+    
+    document.body.appendChild(testForm);
+    testForm.submit();
+    document.body.removeChild(testForm);
 }
 
 // Show message to user
