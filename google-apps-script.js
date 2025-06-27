@@ -116,12 +116,8 @@ Silver Path Network System`;
       adminEmailBody
     );
     
-    // Optional: Also send to the lead's email
-    GmailApp.sendEmail(
-      email,
-      'Silver Path Network - Your Verification Code',
-      `Hi ${firstName},\n\nYour verification code is: ${verificationCode}\n\nPlease enter this code on the website to complete your application.\n\nThis code expires in 5 minutes.\n\nBest regards,\nSilver Path Network Team`
-    );
+    // Note: Only admin receives email with verification code
+    // Lead will see code in admin email sent to ajboyd96@gmail.com
     
     return createResponse(true, 'Verification code sent successfully', { sessionId });
     

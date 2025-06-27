@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Silver Path Network Flow</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .step { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .step h3 { color: #1B365D; margin-top: 0; }
+        .button { background: #1B365D; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin: 5px; }
+        .code { background: #e9ecef; padding: 5px; border-radius: 3px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Silver Path Network Lead Capture</h1>
+    
+    <div class="step">
+        <h3>Step 1: Test the Assessment Flow</h3>
+        <p>Go through the complete flow to test lead capture:</p>
+        <a href="https://silverpathnetwork.netlify.app/assessment.html" class="button" target="_blank">Start Assessment</a>
+        <p><strong>Instructions:</strong></p>
+        <ol>
+            <li>Complete all 6 quiz questions</li>
+            <li>Fill out the contact form with test data</li>
+            <li>Click "Send Verification Code"</li>
+            <li>Check your email for the code</li>
+            <li>Enter the code and verify</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h3>Step 2: Check Your Email</h3>
+        <p>You should receive an email at <span class="code">ajboyd96@gmail.com</span> with:</p>
+        <ul>
+            <li>Text message template with verification code</li>
+            <li>Complete lead information</li>
+            <li>Instructions to text the code to the lead</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h3>Step 3: Check Google Apps Script Logs</h3>
+        <p>Monitor the execution in real-time:</p>
+        <a href="https://script.google.com" class="button" target="_blank">Open Google Apps Script</a>
+        <ol>
+            <li>Go to your Silver Path Network project</li>
+            <li>Click "Executions" in the left sidebar</li>
+            <li>Watch for new executions as you test</li>
+            <li>Click on executions to see detailed logs</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h3>Step 4: Check Your Google Sheet</h3>
+        <p>Verify the lead data was captured:</p>
+        <a href="https://docs.google.com/spreadsheets/d/1MZYgrMksEKzKksiXYf7B2dNnrzu9prScwbCZ0TWmIxc" class="button" target="_blank">Open Google Sheet</a>
+        <p>Look for:</p>
+        <ul>
+            <li>New "Lead Info" sheet tab</li>
+            <li>Lead with your test information</li>
+            <li>Quiz answers in columns Q1-Q6</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h3>Step 5: Manual Script Test</h3>
+        <p>Test the script function directly:</p>
+        <ol>
+            <li>Go to your Google Apps Script</li>
+            <li>Find the <span class="code">testAddLeadToSheet()</span> function</li>
+            <li>Click the function name to select it</li>
+            <li>Click the "Run" button (▶️)</li>
+            <li>Check the execution logs and your sheet</li>
+        </ol>
+    </div>
+
+    <div class="step">
+        <h3>🔍 Troubleshooting</h3>
+        <p>If something doesn't work:</p>
+        <ul>
+            <li><strong>No email:</strong> Check script execution logs for errors</li>
+            <li><strong>No sheet data:</strong> Run the manual test function first</li>
+            <li><strong>Script errors:</strong> Check the console logs in "Executions"</li>
+            <li><strong>Permission issues:</strong> Re-authorize the script</li>
+        </ul>
+    </div>
+
+    <script>
+        // Auto-refresh page every 30 seconds for testing
+        setTimeout(() => {
+            if (confirm('Refresh page to check for updates?')) {
+                location.reload();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>

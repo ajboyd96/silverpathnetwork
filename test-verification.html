@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test SMS Verification</title>
+</head>
+<body>
+    <h1>Test SMS Verification</h1>
+    
+    <form id="testForm">
+        <input type="text" id="firstName" placeholder="First Name" value="John" required><br><br>
+        <input type="text" id="lastName" placeholder="Last Name" value="Doe" required><br><br>
+        <input type="email" id="email" placeholder="Email" value="test@example.com" required><br><br>
+        <input type="tel" id="phone" placeholder="Phone" value="5551234567" required><br><br>
+        <button type="button" onclick="testVerification()">Test Send Code</button>
+    </form>
+    
+    <div id="result"></div>
+    
+    <script>
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxCQv_NumP0dKFT1WuJgbylD6E7BaxVXbzZYxpEoJvE2-nOJ9rAdAigxmPzaH8ordA/exec';
+        
+        async function testVerification() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            
+            console.log('Sending request to:', GOOGLE_SCRIPT_URL);
+            console.log('Data:', { firstName, lastName, email, phone });
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Sending...';
+            
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        action: 'send_verification',
+                        firstName: firstName,
+                        lastName: lastName,
+                        email: email,
+                        phone: phone
+                    })
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response:', response);
+                
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                if (data.success) {
+                    resultDiv.innerHTML = `<div style="color: green;">SUCCESS: ${data.message}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div style="color: red;">ERROR: ${data.message}</div>`;
+                }
+            } catch (error) {
+                console.error('Network error:', error);
+                resultDiv.innerHTML = `<div style="color: red;">NETWORK ERROR: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>
