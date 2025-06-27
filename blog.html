@@ -87,10 +87,22 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             overflow: hidden;
             transition: transform 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            cursor: pointer;
         }
 
         .blog-card:hover {
             transform: translateY(-5px);
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .blog-card:visited {
+            color: inherit;
+            text-decoration: none;
         }
 
         .blog-image {
@@ -189,32 +201,32 @@
 
     <main class="main-content container">
         <div class="blog-grid">
-            <article class="blog-card">
+            <a href="blog-understanding-final-expense.html" class="blog-card">
                 <div class="blog-image">📋</div>
                 <div class="blog-content">
                     <h2 class="blog-title">Understanding Final Expense Insurance: A Complete Guide</h2>
                     <p class="blog-excerpt">Learn everything you need to know about final expense insurance, including coverage options, costs, and how it differs from traditional life insurance.</p>
-                    <a href="#" class="read-more">Read More →</a>
+                    <span class="read-more">Read More →</span>
                 </div>
-            </article>
+            </a>
 
-            <article class="blog-card">
+            <a href="blog-average-funeral-costs.html" class="blog-card">
                 <div class="blog-image">💰</div>
                 <div class="blog-content">
                     <h2 class="blog-title">Average Funeral Costs in 2025: What to Expect</h2>
                     <p class="blog-excerpt">Funeral costs continue to rise. Discover the current average costs and how final expense insurance can help protect your family from financial burden.</p>
-                    <a href="#" class="read-more">Read More →</a>
+                    <span class="read-more">Read More →</span>
                 </div>
-            </article>
+            </a>
 
-            <article class="blog-card">
+            <a href="blog-how-much-final-expense-coverage.html" class="blog-card">
                 <div class="blog-image">🎯</div>
                 <div class="blog-content">
                     <h2 class="blog-title">How Much Final Expense Coverage Do You Need?</h2>
                     <p class="blog-excerpt">Calculate the right amount of coverage based on your specific situation, location, and family's needs. Our simple guide makes it easy.</p>
-                    <a href="#" class="read-more">Read More →</a>
+                    <span class="read-more">Read More →</span>
                 </div>
-            </article>
+            </a>
 
             <article class="blog-card">
                 <div class="blog-image">✅</div>
