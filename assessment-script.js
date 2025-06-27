@@ -82,6 +82,24 @@ const assessmentData = [
 let currentQuestionIndex = 0;
 let assessmentAnswers = {};
 
+// Start the assessment function
+function startAssessment() {
+    // Hide intro section
+    document.getElementById('introSection').style.display = 'none';
+    
+    // Show quiz sections
+    document.getElementById('progressSection').style.display = 'block';
+    document.getElementById('questionContainer').style.display = 'block';
+    document.getElementById('navigationSection').style.display = 'block';
+    
+    // Start with first question
+    currentQuestionIndex = 0;
+    displayQuestion();
+    
+    // Scroll to quiz
+    document.getElementById('progressSection').scrollIntoView({ behavior: 'smooth' });
+}
+
 // Initialize the assessment
 document.addEventListener('DOMContentLoaded', function() {
     // Mobile menu functionality
