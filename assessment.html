@@ -546,35 +546,45 @@
                         <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #1B365D;">Email Address</label>
                         <input type="email" id="email" required style="width: 100%; padding: 15px; border: 2px solid #e1e1e1; border-radius: 8px; font-size: 16px;">
                     </div>
-                    <div class="form-group" style="margin-bottom: 30px;">
+                    <div class="form-group" style="margin-bottom: 20px;">
                         <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #1B365D;">Phone Number</label>
                         <input type="tel" id="phone" required placeholder="(555) 123-4567" style="width: 100%; padding: 15px; border: 2px solid #e1e1e1; border-radius: 8px; font-size: 16px;">
                         <div class="sms-consent-disclaimer" style="margin-top: 10px; font-size: 12px; line-height: 1.4; color: #6b7280; text-align: left;">
                             By submitting your phone number, you agree to receive a one-time SMS verification code from Silver Path Network to confirm your identity. Message and data rates may apply. Consent is not required to get a quote. We do not send promotional messages. View our <a href="privacy-policy.html#sms-policy" style="color: #1B365D; text-decoration: underline; transition: all 0.2s ease;" onmouseover="this.style.fontWeight='bold'; this.style.color='#0f172a';" onmouseout="this.style.fontWeight='normal'; this.style.color='#1B365D';">SMS Policy</a>, <a href="privacy-policy.html" style="color: #1B365D; text-decoration: underline; transition: all 0.2s ease;" onmouseover="this.style.fontWeight='bold'; this.style.color='#0f172a';" onmouseout="this.style.fontWeight='normal'; this.style.color='#1B365D';">Privacy Policy</a> and <a href="terms.html" style="color: #1B365D; text-decoration: underline; transition: all 0.2s ease;" onmouseover="this.style.fontWeight='bold'; this.style.color='#0f172a';" onmouseout="this.style.fontWeight='normal'; this.style.color='#1B365D';">Terms of Use</a>.
                         </div>
                     </div>
+                    
+                    <!-- Send Code Button -->
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <button type="button" id="sendCodeBtn" class="quiz-btn" onclick="sendVerificationCode()" style="background: #28a745; font-size: 18px; padding: 15px 30px;" disabled>
+                            Send Verification Code
+                        </button>
+                    </div>
+                    
+                    <!-- Verification Code Section -->
+                    <div id="verificationSection" style="display: none; margin-bottom: 30px;">
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 10px; font-weight: bold; color: #1B365D; text-align: center;">Enter 6-Digit Verification Code</label>
+                            <input type="text" id="smsCode" maxlength="6" placeholder="123456" style="width: 100%; padding: 20px; border: 2px solid #e1e1e1; border-radius: 8px; font-size: 24px; text-align: center; letter-spacing: 5px;">
+                        </div>
+                        
+                        <div id="smsError" style="color: #dc3545; text-align: center; margin-bottom: 20px; display: none;"></div>
+                        
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <button type="button" id="verifyCodeBtn" class="quiz-btn" onclick="verifyCode()" style="background: #1B365D; font-size: 18px; padding: 15px 30px;">
+                                Verify Code
+                            </button>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <button type="button" id="resendCode" onclick="resendVerificationCode()" style="background: none; border: none; color: #1B365D; text-decoration: underline; cursor: pointer; font-size: 16px;">
+                                Didn't receive code? Resend
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </div>
 
-            <!-- SMS Verification -->
-            <div id="smsVerificationContainer" class="question-container" style="display: none;">
-                <div class="question">
-                    <h2>Verify Your Phone Number</h2>
-                    <p style="color: #666; margin-bottom: 30px;">We've sent a verification code to <span id="phoneDisplay"></span></p>
-                </div>
-                <div style="max-width: 400px; margin: 0 auto;">
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label style="display: block; margin-bottom: 10px; font-weight: bold; color: #1B365D; text-align: center;">Enter 6-Digit Code</label>
-                        <input type="text" id="smsCode" maxlength="6" placeholder="123456" style="width: 100%; padding: 20px; border: 2px solid #e1e1e1; border-radius: 8px; font-size: 24px; text-align: center; letter-spacing: 5px;">
-                    </div>
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <button type="button" id="resendCode" style="background: none; border: none; color: #1B365D; text-decoration: underline; cursor: pointer;">
-                            Didn't receive code? Resend
-                        </button>
-                    </div>
-                    <div id="smsError" style="color: #dc3545; text-align: center; margin-bottom: 20px; display: none;"></div>
-                </div>
-            </div>
 
             <!-- Results Container -->
             <div id="resultsContainer" class="results-container">

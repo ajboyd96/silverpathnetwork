@@ -300,58 +300,272 @@ function showLeadForm() {
     document.getElementById('leadFormSection').scrollIntoView({ behavior: 'smooth' });
 }
 
-function submitLead(event) {
-    event.preventDefault();
+// Verification flow variables
+let currentVerificationData = null;
+
+// Contact form validation to enable Send Code button
+function validateContactForm() {
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const zip = document.getElementById('zip').value.trim();
     
-    const formData = new FormData(event.target);
+    const sendCodeBtn = document.getElementById('sendCodeBtn');
+    
+    if (firstName && lastName && email && phone && zip) {
+        sendCodeBtn.disabled = false;
+        sendCodeBtn.style.opacity = '1';
+        sendCodeBtn.style.background = '#28a745';
+    } else {
+        sendCodeBtn.disabled = true;
+        sendCodeBtn.style.opacity = '0.5';
+        sendCodeBtn.style.background = '#cccccc';
+    }
+}
+
+// Send verification code via form submission
+function sendVerificationCode() {
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    
+    if (!firstName || !lastName || !email || !phone) {
+        alert('Please fill in all required fields before sending verification code.');
+        return;
+    }
+    
+    // Show loading state
+    const sendCodeBtn = document.getElementById('sendCodeBtn');
+    const originalText = sendCodeBtn.textContent;
+    sendCodeBtn.textContent = 'Sending...';
+    sendCodeBtn.disabled = true;
+    
+    // Create form for submission
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://script.google.com/macros/s/AKfycbyr3D8cG-GG6df5zCIO3q78VJRRcNI9vPgd9dTXsoj3JBXnsG4yVBPQ93kXEh3pnOKr/exec';
+    form.target = '_blank';
+    form.style.display = 'none';
+    
+    // Add form fields
+    const fields = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: phone
+    };
+    
+    Object.keys(fields).forEach(key => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = fields[key];
+        form.appendChild(input);
+    });
+    
+    document.body.appendChild(form);
+    
+    // Store verification data
+    currentVerificationData = { firstName, lastName, email, phone };
+    
+    // Listen for popup communication
+    window.addEventListener('message', function(event) {
+        if (event.data && event.data.success) {
+            // Show verification section
+            document.getElementById('verificationSection').style.display = 'block';
+            document.getElementById('smsCode').focus();
+            
+            // Reset button
+            sendCodeBtn.textContent = originalText;
+            sendCodeBtn.disabled = false;
+            
+            // Show success message
+            showMessage('Code sent! Please check your text messages and enter the 6-digit code below.', 'success');
+        }
+    });
+    
+    // Submit form
+    form.submit();
+    
+    // Clean up form after short delay
+    setTimeout(() => {
+        document.body.removeChild(form);
+    }, 1000);
+}
+
+// Verify entered code
+function verifyCode() {
+    const enteredCode = document.getElementById('smsCode').value.trim();
+    
+    if (!enteredCode || enteredCode.length !== 6) {
+        showMessage('Please enter a valid 6-digit code.', 'error');
+        return;
+    }
+    
+    if (!currentVerificationData) {
+        showMessage('Verification session expired. Please send a new code.', 'error');
+        return;
+    }
+    
+    // Show loading state
+    const verifyBtn = document.getElementById('verifyCodeBtn');
+    const originalText = verifyBtn.textContent;
+    verifyBtn.textContent = 'Verifying...';
+    verifyBtn.disabled = true;
+    
+    // Verify code via GET request
+    const verifyUrl = `https://script.google.com/macros/s/AKfycbyr3D8cG-GG6df5zCIO3q78VJRRcNI9vPgd9dTXsoj3JBXnsG4yVBPQ93kXEh3pnOKr/exec?action=verify&phone=${encodeURIComponent(currentVerificationData.phone)}&code=${encodeURIComponent(enteredCode)}`;
+    
+    fetch(verifyUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Success - proceed to thank you
+                showMessage('Code verified successfully! Redirecting...', 'success');
+                
+                // Log successful verification to sheets
+                logVerificationSuccess();
+                
+                // Redirect after short delay
+                setTimeout(() => {
+                    window.location.href = 'thank-you.html';
+                }, 2000);
+            } else {
+                showMessage(data.message || 'Invalid verification code. Please try again.', 'error');
+                document.getElementById('smsCode').value = '';
+                document.getElementById('smsCode').focus();
+            }
+        })
+        .catch(error => {
+            console.error('Verification error:', error);
+            showMessage('Verification failed. Please try again or request a new code.', 'error');
+        })
+        .finally(() => {
+            // Reset button
+            verifyBtn.textContent = originalText;
+            verifyBtn.disabled = false;
+        });
+}
+
+// Resend verification code
+function resendVerificationCode() {
+    if (!currentVerificationData) {
+        showMessage('Please fill in your information and send a verification code first.', 'error');
+        return;
+    }
+    
+    // Create form for resend
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://script.google.com/macros/s/AKfycbyr3D8cG-GG6df5zCIO3q78VJRRcNI9vPgd9dTXsoj3JBXnsG4yVBPQ93kXEh3pnOKr/exec';
+    form.target = '_blank';
+    form.style.display = 'none';
+    
+    // Add form fields with resend flag
+    const fields = {
+        firstName: currentVerificationData.firstName,
+        lastName: currentVerificationData.lastName,
+        email: currentVerificationData.email,
+        phone: currentVerificationData.phone,
+        resend: 'true'
+    };
+    
+    Object.keys(fields).forEach(key => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = fields[key];
+        form.appendChild(input);
+    });
+    
+    document.body.appendChild(form);
+    
+    // Listen for popup communication
+    window.addEventListener('message', function(event) {
+        if (event.data && event.data.success) {
+            showMessage('New verification code sent! Please check your text messages.', 'success');
+            document.getElementById('smsCode').value = '';
+            document.getElementById('smsCode').focus();
+        }
+    });
+    
+    // Submit form
+    form.submit();
+    
+    // Clean up form
+    setTimeout(() => {
+        document.body.removeChild(form);
+    }, 1000);
+}
+
+// Show message to user
+function showMessage(message, type) {
+    // Remove any existing messages
+    const existingMessage = document.querySelector('.verification-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+    
+    // Create message element
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `verification-message ${type}`;
+    messageDiv.style.cssText = `
+        padding: 15px;
+        margin: 15px 0;
+        border-radius: 8px;
+        font-weight: bold;
+        text-align: center;
+        ${type === 'success' ? 'background: #d4edda; color: #155724; border: 1px solid #c3e6cb;' : 'background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;'}
+    `;
+    messageDiv.textContent = message;
+    
+    // Insert message above verification section
+    const verificationSection = document.getElementById('verificationSection');
+    verificationSection.parentNode.insertBefore(messageDiv, verificationSection);
+    
+    // Auto-remove error messages after 5 seconds
+    if (type === 'error') {
+        setTimeout(() => {
+            if (messageDiv.parentNode) {
+                messageDiv.remove();
+            }
+        }, 5000);
+    }
+}
+
+// Log successful verification to Google Sheets
+function logVerificationSuccess() {
+    if (!currentVerificationData) return;
+    
     const estimatedPremium = document.getElementById('premiumAmount').textContent;
-    
-    // Add assessment answers to hidden fields
-    document.getElementById('quizAnswersField').value = JSON.stringify(assessmentAnswers);
-    document.getElementById('estimatedPremiumField').value = estimatedPremium;
+    const zip = document.getElementById('zip').value.trim();
+    const bestTime = document.getElementById('bestTime').value;
     
     const leadData = {
-        firstName: formData.get('firstName'),
-        lastName: formData.get('lastName'),
-        email: formData.get('email'),
-        phone: formData.get('phone'),
-        zip: formData.get('zip'),
-        bestTime: formData.get('bestTime'),
+        firstName: currentVerificationData.firstName,
+        lastName: currentVerificationData.lastName,
+        email: currentVerificationData.email,
+        phone: currentVerificationData.phone,
+        zip: zip,
+        bestTime: bestTime,
         estimatedPremium: estimatedPremium,
         assessmentAnswers: assessmentAnswers,
         timestamp: new Date().toISOString(),
-        source: 'assessment-page'
+        source: 'assessment-page',
+        verified: true
     };
     
-    // Log for demo purposes
-    console.log('Lead Data:', leadData);
-    
-    // Show success message
-    alert(`Thank you ${leadData.firstName}! Your assessment is complete. 
+    // Log lead data (this would typically go to your CRM/database)
+    console.log('Verified Lead Data:', leadData);
+}
 
-Estimated Monthly Premium: ${estimatedPremium}
-
-A licensed insurance professional will contact you within 24 hours to discuss your personalized quote and coverage options.
-
-Keep an eye on your phone - they'll be calling from the number you provided!`);
-    
-    // Redirect to thank you page if it exists, otherwise reset
-    const thankYouPage = 'thank-you.html';
-    
-    // Check if thank you page exists by trying to navigate
-    fetch(thankYouPage, { method: 'HEAD' })
-        .then(response => {
-            if (response.ok) {
-                window.location.href = thankYouPage;
-            } else {
-                // Reset assessment for demo
-                resetAssessment();
-            }
-        })
-        .catch(() => {
-            // Reset assessment for demo
-            resetAssessment();
-        });
+function submitLead(event) {
+    // This function is now handled by the verification flow
+    // Redirect to verification process instead
+    event.preventDefault();
+    showMessage('Please complete phone verification to proceed.', 'error');
 }
 
 function resetAssessment() {
