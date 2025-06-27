@@ -445,6 +445,12 @@ function sendVerificationCode() {
         return;
     }
     
+    // Generate verification code FIRST before everything else
+    currentVerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    console.log('=== CODE GENERATION DEBUG ===');
+    console.log('Generated verification code:', currentVerificationCode);
+    console.log('This code will be sent to Google Apps Script and used for verification');
+    
     // Show loading state
     const nextBtn = document.getElementById('contactNextBtn');
     const originalText = nextBtn.textContent;
@@ -485,6 +491,8 @@ function sendVerificationCode() {
         verificationCode: currentVerificationCode // Send our code to be emailed
     };
     
+    console.log('Form fields being sent:', fields);
+    
     Object.keys(fields).forEach(key => {
         const input = document.createElement('input');
         input.type = 'hidden';
@@ -500,10 +508,6 @@ function sendVerificationCode() {
     
     // Submit form
     form.submit();
-    
-    // Generate verification code locally for simple comparison
-    currentVerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-    console.log('Generated verification code:', currentVerificationCode);
     
     // Add debugging - listen for iframe load to detect if script ran
     iframe.onload = function() {
