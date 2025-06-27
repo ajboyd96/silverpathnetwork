@@ -433,11 +433,17 @@ function sendVerificationCode() {
     nextBtn.textContent = 'Sending...';
     nextBtn.disabled = true;
     
+    // Create hidden iframe for form submission
+    const iframe = document.createElement('iframe');
+    iframe.name = 'hidden-verification';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+    
     // Create form for submission
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = 'https://script.google.com/macros/s/AKfycbyr3D8cG-GG6df5zCIO3q78VJRRcNI9vPgd9dTXsoj3JBXnsG4yVBPQ93kXEh3pnOKr/exec';
-    form.target = '_blank';
+    form.target = 'hidden-verification';
     form.style.display = 'none';
     
     // Add form fields
@@ -461,25 +467,22 @@ function sendVerificationCode() {
     // Store verification data
     currentVerificationData = { firstName, lastName, email, phone };
     
-    // Listen for popup communication
-    window.addEventListener('message', function(event) {
-        if (event.data && event.data.success) {
-            // Reset button
-            nextBtn.textContent = originalText;
-            nextBtn.disabled = false;
-            
-            // Go directly to verification page
-            showVerificationPage();
-        }
-    });
-    
     // Submit form
     form.submit();
     
-    // Clean up form after short delay
+    // Go directly to verification page after short delay (allows email to be sent)
     setTimeout(() => {
+        // Reset button
+        nextBtn.textContent = originalText;
+        nextBtn.disabled = false;
+        
+        // Go to verification page
+        showVerificationPage();
+        
+        // Clean up form and iframe
         document.body.removeChild(form);
-    }, 1000);
+        document.body.removeChild(iframe);
+    }, 2000);
 }
 
 function showVerificationPage() {
@@ -554,11 +557,17 @@ function resendVerificationCode() {
         return;
     }
     
+    // Create hidden iframe for resend
+    const iframe = document.createElement('iframe');
+    iframe.name = 'hidden-resend';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+    
     // Create form for resend
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = 'https://script.google.com/macros/s/AKfycbyr3D8cG-GG6df5zCIO3q78VJRRcNI9vPgd9dTXsoj3JBXnsG4yVBPQ93kXEh3pnOKr/exec';
-    form.target = '_blank';
+    form.target = 'hidden-resend';
     form.style.display = 'none';
     
     // Add form fields with resend flag
@@ -580,22 +589,19 @@ function resendVerificationCode() {
     
     document.body.appendChild(form);
     
-    // Listen for popup communication
-    window.addEventListener('message', function(event) {
-        if (event.data && event.data.success) {
-            showMessage('New verification code sent! Please check your text messages.', 'success');
-            document.getElementById('smsCode').value = '';
-            document.getElementById('smsCode').focus();
-        }
-    });
-    
     // Submit form
     form.submit();
     
-    // Clean up form
+    // Show success message after short delay and clean up
     setTimeout(() => {
+        showMessage('New verification code sent! Please check your text messages.', 'success');
+        document.getElementById('smsCode').value = '';
+        document.getElementById('smsCode').focus();
+        
+        // Clean up form and iframe
         document.body.removeChild(form);
-    }, 1000);
+        document.body.removeChild(iframe);
+    }, 2000);
 }
 
 // Show message to user
