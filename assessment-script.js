@@ -337,8 +337,9 @@ function showResults(estimatedPremium) {
 }
 
 function showContactForm() {
-    // Hide results container
+    // Hide results container and navigation
     document.getElementById('resultsContainer').style.display = 'none';
+    document.getElementById('navigationSection').style.display = 'none';
     
     // Show contact form container
     const contactFormContainer = document.getElementById('contactFormContainer');
