@@ -4,61 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - SilverPath Network</title>
+    <meta name="description" content="Learn about SilverPath Network's mission to provide affordable final expense insurance and protect families across America.">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        header {
-            background: linear-gradient(135deg, #2c3e50, #3498db);
+        .page-header {
+            background: #1B365D;
             color: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 120px 0 60px;
+            text-align: center;
         }
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
         }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #f39c12;
-        }
-
-        /* Main Content */
         .main-content {
             padding: 80px 0;
             max-width: 800px;
@@ -67,14 +27,14 @@
 
         .main-content h1 {
             font-size: 2.5rem;
-            color: #2c3e50;
+            color: #1B365D;
             margin-bottom: 2rem;
             text-align: center;
         }
 
         .main-content h2 {
             font-size: 1.8rem;
-            color: #2c3e50;
+            color: #1B365D;
             margin: 2rem 0 1rem 0;
         }
 
@@ -82,6 +42,7 @@
             font-size: 1.1rem;
             margin-bottom: 1.5rem;
             color: #555;
+            line-height: 1.7;
         }
 
         .stats {
@@ -100,13 +61,13 @@
         .stat-number {
             font-size: 2rem;
             font-weight: bold;
-            color: #3498db;
+            color: #1B365D;
             display: block;
         }
 
         .cta-button {
-            background: #f39c12;
-            color: white;
+            background: #ffd700;
+            color: #1B365D;
             padding: 15px 30px;
             border: none;
             border-radius: 5px;
@@ -116,50 +77,61 @@
             text-decoration: none;
             display: inline-block;
             margin: 2rem 0;
+            font-weight: bold;
         }
 
         .cta-button:hover {
-            background: #e67e22;
+            background: #ffed4a;
         }
 
-        /* Footer */
-        footer {
-            background: #2c3e50;
-            color: white;
-            padding: 40px 0;
-            text-align: center;
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
             .stat-item {
                 display: block;
                 margin: 1rem 0;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
     <header>
-        <nav class="container">
-            <div class="logo">SilverPath Network</div>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="index.html#quiz">Get Quote</a></li>
-                <li><a href="#resources">Resources</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <img src="silver path logo 2.png" alt="Silver Path Network Logo" style="height: 40px; width: auto; margin-right: 10px; vertical-align: middle;">
+                    <a href='index.html' style='color: #1B365D; font-size: 24px; font-weight: bold; text-decoration: none; vertical-align: middle;'>SilverPath Network</a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a class='nav-link' href='index.html'>Home</a></li>
+                    <li class="nav-item"><a class='nav-link' href='assessment.html'>Find Coverage</a></li>
+                    <li class="nav-item"><a class='nav-link' href='about.html'>About</a></li>
+                    <li class="nav-item"><a class='nav-link' href='blog.html'>Resources</a></li>
+                    <li class="nav-item"><a class='nav-link' href='testimonials.html'>Reviews</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="header-phone">
+                    <span>Call Now: (833) 738-2671</span>
+                </div>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
         </nav>
     </header>
 
+    <section class="page-header">
+        <div class="container">
+            <h1>About SilverPath Network</h1>
+            <p>Your trusted partner in final expense insurance since 2010</p>
+        </div>
+    </section>
+
     <main class="main-content container">
-        <h1>About SilverPath Network</h1>
-        
         <p>At SilverPath Network, we understand that planning for final expenses is one of the most important financial decisions you can make for your family. Since our founding, we have been dedicated to making final expense insurance accessible, affordable, and straightforward for seniors across America.</p>
 
         <h2>Our Mission</h2>
@@ -167,7 +139,7 @@
 
         <div class="stats">
             <div class="stat-item">
-                <span class="stat-number">10,000+</span>
+                <span class="stat-number">15,000+</span>
                 <span>Families Protected</span>
             </div>
             <div class="stat-item">
@@ -175,13 +147,13 @@
                 <span>Customer Satisfaction</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">$15</span>
+                <span class="stat-number">$30</span>
                 <span>Starting Monthly Premium</span>
             </div>
         </div>
 
         <h2>Why Final Expense Insurance Matters</h2>
-        <p>The average funeral costs over $7,000, and when combined with medical bills, outstanding debts, and other final expenses, families can face significant financial hardship during an already difficult time. Final expense insurance ensures that your family can focus on healing and remembering, not worrying about money.</p>
+        <p>The average funeral costs over $9,000, and when combined with medical bills, outstanding debts, and other final expenses, families can face significant financial hardship during an already difficult time. Final expense insurance ensures that your family can focus on healing and remembering, not worrying about money.</p>
 
         <h2>Our Commitment to You</h2>
         <p>We work with top-rated insurance carriers to offer you the best coverage options available. Our streamlined application process means no medical exams, no waiting periods for natural death benefits, and coverage that's guaranteed for life with level premiums that never increase.</p>
@@ -192,16 +164,39 @@
         <p>Ready to protect your family's future? Our simple 2-minute quote process will show you exactly how affordable final expense insurance can be. Most of our customers are surprised by how little it costs to provide this essential protection.</p>
 
         <div style="text-align: center;">
-            <a href="index.html#quiz" class="cta-button">Get My Free Quote</a>
+            <a href="assessment.html" class="cta-button">Get My Free Quote</a>
         </div>
     </main>
 
-    <footer id="contact">
+    <footer>
         <div class="container">
-            <h3>SilverPath Network</h3>
-            <p>Protecting families with affordable final expense insurance</p>
-            <p>© 2025 SilverPath Network. All rights reserved.</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 style="color: white;">SilverPath Network</h4>
+                    <p style="color: white;">Helping seniors find affordable final expense insurance since 2010.</p>
+                    <p style="color: white;">Licensed in all 50 states.</p>
+                </div>
+                <div class="footer-section">
+                    <h4 style="color: white;">Quick Links</h4>
+                    <ul>
+                        <li><a href='index.html' style='color: white;'>Home</a></li>
+                        <li><a href='assessment.html' style='color: white;'>Find Coverage</a></li>
+                        <li><a href='about.html' style='color: white;'>About</a></li>
+                        <li><a href='blog.html' style='color: white;'>Resources</a></li>
+                        <li><a href='testimonials.html' style='color: white;'>Reviews</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 style="color: white;">Contact</h4>
+                    <p style="color: white;">(833) 738-2671<br>info@silverpathnetwork.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p style="color: white;">&copy; 2024 Silver Path Network. All rights reserved. | <a href='privacy-policy.html' style='color: white;'>Privacy Policy</a> | <a href='terms.html' style='color: white;'>Terms of Service</a></p>
+            </div>
         </div>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>

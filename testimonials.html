@@ -5,63 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Testimonials - SilverPath Network</title>
     <meta name="description" content="Read real stories from satisfied customers who chose SilverPath Network for their final expense insurance needs.">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header {
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            color: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #f39c12;
-        }
-
         .page-header {
-            background: linear-gradient(135deg, #2c3e50, #3498db);
+            background: #1B365D;
             color: white;
-            padding: 60px 0;
+            padding: 120px 0 60px;
             text-align: center;
         }
 
@@ -91,7 +40,7 @@
 
         .testimonial-quote {
             font-size: 3rem;
-            color: #3498db;
+            color: #1B365D;
             position: absolute;
             top: -10px;
             left: 20px;
@@ -102,6 +51,7 @@
             color: #555;
             margin: 1rem 0 1.5rem 0;
             font-size: 1.1rem;
+            line-height: 1.6;
         }
 
         .testimonial-author {
@@ -114,7 +64,7 @@
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: linear-gradient(45deg, #3498db, #2c3e50);
+            background: linear-gradient(45deg, #1B365D, #ffd700);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -124,7 +74,7 @@
         }
 
         .author-info h4 {
-            color: #2c3e50;
+            color: #1B365D;
             margin-bottom: 0.25rem;
         }
 
@@ -134,7 +84,7 @@
         }
 
         .stars {
-            color: #f39c12;
+            color: #ffd700;
             margin-bottom: 1rem;
             font-size: 1.2rem;
         }
@@ -162,7 +112,7 @@
         .stat-number {
             font-size: 2.5rem;
             font-weight: bold;
-            color: #3498db;
+            color: #1B365D;
             display: block;
             margin-bottom: 0.5rem;
         }
@@ -174,8 +124,8 @@
         }
 
         .cta-button {
-            background: #f39c12;
-            color: white;
+            background: #ffd700;
+            color: #1B365D;
             padding: 15px 30px;
             border: none;
             border-radius: 5px;
@@ -184,24 +134,14 @@
             transition: background 0.3s;
             text-decoration: none;
             display: inline-block;
+            font-weight: bold;
         }
 
         .cta-button:hover {
-            background: #e67e22;
-        }
-
-        footer {
-            background: #2c3e50;
-            color: white;
-            padding: 40px 0;
-            text-align: center;
+            background: #ffed4a;
         }
 
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
             .page-header h1 {
                 font-size: 2rem;
             }
@@ -210,16 +150,29 @@
 </head>
 <body>
     <header>
-        <nav class="container">
-            <div class="logo">SilverPath Network</div>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="index.html#quiz">Get Quote</a></li>
-                <li><a href="blog.html">Resources</a></li>
-                <li><a href="faq.html">FAQ</a></li>
-                <li><a href="testimonials.html">Reviews</a></li>
-            </ul>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <img src="silver path logo 2.png" alt="Silver Path Network Logo" style="height: 40px; width: auto; margin-right: 10px; vertical-align: middle;">
+                    <a href='index.html' style='color: #1B365D; font-size: 24px; font-weight: bold; text-decoration: none; vertical-align: middle;'>SilverPath Network</a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a class='nav-link' href='index.html'>Home</a></li>
+                    <li class="nav-item"><a class='nav-link' href='assessment.html'>Find Coverage</a></li>
+                    <li class="nav-item"><a class='nav-link' href='about.html'>About</a></li>
+                    <li class="nav-item"><a class='nav-link' href='blog.html'>Resources</a></li>
+                    <li class="nav-item"><a class='nav-link' href='testimonials.html'>Reviews</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="header-phone">
+                    <span>Call Now: (833) 738-2671</span>
+                </div>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
         </nav>
     </header>
 
@@ -321,7 +274,7 @@
                     <p>Customer Satisfaction Rate</p>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">10,000+</span>
+                    <span class="stat-number">15,000+</span>
                     <p>Families Protected</p>
                 </div>
                 <div class="stat-item">
@@ -329,7 +282,7 @@
                     <p>Average Approval Time</p>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">$15</span>
+                    <span class="stat-number">$30</span>
                     <p>Starting Monthly Premium</p>
                 </div>
             </div>
@@ -340,16 +293,39 @@
         <div class="container">
             <h2>Join Thousands of Satisfied Customers</h2>
             <p>Get your personalized final expense insurance quote today</p>
-            <a href="index.html#quiz" class="cta-button">Get My Free Quote</a>
+            <a href="assessment.html" class="cta-button">Get My Free Quote</a>
         </div>
     </section>
 
     <footer>
         <div class="container">
-            <h3>SilverPath Network</h3>
-            <p>Protecting families with affordable final expense insurance</p>
-            <p>© 2025 SilverPath Network. All rights reserved.</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 style="color: white;">SilverPath Network</h4>
+                    <p style="color: white;">Helping seniors find affordable final expense insurance since 2010.</p>
+                    <p style="color: white;">Licensed in all 50 states.</p>
+                </div>
+                <div class="footer-section">
+                    <h4 style="color: white;">Quick Links</h4>
+                    <ul>
+                        <li><a href='index.html' style='color: white;'>Home</a></li>
+                        <li><a href='assessment.html' style='color: white;'>Find Coverage</a></li>
+                        <li><a href='about.html' style='color: white;'>About</a></li>
+                        <li><a href='blog.html' style='color: white;'>Resources</a></li>
+                        <li><a href='testimonials.html' style='color: white;'>Reviews</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 style="color: white;">Contact</h4>
+                    <p style="color: white;">(833) 738-2671<br>info@silverpathnetwork.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p style="color: white;">&copy; 2024 Silver Path Network. All rights reserved. | <a href='privacy-policy.html' style='color: white;'>Privacy Policy</a> | <a href='terms.html' style='color: white;'>Terms of Service</a></p>
+            </div>
         </div>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
