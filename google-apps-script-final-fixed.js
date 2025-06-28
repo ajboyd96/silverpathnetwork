@@ -90,7 +90,7 @@ function handleVerificationRequest(params) {
     var subject = 'Silver Path Network - ' + (isResend ? 'RESEND CODE' : 'New Lead') + ': ' + firstName + ' ' + lastName;
     var body = (isResend ? 'RESEND CODE request for existing lead:\n\n' : 'New lead verification request:\n\n');
     body += '=== TEXT MESSAGE TO SEND ===\n';
-    body += 'Hi ' + firstName + ', Thank you for choosing Silver Path Network. Your code is ' + code + '\\n\\n';
+    body += 'Hi ' + firstName + ', Thank you for choosing Silver Path Network. Your code is ' + code + '\n\n';
     body += '=== LEAD INFORMATION ===\n';
     body += 'Name: ' + firstName + ' ' + lastName + '\n';
     body += 'Email: ' + email + '\n';
@@ -394,6 +394,44 @@ function createFormResponse(success, message) {
 }
 
 /**
+ * Send message to Telegram bot
+ */
+function sendTelegramMessage(message) {
+  try {
+    var telegramUrl = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
+    
+    var payload = {
+      'chat_id': TELEGRAM_CHAT_ID,
+      'text': message,
+      'parse_mode': 'HTML'
+    };
+    
+    var options = {
+      'method': 'POST',
+      'headers': {
+        'Content-Type': 'application/json'
+      },
+      'payload': JSON.stringify(payload)
+    };
+    
+    var response = UrlFetchApp.fetch(telegramUrl, options);
+    var responseData = JSON.parse(response.getContentText());
+    
+    if (responseData.ok) {
+      console.log('✅ Telegram message sent successfully');
+      return true;
+    } else {
+      console.error('❌ Telegram API error:', responseData.description);
+      return false;
+    }
+    
+  } catch (error) {
+    console.error('❌ Error sending Telegram message:', error);
+    return false;
+  }
+}
+
+/**
  * Test function - you can run this manually to test the sheet creation
  */
 function testAddLeadToSheet() {
@@ -444,44 +482,6 @@ function recreateLeadInfoSheet() {
   } catch (error) {
     console.error('❌ Error recreating sheet:', error);
     throw error;
-  }
-}
-
-/**
- * Send message to Telegram bot
- */
-function sendTelegramMessage(message) {
-  try {
-    var telegramUrl = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
-    
-    var payload = {
-      'chat_id': TELEGRAM_CHAT_ID,
-      'text': message,
-      'parse_mode': 'HTML'
-    };
-    
-    var options = {
-      'method': 'POST',
-      'headers': {
-        'Content-Type': 'application/json'
-      },
-      'payload': JSON.stringify(payload)
-    };
-    
-    var response = UrlFetchApp.fetch(telegramUrl, options);
-    var responseData = JSON.parse(response.getContentText());
-    
-    if (responseData.ok) {
-      console.log('✅ Telegram message sent successfully');
-      return true;
-    } else {
-      console.error('❌ Telegram API error:', responseData.description);
-      return false;
-    }
-    
-  } catch (error) {
-    console.error('❌ Error sending Telegram message:', error);
-    return false;
   }
 }
 
