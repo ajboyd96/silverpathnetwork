@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://silverpathnetwork.netlify.app/</loc>
+    <loc>https://silverpathnetwork.com/</loc>
     <lastmod>2024-12-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://silverpathnetwork.netlify.app/assessment.html</loc>
+    <loc>https://silverpathnetwork.com/assessment.html</loc>
     <lastmod>2024-12-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://silverpathnetwork.netlify.app/about.html</loc>
+    <loc>https://silverpathnetwork.com/about.html</loc>
     <lastmod>2024-12-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://silverpathnetwork.netlify.app/blog.html</loc>
+    <loc>https://silverpathnetwork.com/blog.html</loc>
     <lastmod>2024-12-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://silverpathnetwork.netlify.app/testimonials.html</loc>
+    <loc>https://silverpathnetwork.com/testimonials.html</loc>
     <lastmod>2024-12-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://silverpathnetwork.netlify.app/privacy-policy</loc>
+    <loc>https://silverpathnetwork.com/privacy-policy</loc>
     <lastmod>2024-12-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://silverpathnetwork.netlify.app/terms</loc>
+    <loc>https://silverpathnetwork.com/terms</loc>
     <lastmod>2024-12-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
