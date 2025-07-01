@@ -651,7 +651,7 @@ function sendVerificationCode() {
     // Create form for submission
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycby6IHUNYtX0HN1RGspqlidEbsJDp2x4rsIXzvm1IaHt-cl3BFjCfSsZrQjl_FNecyPF/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbzEAsM7pzRPPJQWsKdaCSOUPK-FGiFarOe0rIhbChG-YWL6I8SLdcek4-vCmw6ZO71m/exec';
     form.target = 'hidden-verification';
     form.style.display = 'none';
     
@@ -816,7 +816,7 @@ function resendVerificationCode() {
     // Create form for resend
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycby6IHUNYtX0HN1RGspqlidEbsJDp2x4rsIXzvm1IaHt-cl3BFjCfSsZrQjl_FNecyPF/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbzEAsM7pzRPPJQWsKdaCSOUPK-FGiFarOe0rIhbChG-YWL6I8SLdcek4-vCmw6ZO71m/exec';
     form.target = 'hidden-resend';
     form.style.display = 'none';
     
@@ -970,7 +970,7 @@ function logVerificationSuccess() {
     
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycby6IHUNYtX0HN1RGspqlidEbsJDp2x4rsIXzvm1IaHt-cl3BFjCfSsZrQjl_FNecyPF/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbzEAsM7pzRPPJQWsKdaCSOUPK-FGiFarOe0rIhbChG-YWL6I8SLdcek4-vCmw6ZO71m/exec';
     form.target = 'hidden-quiz-submit';
     form.style.display = 'none';
     
