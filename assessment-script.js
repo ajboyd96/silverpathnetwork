@@ -673,7 +673,8 @@ function sendVerificationCode() {
         lastName: lastName,
         email: email,
         phone: cleanPhone,
-        verificationCode: currentVerificationCode // Send our code to be emailed
+        verificationCode: currentVerificationCode, // Send our code to be emailed
+        quizId: 'standard-quiz' // Identify this as the standard 6-question quiz
     };
     
     console.log('Form fields being sent:', fields);
@@ -827,7 +828,8 @@ function resendVerificationCode() {
         email: currentVerificationData.email,
         phone: currentVerificationData.phone, // Already cleaned when stored
         verificationCode: currentVerificationCode, // Use same code for resend
-        resend: 'true'
+        resend: 'true',
+        quizId: 'standard-quiz' // Identify this as the standard 6-question quiz
     };
     
     Object.keys(fields).forEach(key => {
