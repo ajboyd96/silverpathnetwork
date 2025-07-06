@@ -651,7 +651,7 @@ function sendVerificationCode() {
     // Create form for submission
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbzEAsM7pzRPPJQWsKdaCSOUPK-FGiFarOe0rIhbChG-YWL6I8SLdcek4-vCmw6ZO71m/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbw8dVxQc8MVIqc_M7yaTUEwzSo97Ej_ysEQbSHAH6ohNXgEJva1C3SFWj6N6U4Gp2So/exec';
     form.target = 'hidden-verification';
     form.style.display = 'none';
     
@@ -816,7 +816,7 @@ function resendVerificationCode() {
     // Create form for resend
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbzEAsM7pzRPPJQWsKdaCSOUPK-FGiFarOe0rIhbChG-YWL6I8SLdcek4-vCmw6ZO71m/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbw8dVxQc8MVIqc_M7yaTUEwzSo97Ej_ysEQbSHAH6ohNXgEJva1C3SFWj6N6U4Gp2So/exec';
     form.target = 'hidden-resend';
     form.style.display = 'none';
     
@@ -861,7 +861,7 @@ function testGoogleScript() {
     
     const testForm = document.createElement('form');
     testForm.method = 'POST';
-    testForm.action = 'https://script.google.com/macros/s/AKfycbwGZfLw4KvTCoJTRPlxYVOmp_QsGQ0p2Xy52egQCouYejsRcA3mnRn0xLeMl1xmfckN/exec';
+    testForm.action = 'https://script.google.com/macros/s/AKfycbw8dVxQc8MVIqc_M7yaTUEwzSo97Ej_ysEQbSHAH6ohNXgEJva1C3SFWj6N6U4Gp2So/exec';
     testForm.target = '_blank';
     
     const fields = {
@@ -888,7 +888,7 @@ function testGoogleScript() {
 function testVerificationEndpoint() {
     console.log('Testing verification endpoint...');
     
-    const testUrl = 'https://script.google.com/macros/s/AKfycbwGZfLw4KvTCoJTRPlxYVOmp_QsGQ0p2Xy52egQCouYejsRcA3mnRn0xLeMl1xmfckN/exec?action=verify&phone=5551234567&code=123456';
+    const testUrl = 'https://script.google.com/macros/s/AKfycbw8dVxQc8MVIqc_M7yaTUEwzSo97Ej_ysEQbSHAH6ohNXgEJva1C3SFWj6N6U4Gp2So/exec?action=verify&phone=5551234567&code=123456';
     
     fetch(testUrl)
         .then(response => {
@@ -970,7 +970,7 @@ function logVerificationSuccess() {
     
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbzEAsM7pzRPPJQWsKdaCSOUPK-FGiFarOe0rIhbChG-YWL6I8SLdcek4-vCmw6ZO71m/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbw8dVxQc8MVIqc_M7yaTUEwzSo97Ej_ysEQbSHAH6ohNXgEJva1C3SFWj6N6U4Gp2So/exec';
     form.target = 'hidden-quiz-submit';
     form.style.display = 'none';
     
