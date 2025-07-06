@@ -651,7 +651,7 @@ function sendVerificationCode() {
     // Create form for submission
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbwy95h-lVUNBv39A3-pXbFLGH0RWtenNT_3svY3m9kyRk8JC9pTDp3tAmJ-nVOKkL9k/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbw5qa_VPRAxm30-YppYZQ42L8aRljDUJwA4iFEh-VoLzH66sCR8Ru2ZxF0hatjKsVqm/exec';
     form.target = 'hidden-verification';
     form.style.display = 'none';
     
@@ -817,7 +817,7 @@ function resendVerificationCode() {
     // Create form for resend
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbwy95h-lVUNBv39A3-pXbFLGH0RWtenNT_3svY3m9kyRk8JC9pTDp3tAmJ-nVOKkL9k/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbw5qa_VPRAxm30-YppYZQ42L8aRljDUJwA4iFEh-VoLzH66sCR8Ru2ZxF0hatjKsVqm/exec';
     form.target = 'hidden-resend';
     form.style.display = 'none';
     
@@ -890,7 +890,7 @@ function testGoogleScript() {
 function testVerificationEndpoint() {
     console.log('Testing verification endpoint...');
     
-    const testUrl = 'https://script.google.com/macros/s/AKfycbwy95h-lVUNBv39A3-pXbFLGH0RWtenNT_3svY3m9kyRk8JC9pTDp3tAmJ-nVOKkL9k/exec?action=verify&phone=5551234567&code=123456';
+    const testUrl = 'https://script.google.com/macros/s/AKfycbw5qa_VPRAxm30-YppYZQ42L8aRljDUJwA4iFEh-VoLzH66sCR8Ru2ZxF0hatjKsVqm/exec?action=verify&phone=5551234567&code=123456';
     
     fetch(testUrl)
         .then(response => {
@@ -972,7 +972,7 @@ function logVerificationSuccess() {
     
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbwy95h-lVUNBv39A3-pXbFLGH0RWtenNT_3svY3m9kyRk8JC9pTDp3tAmJ-nVOKkL9k/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbw5qa_VPRAxm30-YppYZQ42L8aRljDUJwA4iFEh-VoLzH66sCR8Ru2ZxF0hatjKsVqm/exec';
     form.target = 'hidden-quiz-submit';
     form.style.display = 'none';
     
