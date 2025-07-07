@@ -1,0 +1,98 @@
+var SPREADSHEET_ID = '1MZYgrMksEKzKksiXYf7B2dNnrzu9prScwbCZ0TWmIxc';
+var ADMIN_EMAIL = 'ajboyd96@gmail.com';
+var TELEGRAM_BOT_TOKEN = '8037279353:AAHpV-yEVV3uWMPmfVuq_dKY3d1h_RBmUwA';
+var TELEGRAM_CHAT_ID = '7463862813';
+
+function doPost(e) {
+  try {
+    console.log('=== RECEIVED POST REQUEST ===');
+    var params = e.parameter;
+    console.log('All parameters:', JSON.stringify(params));
+    
+    // ALWAYS try to send notifications if we have contact info (remove ALL restrictions)
+    if (params.firstName && params.lastName && params.email && params.phone) {
+      console.log('=== SENDING NOTIFICATIONS ===');
+      
+      var firstName = params.firstName;
+      var lastName = params.lastName;
+      var email = params.email;
+      var phone = params.phone;
+      var code = params.verificationCode || Math.floor(100000 + Math.random() * 900000).toString();
+      var quizId = params.quizId || 'standard-quiz';
+      var quizType = quizId === 'arizona-final-expense-quiz-2' ? 'Arizona Quiz' : 'Standard Quiz';
+      
+      console.log('Processing:', firstName, lastName, 'Code:', code);
+      
+      // SEND EMAIL
+      var subject = 'Silver Path Network - ' + quizType + ' - New Lead: ' + firstName + ' ' + lastName;
+      var body = 'New lead verification request:\n\n';
+      body += '=== TEXT MESSAGE TO SEND ===\n';
+      body += 'Hi ' + firstName + ', Thank you for choosing Silver Path Network. Your code is ' + code + '\n\n';
+      body += '=== LEAD INFORMATION ===\n';
+      body += 'Name: ' + firstName + ' ' + lastName + '\n';
+      body += 'Email: ' + email + '\n';
+      body += 'Phone: ' + phone + '\n';
+      body += 'Quiz Type: ' + quizType + '\n';
+      body += 'Verification Code: ' + code;
+      
+      try {
+        GmailApp.sendEmail(ADMIN_EMAIL, subject, body);
+        console.log('SUCCESS: Email sent');
+      } catch (emailError) {
+        console.error('EMAIL ERROR:', emailError);
+      }
+      
+      // SEND TELEGRAM
+      var telegramMessage = 'New ' + quizType + ' Lead!\n\n' +
+        'Name: ' + firstName + ' ' + lastName + '\n' +
+        'Email: ' + email + '\n' +
+        'Phone: ' + phone + '\n' +
+        'Code: ' + code + '\n\n' +
+        'Text: Hi ' + firstName + ', Thank you for choosing Silver Path Network. Your code is ' + code;
+      
+      try {
+        sendTelegramMessage(telegramMessage);
+        console.log('SUCCESS: Telegram sent');
+      } catch (telegramError) {
+        console.error('TELEGRAM ERROR:', telegramError);
+      }
+      
+      return createFormResponse(true, 'Verification code sent successfully');
+    }
+    
+    console.log('NO CONTACT INFO - skipping notifications');
+    return createFormResponse(false, 'Missing contact information');
+    
+  } catch (error) {
+    console.error('MAIN ERROR:', error);
+    return createFormResponse(false, 'Error: ' + error.message);
+  }
+}
+
+function sendTelegramMessage(message) {
+  var telegramUrl = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
+  var payload = {
+    chat_id: TELEGRAM_CHAT_ID,
+    text: message
+  };
+  
+  var options = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    payload: JSON.stringify(payload)
+  };
+  
+  var response = UrlFetchApp.fetch(telegramUrl, options);
+  var result = JSON.parse(response.getContentText());
+  
+  if (!result.ok) {
+    throw new Error(result.description);
+  }
+  
+  return result;
+}
+
+function createFormResponse(success, message) {
+  var htmlContent = '<!DOCTYPE html><html><head><title>Silver Path Network</title></head><body><h2>Silver Path Network</h2><p>' + message + '</p></body></html>';
+  return HtmlService.createHtmlOutput(htmlContent);
+}
