@@ -1,0 +1,19 @@
+function doGet(e) {
+  console.log('SCRIPT IS WORKING - GET REQUEST');
+  return HtmlService.createHtmlOutput('<h1>Script is working! GET request received.</h1>');
+}
+
+function doPost(e) {
+  console.log('SCRIPT IS WORKING - POST REQUEST');
+  console.log('Parameters:', JSON.stringify(e.parameter));
+  
+  // Try to send a simple email
+  try {
+    GmailApp.sendEmail('ajboyd96@gmail.com', 'Test Email', 'Script is working and can send emails!');
+    console.log('EMAIL SENT SUCCESSFULLY');
+    return HtmlService.createHtmlOutput('<h1>Script working! Email sent!</h1>');
+  } catch (error) {
+    console.log('EMAIL ERROR:', error);
+    return HtmlService.createHtmlOutput('<h1>Script working but email failed: ' + error.message + '</h1>');
+  }
+}
