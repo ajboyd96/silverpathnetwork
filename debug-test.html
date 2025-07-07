@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Test - Silver Path Network</title>
+</head>
+<body>
+    <h2>Debug Test Form</h2>
+    <p>This will test if the Google Apps Script is working</p>
+    
+    <form id="debugForm" method="POST" action="https://script.google.com/macros/s/AKfycbxiO7bFpijlcUFhc9fW83e8OC-e6EznXprjmJjSMMTODx8AwjifxPGHWDiIEh18TLI9/exec" target="debugFrame">
+        <input type="hidden" name="firstName" value="Test">
+        <input type="hidden" name="lastName" value="User">
+        <input type="hidden" name="email" value="test@example.com">
+        <input type="hidden" name="phone" value="5551234567">
+        <input type="hidden" name="verificationCode" value="123456">
+        <input type="hidden" name="quizId" value="standard-quiz">
+        <button type="submit">Test Send Notification</button>
+    </form>
+    
+    <iframe name="debugFrame" style="width: 100%; height: 300px; margin-top: 20px;"></iframe>
+    
+    <div id="urlTest" style="margin-top: 20px;">
+        <h3>Direct URL Test</h3>
+        <p>Click this link to test the script directly:</p>
+        <a href="https://script.google.com/macros/s/AKfycbxiO7bFpijlcUFhc9fW83e8OC-e6EznXprjmJjSMMTODx8AwjifxPGHWDiIEh18TLI9/exec?firstName=DirectTest&lastName=User&email=direct@example.com&phone=5551234567&verificationCode=999999&quizId=standard-quiz" target="_blank">Test Direct URL</a>
+    </div>
+</body>
+</html>
