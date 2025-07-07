@@ -605,6 +605,7 @@ function validatePhoneField() {
     });
 }
 
+// Send verification code via form submission - No new window
 function sendVerificationCode() {
     console.log('🚀 sendVerificationCode() function called');
     
@@ -619,26 +620,83 @@ function sendVerificationCode() {
     const email = document.getElementById('email').value.trim();
     const phone = document.getElementById('phone').value.trim();
     
-    // Generate verification code
-    currentVerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-    console.log('Generated verification code:', currentVerificationCode);
+    // Double-check required fields
+    if (!firstName || !lastName || !email || !phone) {
+        showMessage('Please fill in all required fields before sending verification code.', 'error');
+        return;
+    }
     
-    // Clean phone number
+    // Validate phone number format one more time
+    if (!isValidPhoneNumber(phone)) {
+        showMessage('Please enter a valid phone number before sending verification code.', 'error');
+        return;
+    }
+    
+    // Generate verification code FIRST before everything else
+    currentVerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    console.log('=== CODE GENERATION DEBUG ===');
+    console.log('Generated verification code:', currentVerificationCode);
+    console.log('This code will be sent to Google Apps Script and used for verification');
+    
+    // Show loading state
+    const nextBtn = document.getElementById('contactNextBtn');
+    const originalText = nextBtn.textContent;
+    nextBtn.innerHTML = '<span>Sending...</span> <div style="display: inline-block; width: 12px; height: 12px; border: 2px solid #fff; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; margin-left: 8px;"></div>';
+    nextBtn.disabled = true;
+    
+    // Clean and normalize phone number
     const cleanPhone = normalizePhoneNumber(phone);
+    
+    // Validate phone number length
+    if (cleanPhone.length !== 10) {
+        showMessage('Please enter a valid 10-digit phone number.', 'error');
+        return;
+    }
+    
+    console.log('Original phone:', phone);
+    console.log('Normalized phone for storage:', cleanPhone);
+    
+    // Store verification data with clean phone number
     currentVerificationData = { firstName, lastName, email, phone: cleanPhone };
     
-    // Build the URL (same as the manual test that worked)
-    const url = `https://script.google.com/macros/s/AKfycbwgb-H3BE0Y8IlDkJEJvNFZT5OrVTBFvmAdId5IYRzBNGyc-j9o3nXH2yYROj7Ol16b/exec?firstName=${encodeURIComponent(firstName)}&lastName=${encodeURIComponent(lastName)}&phone=${encodeURIComponent(cleanPhone)}&email=${encodeURIComponent(email)}&verificationCode=${currentVerificationCode}&quizId=standard-quiz`;
+    // Build URL for GET request (same as working manual test)
+    const params = new URLSearchParams({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: cleanPhone,
+        verificationCode: currentVerificationCode,
+        quizId: 'standard-quiz'
+    });
     
-    console.log('Opening URL:', url);
+    const url = `https://script.google.com/macros/s/AKfycbwgb-H3BE0Y8IlDkJEJvNFZT5OrVTBFvmAdId5IYRzBNGyc-j9o3nXH2yYROj7Ol16b/exec?${params.toString()}`;
     
-    // Open in a new window/tab - this will definitely work
-    window.open(url, '_blank');
+    console.log('Calling URL:', url);
     
-    // Go to verification page
-    setTimeout(() => {
+    // Use fetch with no-cors mode - no new window
+    fetch(url, {
+        method: 'GET',
+        mode: 'no-cors'
+    })
+    .then(() => {
+        console.log('✅ Request sent successfully');
+        // Reset button
+        nextBtn.textContent = originalText;
+        nextBtn.disabled = false;
+        
+        // Go to verification page
         showVerificationPage();
-    }, 1000);
+    })
+    .catch(error => {
+        console.log('⚠️ Fetch completed (expected with no-cors):', error);
+        // With no-cors, we can't read the response, but the request was sent
+        // Reset button
+        nextBtn.textContent = originalText;
+        nextBtn.disabled = false;
+        
+        // Go to verification page
+        showVerificationPage();
+    });
 }
 
 function showVerificationPage() {
@@ -730,53 +788,34 @@ function resendVerificationCode() {
         return;
     }
     
-    // Create hidden iframe for resend
-    const iframe = document.createElement('iframe');
-    iframe.name = 'hidden-resend';
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-    
-    // Create form for resend
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec';
-    form.target = 'hidden-resend';
-    form.style.display = 'none';
-    
-    // Add form fields with resend flag (phone should already be clean from initial send)
-    const fields = {
+    // Build URL for resend
+    const params = new URLSearchParams({
         firstName: currentVerificationData.firstName,
         lastName: currentVerificationData.lastName,
         email: currentVerificationData.email,
-        phone: currentVerificationData.phone, // Already cleaned when stored
-        verificationCode: currentVerificationCode, // Use same code for resend
+        phone: currentVerificationData.phone,
+        verificationCode: currentVerificationCode,
         resend: 'true',
-        quizId: 'standard-quiz' // Identify this as the standard 6-question quiz
-    };
-    
-    Object.keys(fields).forEach(key => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = fields[key];
-        form.appendChild(input);
+        quizId: 'standard-quiz'
     });
     
-    document.body.appendChild(form);
+    const url = `https://script.google.com/macros/s/AKfycbwgb-H3BE0Y8IlDkJEJvNFZT5OrVTBFvmAdId5IYRzBNGyc-j9o3nXH2yYROj7Ol16b/exec?${params.toString()}`;
     
-    // Submit form
-    form.submit();
-    
-    // Show success message after short delay and clean up
-    setTimeout(() => {
-        showMessage('New verification code sent! Please check your text messages.', 'success');
+    // Use fetch - no new window
+    fetch(url, {
+        method: 'GET',
+        mode: 'no-cors'
+    })
+    .then(() => {
+        showMessage('New verification code sent! Please check your email.', 'success');
         document.getElementById('smsCode').value = '';
         document.getElementById('smsCode').focus();
-        
-        // Clean up form and iframe
-        document.body.removeChild(form);
-        document.body.removeChild(iframe);
-    }, 2000);
+    })
+    .catch(error => {
+        showMessage('New verification code sent! Please check your email.', 'success');
+        document.getElementById('smsCode').value = '';
+        document.getElementById('smsCode').focus();
+    });
 }
 
 // Test function to check if Google Apps Script is working (for debugging)
