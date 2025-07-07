@@ -1,0 +1,158 @@
+var SPREADSHEET_ID = '1MZYgrMksEKzKksiXYf7B2dNnrzu9prScwbCZ0TWmIxc';
+var TELEGRAM_BOT_TOKEN = PropertiesService.getScriptProperties().getProperty('TELEGRAM_BOT_TOKEN');
+var TELEGRAM_CHAT_ID = PropertiesService.getScriptProperties().getProperty('TELEGRAM_CHAT_ID');
+
+function doGet(e) {
+  console.log('GET request received');
+  return handleRequest(e.parameter);
+}
+
+function doPost(e) {
+  console.log('POST request received');
+  return handleRequest(e.parameter);
+}
+
+function handleRequest(params) {
+  try {
+    console.log('Processing request with parameters:', JSON.stringify(params));
+    
+    if (params.firstName && params.lastName && params.phone) {
+      var firstName = params.firstName;
+      var lastName = params.lastName;
+      var email = params.email || 'No email provided';
+      var phone = params.phone;
+      var code = params.verificationCode || Math.floor(100000 + Math.random() * 900000).toString();
+      var quizType = params.quizId === 'arizona-final-expense-quiz-2' ? 'Arizona Quiz' : 'Standard Quiz';
+      var isResend = params.resend === 'true';
+      
+      console.log('Processing lead:', firstName, lastName, 'Code:', code, 'Quiz:', quizType);
+      
+      // 1. Log to Google Sheets
+      try {
+        console.log('Attempting to open spreadsheet:', SPREADSHEET_ID);
+        var spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+        console.log('Spreadsheet opened successfully');
+        
+        var sheet = spreadsheet.getSheetByName('Lead Notifications');
+        console.log('Sheet found:', sheet ? 'YES' : 'NO');
+        
+        if (!sheet) {
+          console.log('Creating new Lead Notifications sheet');
+          sheet = spreadsheet.insertSheet('Lead Notifications');
+          sheet.getRange(1, 1, 1, 9).setValues([['Timestamp', 'Name', 'Email', 'Phone', 'Code', 'Quiz Type', 'SMS Message', 'Status', 'Resend']]);
+          console.log('Header row created');
+        }
+        
+        var timestamp = new Date();
+        var smsMessage = 'Hi ' + firstName + ', Thank you for choosing Silver Path Network. Your verification code is ' + code;
+        var rowData = [
+          timestamp,
+          firstName + ' ' + lastName,
+          email,
+          phone,
+          code,
+          quizType,
+          smsMessage,
+          'READY TO SEND SMS',
+          isResend ? 'YES' : 'NO'
+        ];
+        
+        console.log('About to append row:', JSON.stringify(rowData));
+        sheet.appendRow(rowData);
+        console.log('Row appended successfully');
+        
+        // Verify the data was written
+        var lastRow = sheet.getLastRow();
+        console.log('Last row number after append:', lastRow);
+        
+        console.log('✅ Lead logged to Google Sheets successfully');
+        
+      } catch (sheetsError) {
+        console.error('❌ Google Sheets error:', sheetsError.toString());
+        console.error('Error details:', JSON.stringify(sheetsError));
+      }
+      
+      // 2. Send Telegram notification
+      try {
+        var telegramMessage = '🔔 *NEW LEAD VERIFICATION REQUEST*\n\n' +
+          '👤 *Name:* ' + firstName + ' ' + lastName + '\n' +
+          '📧 *Email:* ' + email + '\n' +
+          '📱 *Phone:* ' + phone + '\n' +
+          '🔢 *Code:* `' + code + '`\n' +
+          '📋 *Quiz:* ' + quizType + '\n' +
+          '🕒 *Time:* ' + new Date().toLocaleString() + '\n' +
+          (isResend ? '🔄 *RESEND REQUEST*' : '🆕 *NEW REQUEST*') + '\n\n' +
+          '📱 *SMS Message to send:*\n' +
+          '`Hi ' + firstName + ', Thank you for choosing Silver Path Network. Your verification code is ' + code + '`';
+        
+        var telegramUrl = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
+        var telegramPayload = {
+          'chat_id': TELEGRAM_CHAT_ID,
+          'text': telegramMessage,
+          'parse_mode': 'Markdown'
+        };
+        
+        var telegramOptions = {
+          'method': 'POST',
+          'headers': {
+            'Content-Type': 'application/json'
+          },
+          'payload': JSON.stringify(telegramPayload)
+        };
+        
+        var telegramResponse = UrlFetchApp.fetch(telegramUrl, telegramOptions);
+        var telegramResult = JSON.parse(telegramResponse.getContentText());
+        
+        if (telegramResult.ok) {
+          console.log('Telegram notification sent successfully');
+        } else {
+          console.error('Telegram error:', telegramResult);
+        }
+        
+      } catch (telegramError) {
+        console.error('Telegram notification error:', telegramError);
+      }
+      
+      // 3. Try email notification as backup
+      try {
+        var emailSubject = 'Silver Path Network - ' + quizType + ' - NEW LEAD: ' + firstName + ' ' + lastName;
+        var emailBody = 'NEW LEAD VERIFICATION REQUEST\\n\\n' +
+          'LEAD DETAILS:\\n' +
+          'Name: ' + firstName + ' ' + lastName + '\\n' +
+          'Email: ' + email + '\\n' +
+          'Phone: ' + phone + '\\n' +
+          'Verification Code: ' + code + '\\n' +
+          'Quiz Type: ' + quizType + '\\n' +
+          'Timestamp: ' + new Date().toLocaleString() + '\\n' +
+          (isResend ? 'Type: RESEND REQUEST\\n' : 'Type: NEW REQUEST\\n') + '\\n' +
+          'SMS MESSAGE TO SEND:\\n' +
+          'Hi ' + firstName + ', Thank you for choosing Silver Path Network. Your verification code is ' + code + '\\n\\n' +
+          'INSTRUCTIONS:\\n' +
+          '1. Send the SMS message above to: ' + phone + '\\n' +
+          '2. User will enter the code: ' + code + '\\n' +
+          '3. This will complete their verification\\n\\n' +
+          'This notification was generated automatically by your quiz system.';
+          
+        MailApp.sendEmail('ajboyd96@gmail.com', emailSubject, emailBody);
+        console.log('Backup email notification sent');
+        
+      } catch (emailError) {
+        console.error('Backup email failed:', emailError);
+      }
+      
+      return HtmlService.createHtmlOutput(
+        '<h2>Silver Path Network</h2>' +
+        '<p style="color: green;">Verification code sent successfully!</p>' +
+        '<p>Notifications sent via Google Sheets, Telegram, and Email.</p>'
+      );
+      
+    } else {
+      console.log('Missing required fields');
+      return HtmlService.createHtmlOutput('<h2>Silver Path Network</h2><p>Missing required information</p>');
+    }
+    
+  } catch (error) {
+    console.error('Main error:', error);
+    return HtmlService.createHtmlOutput('<h2>Silver Path Network</h2><p>Processing error</p>');
+  }
+}

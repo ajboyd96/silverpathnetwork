@@ -827,7 +827,7 @@ function sendVerificationCode() {
         quizId: 'arizona-final-expense-quiz-2'
     });
     
-    const url = `https://script.google.com/macros/s/AKfycbwgb-H3BE0Y8IlDkJEJvNFZT5OrVTBFvmAdId5IYRzBNGyc-j9o3nXH2yYROj7Ol16b/exec?${params.toString()}`;
+    const url = `https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec?${params.toString()}`;
     
     console.log('Calling URL:', url);
     
@@ -957,7 +957,7 @@ function resendVerificationCode() {
         quizId: 'arizona-final-expense-quiz-2'
     });
     
-    const url = `https://script.google.com/macros/s/AKfycbwgb-H3BE0Y8IlDkJEJvNFZT5OrVTBFvmAdId5IYRzBNGyc-j9o3nXH2yYROj7Ol16b/exec?${params.toString()}`;
+    const url = `https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec?${params.toString()}`;
     
     // Use fetch - no new window
     fetch(url, {
