@@ -1,0 +1,73 @@
+var ADMIN_EMAIL = 'ajboyd96@gmail.com';
+
+function doGet(e) {
+  console.log('=== GET REQUEST RECEIVED ===');
+  var params = e.parameter;
+  console.log('GET parameters:', JSON.stringify(params));
+  return handleRequest(params);
+}
+
+function doPost(e) {
+  console.log('=== POST REQUEST RECEIVED ===');
+  var params = e.parameter;
+  console.log('POST parameters:', JSON.stringify(params));
+  return handleRequest(params);
+}
+
+function testLogging() {
+  console.log('TEST FUNCTION EXECUTED SUCCESSFULLY');
+  return 'Test function works';
+}
+
+function handleRequest(params) {
+  try {
+    console.log('handleRequest called with:', JSON.stringify(params));
+    
+    if (params.firstName && params.lastName && params.phone) {
+      console.log('=== PROCESSING EMAIL NOTIFICATION ===');
+      
+      var firstName = params.firstName;
+      var lastName = params.lastName;
+      var email = params.email || 'no-email-provided';
+      var phone = params.phone;
+      var code = params.verificationCode || Math.floor(100000 + Math.random() * 900000).toString();
+      
+      console.log('About to send email to:', ADMIN_EMAIL);
+      
+      var subject = 'Silver Path Network - New Lead: ' + firstName + ' ' + lastName;
+      var body = 'New lead verification request:\n\n';
+      body += 'Name: ' + firstName + ' ' + lastName + '\n';
+      body += 'Email: ' + email + '\n';
+      body += 'Phone: ' + phone + '\n';
+      body += 'Verification Code: ' + code + '\n';
+      body += 'Time: ' + new Date().toString();
+      
+      try {
+        GmailApp.sendEmail(ADMIN_EMAIL, subject, body);
+        console.log('EMAIL SENT SUCCESSFULLY to ' + ADMIN_EMAIL);
+        
+        return createResponse(true, 'Email sent successfully!');
+        
+      } catch (emailError) {
+        console.error('EMAIL SEND ERROR:', emailError);
+        return createResponse(false, 'Email failed: ' + emailError.message);
+      }
+    }
+    
+    console.log('Missing required fields - no email sent');
+    return createResponse(false, 'Missing required information');
+    
+  } catch (error) {
+    console.error('MAIN FUNCTION ERROR:', error);
+    return createResponse(false, 'Script error: ' + error.message);
+  }
+}
+
+function createResponse(success, message) {
+  console.log('Creating response:', success, message);
+  var htmlContent = '<!DOCTYPE html><html><head><title>Silver Path Network</title></head><body>';
+  htmlContent += '<h2>Silver Path Network</h2>';
+  htmlContent += '<p>' + message + '</p>';
+  htmlContent += '</body></html>';
+  return HtmlService.createHtmlOutput(htmlContent);
+}
