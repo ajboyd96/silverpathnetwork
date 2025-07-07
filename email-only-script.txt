@@ -1,0 +1,66 @@
+var ADMIN_EMAIL = 'ajboyd96@gmail.com';
+
+function doGet(e) {
+  console.log('=== EMAIL TEST - GET REQUEST ===');
+  var params = e.parameter;
+  console.log('All parameters:', JSON.stringify(params));
+  return handleEmailTest(params);
+}
+
+function doPost(e) {
+  console.log('=== EMAIL TEST - POST REQUEST ===');
+  var params = e.parameter;
+  console.log('All parameters:', JSON.stringify(params));
+  return handleEmailTest(params);
+}
+
+function handleEmailTest(params) {
+  try {
+    console.log('=== CHECKING PARAMETERS ===');
+    console.log('firstName:', params.firstName);
+    console.log('lastName:', params.lastName);
+    console.log('email:', params.email);
+    console.log('phone:', params.phone);
+    
+    if (params.firstName && params.lastName && params.email && params.phone) {
+      console.log('=== SENDING EMAIL ONLY ===');
+      
+      var firstName = params.firstName;
+      var lastName = params.lastName;
+      var email = params.email;
+      var phone = params.phone;
+      var code = params.verificationCode || Math.floor(100000 + Math.random() * 900000).toString();
+      
+      var subject = 'Silver Path Network - Email Test - New Lead: ' + firstName + ' ' + lastName;
+      var body = 'EMAIL TEST - New lead verification request:\n\n';
+      body += '=== TEXT MESSAGE TO SEND ===\n';
+      body += 'Hi ' + firstName + ', Thank you for choosing Silver Path Network. Your code is ' + code + '\n\n';
+      body += '=== LEAD INFORMATION ===\n';
+      body += 'Name: ' + firstName + ' ' + lastName + '\n';
+      body += 'Email: ' + email + '\n';
+      body += 'Phone: ' + phone + '\n';
+      body += 'Verification Code: ' + code;
+      
+      try {
+        GmailApp.sendEmail(ADMIN_EMAIL, subject, body);
+        console.log('SUCCESS: Email sent successfully');
+        return createResponse(true, 'Email sent successfully - no Telegram test');
+      } catch (emailError) {
+        console.error('EMAIL ERROR:', emailError);
+        return createResponse(false, 'Email failed: ' + emailError.message);
+      }
+    }
+    
+    console.log('Missing required fields');
+    return createResponse(false, 'Missing contact information');
+    
+  } catch (error) {
+    console.error('MAIN ERROR:', error);
+    return createResponse(false, 'Error: ' + error.message);
+  }
+}
+
+function createResponse(success, message) {
+  var htmlContent = '<!DOCTYPE html><html><head><title>Email Test</title></head><body><h2>Email Test Result</h2><p>' + message + '</p></body></html>';
+  return HtmlService.createHtmlOutput(htmlContent);
+}

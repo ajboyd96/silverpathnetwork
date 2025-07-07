@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get Telegram Chat ID</title>
+</head>
+<body>
+    <h2>Get Your Telegram Chat ID</h2>
+    <p>To get your chat ID:</p>
+    <ol>
+        <li>Send a message to your bot: <strong>@silverpathleads_bot</strong></li>
+        <li>Then click this link to see your chat ID:</li>
+        <li><a href="https://api.telegram.org/bot8037279353:AAHpV-yEVV3uWMPmfVuq_dKY3d1h_RBmUwA/getUpdates" target="_blank">Get Chat ID</a></li>
+        <li>Look for the "chat":{"id": number in the response</li>
+    </ol>
+    
+    <h3>Test Email Only Script</h3>
+    <p>Let's test email only first:</p>
+    <form method="POST" action="https://script.google.com/macros/s/AKfycbxBfKIMCXjV3BFQDc97j-rnh9jCjvoSYqmxgHp8JSeviM-uGnUiHUGz23ukOJ5clFrE/exec" target="emailTest">
+        <input type="hidden" name="firstName" value="EmailTest">
+        <input type="hidden" name="lastName" value="User">
+        <input type="hidden" name="email" value="test@example.com">
+        <input type="hidden" name="phone" value="5551234567">
+        <button type="submit">Test Email Only</button>
+    </form>
+    <iframe name="emailTest" style="width: 100%; height: 200px; margin-top: 10px;"></iframe>
+</body>
+</html>
