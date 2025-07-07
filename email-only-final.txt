@@ -1,0 +1,74 @@
+var ADMIN_EMAIL = 'ajboyd96@gmail.com';
+
+function doGet(e) {
+  console.log('=== GET REQUEST ===');
+  var params = e.parameter;
+  return handleRequest(params);
+}
+
+function doPost(e) {
+  console.log('=== POST REQUEST ===');
+  var params = e.parameter;
+  return handleRequest(params);
+}
+
+function handleRequest(params) {
+  try {
+    console.log('Received parameters:', JSON.stringify(params));
+    
+    if (params.firstName && params.lastName && params.phone) {
+      console.log('=== SENDING EMAIL NOTIFICATION ===');
+      
+      var firstName = params.firstName;
+      var lastName = params.lastName;
+      var email = params.email || 'no-email-provided';
+      var phone = params.phone;
+      var code = params.verificationCode || Math.floor(100000 + Math.random() * 900000).toString();
+      var quizId = params.quizId || 'standard-quiz';
+      var quizType = quizId === 'arizona-final-expense-quiz-2' ? 'Arizona Quiz' : 'Standard Quiz';
+      
+      // Send email notification
+      var subject = 'Silver Path Network - ' + quizType + ' - New Lead: ' + firstName + ' ' + lastName;
+      var body = 'New lead verification request:\n\n';
+      body += '=== TEXT MESSAGE TO SEND ===\n';
+      body += 'Hi ' + firstName + ', Thank you for choosing Silver Path Network. Your code is ' + code + '\n\n';
+      body += '=== LEAD INFORMATION ===\n';
+      body += 'Name: ' + firstName + ' ' + lastName + '\n';
+      body += 'Email: ' + email + '\n';
+      body += 'Phone: ' + phone + '\n';
+      body += 'Quiz Type: ' + quizType + '\n';
+      body += 'Verification Code: ' + code + '\n';
+      body += 'Timestamp: ' + new Date().toString() + '\n\n';
+      body += '=== INSTRUCTIONS ===\n';
+      body += '1. Text the above message to the lead at their phone number\n';
+      body += '2. They will enter this code on the website to verify\n';
+      body += '3. Once verified, their complete information will be added to Google Sheets';
+      
+      try {
+        GmailApp.sendEmail(ADMIN_EMAIL, subject, body);
+        console.log('SUCCESS: Email sent to ' + ADMIN_EMAIL);
+        
+        return createResponse(true, 'Verification code sent successfully! Check your email for lead details.');
+        
+      } catch (emailError) {
+        console.error('EMAIL ERROR:', emailError);
+        return createResponse(false, 'Failed to send email notification: ' + emailError.message);
+      }
+    }
+    
+    console.log('Missing required fields');
+    return createResponse(false, 'Missing required contact information');
+    
+  } catch (error) {
+    console.error('MAIN ERROR:', error);
+    return createResponse(false, 'Error processing request: ' + error.message);
+  }
+}
+
+function createResponse(success, message) {
+  var htmlContent = '<!DOCTYPE html><html><head><title>Silver Path Network</title></head><body>';
+  htmlContent += '<h2>Silver Path Network</h2>';
+  htmlContent += '<p>' + message + '</p>';
+  htmlContent += '</body></html>';
+  return HtmlService.createHtmlOutput(htmlContent);
+}
