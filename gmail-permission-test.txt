@@ -1,0 +1,53 @@
+function doGet(e) {
+  return testGmailPermissions();
+}
+
+function doPost(e) {
+  return testGmailPermissions();
+}
+
+function testGmailPermissions() {
+  try {
+    console.log('=== TESTING GMAIL PERMISSIONS ===');
+    
+    // Test 1: Check if Gmail API is available
+    console.log('Step 1: Checking Gmail API availability...');
+    var gmailAvailable = typeof GmailApp !== 'undefined';
+    console.log('Gmail API available:', gmailAvailable);
+    
+    if (!gmailAvailable) {
+      return createResponse(false, 'Gmail API not available');
+    }
+    
+    // Test 2: Try to send a simple test email
+    console.log('Step 2: Attempting to send test email...');
+    var testSubject = 'Gmail Permission Test - ' + new Date().toISOString();
+    var testBody = 'This is a test email to verify Gmail permissions.\n\nTime: ' + new Date().toString();
+    
+    try {
+      GmailApp.sendEmail('ajboyd96@gmail.com', testSubject, testBody);
+      console.log('SUCCESS: Test email sent successfully');
+      
+      return createResponse(true, 'Gmail permissions working! Check your email for test message.');
+      
+    } catch (emailError) {
+      console.error('EMAIL PERMISSION ERROR:', emailError);
+      console.error('Error details:', emailError.toString());
+      
+      return createResponse(false, 'Gmail permission error: ' + emailError.message);
+    }
+    
+  } catch (mainError) {
+    console.error('MAIN TEST ERROR:', mainError);
+    return createResponse(false, 'Test failed: ' + mainError.message);
+  }
+}
+
+function createResponse(success, message) {
+  var htmlContent = '<!DOCTYPE html><html><head><title>Gmail Permission Test</title></head><body>';
+  htmlContent += '<h2>Gmail Permission Test Result</h2>';
+  htmlContent += '<p style="color: ' + (success ? 'green' : 'red') + ';">' + message + '</p>';
+  htmlContent += '<p><small>Check the Google Apps Script execution logs for detailed information.</small></p>';
+  htmlContent += '</body></html>';
+  return HtmlService.createHtmlOutput(htmlContent);
+}
