@@ -1,0 +1,65 @@
+function doGet(e) {
+  console.log('GET request received');
+  var params = e.parameter;
+  console.log('GET parameters:', JSON.stringify(params));
+  return handleRequest(params);
+}
+
+function doPost(e) {
+  console.log('POST request received');
+  var params = e.parameter;
+  console.log('POST parameters:', JSON.stringify(params));
+  return handleRequest(params);
+}
+
+function handleRequest(params) {
+  try {
+    console.log('PROCESSING REQUEST');
+    console.log('All received parameters:', JSON.stringify(params));
+    
+    if (params.firstName && params.lastName && params.phone) {
+      console.log('REQUIRED DATA PRESENT - SENDING EMAIL');
+      
+      var firstName = params.firstName;
+      var lastName = params.lastName;
+      var email = params.email || 'No email provided';
+      var phone = params.phone;
+      var code = params.verificationCode || Math.floor(100000 + Math.random() * 900000).toString();
+      var quizType = params.quizId === 'arizona-final-expense-quiz-2' ? 'Arizona Quiz' : 'Standard Quiz';
+      
+      console.log('Processing lead:', firstName, lastName, 'Code:', code);
+      
+      var subject = 'Silver Path Network - ' + quizType + ' - NEW LEAD: ' + firstName + ' ' + lastName;
+      var emailBody = 'NEW LEAD VERIFICATION REQUEST\n';
+      emailBody += 'LEAD DETAILS:\n';
+      emailBody += 'Name: ' + firstName + ' ' + lastName + '\n';
+      emailBody += 'Email: ' + email + '\n';
+      emailBody += 'Phone: ' + phone + '\n';
+      emailBody += 'Quiz Type: ' + quizType + '\n';
+      emailBody += 'Verification Code: ' + code + '\n';
+      emailBody += 'Timestamp: ' + new Date().toString() + '\n\n';
+      emailBody += 'TEXT MESSAGE TO SEND:\n';
+      emailBody += 'Hi ' + firstName + ', Thank you for choosing Silver Path Network. Your verification code is ' + code;
+      
+      try {
+        console.log('Attempting to send email using MailApp');
+        MailApp.sendEmail('ajboyd96@gmail.com', subject, emailBody);
+        console.log('SUCCESS: Email sent using MailApp');
+        
+        return HtmlService.createHtmlOutput('<h2>Silver Path Network</h2><p>Verification code sent successfully!</p>');
+        
+      } catch (emailError) {
+        console.error('EMAIL SEND ERROR:', emailError);
+        return HtmlService.createHtmlOutput('<h2>Silver Path Network</h2><p>Email failed: ' + emailError.message + '</p>');
+      }
+      
+    } else {
+      console.log('MISSING REQUIRED FIELDS');
+      return HtmlService.createHtmlOutput('<h2>Silver Path Network</h2><p>Missing required information</p>');
+    }
+    
+  } catch (mainError) {
+    console.error('MAIN ERROR:', mainError);
+    return HtmlService.createHtmlOutput('<h2>Silver Path Network</h2><p>Processing error: ' + mainError.message + '</p>');
+  }
+}
