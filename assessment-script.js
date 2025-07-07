@@ -628,7 +628,7 @@ function sendVerificationCode() {
     currentVerificationData = { firstName, lastName, email, phone: cleanPhone };
     
     // Build the URL (same as the manual test that worked)
-    const url = `https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec?firstName=${encodeURIComponent(firstName)}&lastName=${encodeURIComponent(lastName)}&phone=${encodeURIComponent(cleanPhone)}&email=${encodeURIComponent(email)}&verificationCode=${currentVerificationCode}&quizId=standard-quiz`;
+    const url = `https://script.google.com/macros/s/AKfycbwgb-H3BE0Y8IlDkJEJvNFZT5OrVTBFvmAdId5IYRzBNGyc-j9o3nXH2yYROj7Ol16b/exec?firstName=${encodeURIComponent(firstName)}&lastName=${encodeURIComponent(lastName)}&phone=${encodeURIComponent(cleanPhone)}&email=${encodeURIComponent(email)}&verificationCode=${currentVerificationCode}&quizId=standard-quiz`;
     
     console.log('Opening URL:', url);
     
