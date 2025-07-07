@@ -810,7 +810,7 @@ function sendVerificationCode() {
     // Create form for submission
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbxpY7eospabGfF5rx0Vsjiuan84o9P3IPaSXaJ-Bf3JY4ZJlRScvkahsROV5foH-yRi/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbwUB_4RrFk0M08-BdoD6PzRFtu_DfWJrfiLAZInKwPLgUJyANl2ORk9R3RJafdwjMw/exec';
     form.target = 'hidden-verification-az';
     form.style.display = 'none';
     
@@ -976,7 +976,7 @@ function resendVerificationCode() {
     // Create form for resend
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbxpY7eospabGfF5rx0Vsjiuan84o9P3IPaSXaJ-Bf3JY4ZJlRScvkahsROV5foH-yRi/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbwUB_4RrFk0M08-BdoD6PzRFtu_DfWJrfiLAZInKwPLgUJyANl2ORk9R3RJafdwjMw/exec';
     form.target = 'hidden-resend-az';
     form.style.display = 'none';
     
@@ -1073,7 +1073,7 @@ function logArizonaVerificationSuccess() {
     
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbxpY7eospabGfF5rx0Vsjiuan84o9P3IPaSXaJ-Bf3JY4ZJlRScvkahsROV5foH-yRi/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbwUB_4RrFk0M08-BdoD6PzRFtu_DfWJrfiLAZInKwPLgUJyANl2ORk9R3RJafdwjMw/exec';
     form.target = 'hidden-arizona-quiz-submit';
     form.style.display = 'none';
     
