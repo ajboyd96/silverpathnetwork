@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopify Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f6f6f7;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .status {
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .status.connected {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.disconnected {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            color: #2c5aa0;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Shopify Admin Dashboard</h1>
+            <div id="connection-status" class="status">
+                <span class="loading">Checking connection...</span>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3>📊 Store Overview</h3>
+                <div id="store-metrics">
+                    <div class="loading">Loading store data...</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📦 Products</h3>
+                <div id="product-metrics">
+                    <div class="loading">Loading product data...</div>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="loadProducts()">View Products</button>
+                    <button class="btn btn-secondary" onclick="refreshProducts()">Refresh</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🛒 Orders</h3>
+                <div id="order-metrics">
+                    <div class="loading">Loading order data...</div>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="loadOrders()">View Orders</button>
+                    <button class="btn btn-secondary" onclick="refreshOrders()">Refresh</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>👥 Customers</h3>
+                <div id="customer-metrics">
+                    <div class="loading">Loading customer data...</div>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="loadCustomers()">View Customers</button>
+                    <button class="btn btn-secondary" onclick="refreshCustomers()">Refresh</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📋 Recent Activity</h3>
+            <div id="recent-activity">
+                <div class="loading">Loading recent activity...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API base URL
+        const API_BASE = window.location.origin + '/api';
+
+        // Check connection status
+        async function checkConnection() {
+            try {
+                const response = await fetch(`${API_BASE}/test`);
+                const data = await response.json();
+                
+                const statusDiv = document.getElementById('connection-status');
+                if (data.connected) {
+                    statusDiv.className = 'status connected';
+                    statusDiv.innerHTML = '✅ Connected to Shopify';
+                    loadDashboardData();
+                } else {
+                    statusDiv.className = 'status disconnected';
+                    statusDiv.innerHTML = '❌ Connection failed';
+                }
+            } catch (error) {
+                const statusDiv = document.getElementById('connection-status');
+                statusDiv.className = 'status disconnected';
+                statusDiv.innerHTML = '❌ Unable to connect to server';
+            }
+        }
+
+        // Load dashboard data
+        async function loadDashboardData() {
+            await Promise.all([
+                loadStoreInfo(),
+                loadProductMetrics(),
+                loadOrderMetrics(),
+                loadCustomerMetrics()
+            ]);
+        }
+
+        // Load store info
+        async function loadStoreInfo() {
+            try {
+                const response = await fetch(`${API_BASE}/shop`);
+                const data = await response.json();
+                
+                const metricsDiv = document.getElementById('store-metrics');
+                metricsDiv.innerHTML = `
+                    <div class="metric">
+                        <span>Store Name:</span>
+                        <span class="metric-value">${data.shop.name}</span>
+                    </div>
+                    <div class="metric">
+                        <span>Domain:</span>
+                        <span class="metric-value">${data.shop.domain}</span>
+                    </div>
+                    <div class="metric">
+                        <span>Currency:</span>
+                        <span class="metric-value">${data.shop.currency}</span>
+                    </div>
+                    <div class="metric">
+                        <span>Timezone:</span>
+                        <span class="metric-value">${data.shop.timezone}</span>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('store-metrics').innerHTML = `
+                    <div class="error">Error loading store info: ${error.message}</div>
+                `;
+            }
+        }
+
+        // Load product metrics
+        async function loadProductMetrics() {
+            try {
+                const response = await fetch(`${API_BASE}/products?limit=250`);
+                const data = await response.json();
+                
+                const metricsDiv = document.getElementById('product-metrics');
+                metricsDiv.innerHTML = `
+                    <div class="metric">
+                        <span>Total Products:</span>
+                        <span class="metric-value">${data.products.length}</span>
+                    </div>
+                    <div class="metric">
+                        <span>Published:</span>
+                        <span class="metric-value">${data.products.filter(p => p.status === 'active').length}</span>
+                    </div>
+                    <div class="metric">
+                        <span>Variants:</span>
+                        <span class="metric-value">${data.products.reduce((sum, p) => sum + p.variants.length, 0)}</span>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('product-metrics').innerHTML = `
+                    <div class="error">Error loading product data: ${error.message}</div>
+                `;
+            }
+        }
+
+        // Load order metrics
+        async function loadOrderMetrics() {
+            try {
+                const response = await fetch(`${API_BASE}/orders?limit=250`);
+                const data = await response.json();
+                
+                const metricsDiv = document.getElementById('order-metrics');
+                const totalRevenue = data.orders.reduce((sum, order) => sum + parseFloat(order.total_price), 0);
+                
+                metricsDiv.innerHTML = `
+                    <div class="metric">
+                        <span>Total Orders:</span>
+                        <span class="metric-value">${data.orders.length}</span>
+                    </div>
+                    <div class="metric">
+                        <span>Fulfilled:</span>
+                        <span class="metric-value">${data.orders.filter(o => o.fulfillment_status === 'fulfilled').length}</span>
+                    </div>
+                    <div class="metric">
+                        <span>Revenue:</span>
+                        <span class="metric-value">$${totalRevenue.toFixed(2)}</span>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('order-metrics').innerHTML = `
+                    <div class="error">Error loading order data: ${error.message}</div>
+                `;
+            }
+        }
+
+        // Load customer metrics
+        async function loadCustomerMetrics() {
+            try {
+                const response = await fetch(`${API_BASE}/customers?limit=250`);
+                const data = await response.json();
+                
+                const metricsDiv = document.getElementById('customer-metrics');
+                metricsDiv.innerHTML = `
+                    <div class="metric">
+                        <span>Total Customers:</span>
+                        <span class="metric-value">${data.customers.length}</span>
+                    </div>
+                    <div class="metric">
+                        <span>Accepts Marketing:</span>
+                        <span class="metric-value">${data.customers.filter(c => c.accepts_marketing).length}</span>
+                    </div>
+                    <div class="metric">
+                        <span>Verified Email:</span>
+                        <span class="metric-value">${data.customers.filter(c => c.verified_email).length}</span>
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById('customer-metrics').innerHTML = `
+                    <div class="error">Error loading customer data: ${error.message}</div>
+                `;
+            }
+        }
+
+        // Action functions
+        function loadProducts() {
+            window.open(`${API_BASE}/products`, '_blank');
+        }
+
+        function loadOrders() {
+            window.open(`${API_BASE}/orders`, '_blank');
+        }
+
+        function loadCustomers() {
+            window.open(`${API_BASE}/customers`, '_blank');
+        }
+
+        function refreshProducts() {
+            loadProductMetrics();
+        }
+
+        function refreshOrders() {
+            loadOrderMetrics();
+        }
+
+        function refreshCustomers() {
+            loadCustomerMetrics();
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            checkConnection();
+        });
+    </script>
+</body>
+</html>

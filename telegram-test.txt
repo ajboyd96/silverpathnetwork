@@ -1,0 +1,44 @@
+function testTelegramOnly() {
+  try {
+    var TELEGRAM_BOT_TOKEN = '8037279353:AAHpV-yEVV3uWMPmfVuq_dKY3d1h_RBmUwA';
+    var TELEGRAM_CHAT_ID = '7463862813';
+    
+    var message = 'Test from Silver Path Network - ' + new Date().toLocaleString();
+    
+    var telegramUrl = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
+    
+    var payload = {
+      'chat_id': TELEGRAM_CHAT_ID,
+      'text': message
+    };
+    
+    var options = {
+      'method': 'POST',
+      'headers': {
+        'Content-Type': 'application/json'
+      },
+      'payload': JSON.stringify(payload)
+    };
+    
+    console.log('Sending to URL:', telegramUrl);
+    console.log('Payload:', JSON.stringify(payload));
+    
+    var response = UrlFetchApp.fetch(telegramUrl, options);
+    var responseText = response.getContentText();
+    var responseData = JSON.parse(responseText);
+    
+    console.log('Response:', responseText);
+    
+    if (responseData.ok) {
+      console.log('SUCCESS: Telegram message sent');
+      return 'Telegram test successful';
+    } else {
+      console.log('FAILED: Telegram API error:', responseData.description);
+      return 'Telegram failed: ' + responseData.description;
+    }
+    
+  } catch (error) {
+    console.error('ERROR in testTelegramOnly:', error);
+    return 'Telegram error: ' + error.message;
+  }
+}
