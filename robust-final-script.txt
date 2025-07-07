@@ -1,0 +1,150 @@
+var SPREADSHEET_ID = '1MZYgrMksEKzKksiXYf7B2dNnrzu9prScwbCZ0TWmIxc';
+var ADMIN_EMAIL = 'ajboyd96@gmail.com';
+var TELEGRAM_BOT_TOKEN = '8037279353:AAHpV-yEVV3uWMPmfVuq_dKY3d1h_RBmUwA';
+var TELEGRAM_CHAT_ID = '7463862813';
+
+function doGet(e) {
+  console.log('=== RECEIVED GET REQUEST ===');
+  var params = e.parameter;
+  console.log('All parameters:', JSON.stringify(params));
+  return handleRequest(params);
+}
+
+function doPost(e) {
+  console.log('=== RECEIVED POST REQUEST ===');
+  var params = e.parameter;
+  console.log('All parameters:', JSON.stringify(params));
+  return handleRequest(params);
+}
+
+function handleRequest(params) {
+  try {
+    console.log('=== PARAMETER CHECK ===');
+    console.log('firstName:', params.firstName || 'MISSING');
+    console.log('lastName:', params.lastName || 'MISSING');
+    console.log('email:', params.email || 'MISSING');
+    console.log('phone:', params.phone || 'MISSING');
+    
+    // Send notifications if we have basic contact info
+    if (params.firstName && params.lastName && params.phone) {
+      console.log('=== PROCESSING NOTIFICATION REQUEST ===');
+      
+      var firstName = params.firstName;
+      var lastName = params.lastName;
+      var email = params.email || 'no-email@provided.com';
+      var phone = params.phone;
+      var code = params.verificationCode || Math.floor(100000 + Math.random() * 900000).toString();
+      var quizId = params.quizId || 'standard-quiz';
+      var quizType = quizId === 'arizona-final-expense-quiz-2' ? 'Arizona Quiz' : 'Standard Quiz';
+      
+      console.log('Processing:', firstName, lastName, 'Email:', email, 'Code:', code);
+      
+      var emailSent = false;
+      var telegramSent = false;
+      
+      // SEND EMAIL FIRST
+      try {
+        console.log('Attempting to send email...');
+        var subject = 'Silver Path Network - ' + quizType + ' - New Lead: ' + firstName + ' ' + lastName;
+        var body = 'New lead verification request:\n\n';
+        body += '=== TEXT MESSAGE TO SEND ===\n';
+        body += 'Hi ' + firstName + ', Thank you for choosing Silver Path Network. Your code is ' + code + '\n\n';
+        body += '=== LEAD INFORMATION ===\n';
+        body += 'Name: ' + firstName + ' ' + lastName + '\n';
+        body += 'Email: ' + email + '\n';
+        body += 'Phone: ' + phone + '\n';
+        body += 'Quiz Type: ' + quizType + '\n';
+        body += 'Verification Code: ' + code;
+        
+        GmailApp.sendEmail(ADMIN_EMAIL, subject, body);
+        console.log('SUCCESS: Email sent to ' + ADMIN_EMAIL);
+        emailSent = true;
+        
+      } catch (emailError) {
+        console.error('EMAIL ERROR:', emailError);
+        console.error('Email error details:', emailError.toString());
+      }
+      
+      // SEND TELEGRAM WITH BETTER ERROR HANDLING
+      try {
+        console.log('Attempting to send Telegram message...');
+        var telegramMessage = 'New ' + quizType + ' Lead!\n\n' +
+          'Name: ' + firstName + ' ' + lastName + '\n' +
+          'Email: ' + email + '\n' +
+          'Phone: ' + phone + '\n' +
+          'Code: ' + code + '\n\n' +
+          'Text: Hi ' + firstName + ', Thank you for choosing Silver Path Network. Your code is ' + code;
+        
+        var result = sendTelegramMessageRobust(telegramMessage);
+        console.log('Telegram result:', JSON.stringify(result));
+        telegramSent = true;
+        
+      } catch (telegramError) {
+        console.error('TELEGRAM ERROR:', telegramError);
+        console.error('Telegram error details:', telegramError.toString());
+        
+        // Try a simpler message as fallback
+        try {
+          console.log('Trying simple Telegram message...');
+          var simpleMessage = 'New Lead: ' + firstName + ' ' + lastName + ' - Code: ' + code;
+          sendTelegramMessageRobust(simpleMessage);
+          console.log('SUCCESS: Simple Telegram message sent');
+          telegramSent = true;
+        } catch (retryError) {
+          console.error('TELEGRAM RETRY ERROR:', retryError);
+        }
+      }
+      
+      var status = 'Email: ' + (emailSent ? 'SENT' : 'FAILED') + ', Telegram: ' + (telegramSent ? 'SENT' : 'FAILED');
+      console.log('Final status:', status);
+      
+      return createFormResponse(true, 'Verification request processed. ' + status);
+    }
+    
+    console.log('MISSING REQUIRED INFO');
+    return createFormResponse(false, 'Missing required contact information');
+    
+  } catch (error) {
+    console.error('MAIN ERROR:', error);
+    return createFormResponse(false, 'Error: ' + error.message);
+  }
+}
+
+function sendTelegramMessageRobust(message) {
+  var telegramUrl = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
+  
+  var payload = {
+    chat_id: TELEGRAM_CHAT_ID,
+    text: message
+  };
+  
+  var options = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true  // This prevents exceptions and lets us see the full response
+  };
+  
+  console.log('Sending to Telegram URL:', telegramUrl);
+  console.log('Payload:', JSON.stringify(payload));
+  
+  var response = UrlFetchApp.fetch(telegramUrl, options);
+  var responseCode = response.getResponseCode();
+  var responseText = response.getContentText();
+  
+  console.log('Telegram response code:', responseCode);
+  console.log('Telegram response text:', responseText);
+  
+  var result = JSON.parse(responseText);
+  
+  if (responseCode !== 200 || !result.ok) {
+    throw new Error('Telegram API error (HTTP ' + responseCode + '): ' + result.description + ' (Error code: ' + result.error_code + ')');
+  }
+  
+  return result;
+}
+
+function createFormResponse(success, message) {
+  var htmlContent = '<!DOCTYPE html><html><head><title>Silver Path Network</title></head><body><h2>Silver Path Network</h2><p>' + message + '</p></body></html>';
+  return HtmlService.createHtmlOutput(htmlContent);
+}
