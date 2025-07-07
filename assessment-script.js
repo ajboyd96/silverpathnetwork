@@ -605,8 +605,9 @@ function validatePhoneField() {
     });
 }
 
-// Send verification code via form submission
 function sendVerificationCode() {
+    console.log('🚀 sendVerificationCode() function called');
+    
     // Run detailed validation first
     if (!validateContactFormButtons()) {
         showMessage('Please fix all form errors before sending verification code.', 'error');
@@ -618,105 +619,26 @@ function sendVerificationCode() {
     const email = document.getElementById('email').value.trim();
     const phone = document.getElementById('phone').value.trim();
     
-    // Double-check required fields
-    if (!firstName || !lastName || !email || !phone) {
-        showMessage('Please fill in all required fields before sending verification code.', 'error');
-        return;
-    }
-    
-    // Validate phone number format one more time
-    if (!isValidPhoneNumber(phone)) {
-        showMessage('Please enter a valid phone number before sending verification code.', 'error');
-        return;
-    }
-    
-    // Generate verification code FIRST before everything else
+    // Generate verification code
     currentVerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-    console.log('=== CODE GENERATION DEBUG ===');
     console.log('Generated verification code:', currentVerificationCode);
-    console.log('This code will be sent to Google Apps Script and used for verification');
     
-    // Show loading state
-    const nextBtn = document.getElementById('contactNextBtn');
-    const originalText = nextBtn.textContent;
-    nextBtn.innerHTML = '<span>Sending...</span> <div style="display: inline-block; width: 12px; height: 12px; border: 2px solid #fff; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; margin-left: 8px;"></div>';
-    nextBtn.disabled = true;
-    
-    // Create hidden iframe for form submission
-    const iframe = document.createElement('iframe');
-    iframe.name = 'hidden-verification';
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-    
-    // Create form for submission
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec';
-    form.target = 'hidden-verification';
-    form.style.display = 'none';
-    
-    // Clean and normalize phone number - handle any format
+    // Clean phone number
     const cleanPhone = normalizePhoneNumber(phone);
-    
-    // Validate phone number length
-    if (cleanPhone.length !== 10) {
-        showMessage('Please enter a valid 10-digit phone number.', 'error');
-        return;
-    }
-    
-    console.log('Original phone:', phone);
-    console.log('Normalized phone for storage:', cleanPhone);
-    
-    // Add form fields including the generated code
-    const fields = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        phone: cleanPhone,
-        verificationCode: currentVerificationCode, // Send our code to be emailed
-        quizId: 'standard-quiz' // Identify this as the standard 6-question quiz
-    };
-    
-    console.log('Form fields being sent:', fields);
-    
-    Object.keys(fields).forEach(key => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = fields[key];
-        form.appendChild(input);
-    });
-    
-    document.body.appendChild(form);
-    
-    // Store verification data with clean phone number
     currentVerificationData = { firstName, lastName, email, phone: cleanPhone };
     
-    // Submit form
-    form.submit();
+    // Build the URL (same as the manual test that worked)
+    const url = `https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec?firstName=${encodeURIComponent(firstName)}&lastName=${encodeURIComponent(lastName)}&phone=${encodeURIComponent(cleanPhone)}&email=${encodeURIComponent(email)}&verificationCode=${currentVerificationCode}&quizId=standard-quiz`;
     
-    // Add debugging - listen for iframe load to detect if script ran
-    iframe.onload = function() {
-        console.log('Google Apps Script response received');
-    };
+    console.log('Opening URL:', url);
     
-    // Go directly to verification page after short delay (allows email to be sent)
+    // Open in a new window/tab - this will definitely work
+    window.open(url, '_blank');
+    
+    // Go to verification page
     setTimeout(() => {
-        // Reset button
-        nextBtn.textContent = originalText;
-        nextBtn.disabled = false;
-        
-        // Go to verification page
         showVerificationPage();
-        
-        // Clean up form and iframe
-        if (document.body.contains(form)) {
-            document.body.removeChild(form);
-        }
-        if (document.body.contains(iframe)) {
-            document.body.removeChild(iframe);
-        }
-    }, 3000); // Increased to 3 seconds to ensure script has time to run
+    }, 1000);
 }
 
 function showVerificationPage() {
