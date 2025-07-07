@@ -1,0 +1,85 @@
+function doGet(e) {
+  return testTelegramAPI();
+}
+
+function doPost(e) {
+  return testTelegramAPI();
+}
+
+function testTelegramAPI() {
+  var TELEGRAM_BOT_TOKEN = '8037279353:AAHpV-yEVV3uWMPmfVuq_dKY3d1h_RBmUwA';
+  var TELEGRAM_CHAT_ID = '7463862813';
+  
+  try {
+    console.log('=== TELEGRAM API DEBUG TEST ===');
+    
+    // Test 1: Check if bot is valid
+    console.log('Step 1: Testing bot token validity...');
+    var botTestUrl = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/getMe';
+    
+    try {
+      var botResponse = UrlFetchApp.fetch(botTestUrl);
+      var botResult = JSON.parse(botResponse.getContentText());
+      console.log('Bot test result:', JSON.stringify(botResult));
+      
+      if (!botResult.ok) {
+        return createResponse(false, 'Bot token invalid: ' + botResult.description);
+      }
+      
+      console.log('SUCCESS: Bot token is valid. Bot name:', botResult.result.first_name);
+      
+    } catch (botError) {
+      console.error('Bot test error:', botError);
+      return createResponse(false, 'Bot test failed: ' + botError.message);
+    }
+    
+    // Test 2: Try to send a simple message
+    console.log('Step 2: Testing message sending...');
+    var telegramUrl = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
+    
+    var payload = {
+      chat_id: TELEGRAM_CHAT_ID,
+      text: 'TEST MESSAGE from Silver Path Network - ' + new Date().toISOString()
+    };
+    
+    var options = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true  // This will help us see the full error
+    };
+    
+    try {
+      var response = UrlFetchApp.fetch(telegramUrl, options);
+      var responseText = response.getContentText();
+      var result = JSON.parse(responseText);
+      
+      console.log('Send message response:', JSON.stringify(result));
+      console.log('HTTP status code:', response.getResponseCode());
+      
+      if (result.ok) {
+        return createResponse(true, 'SUCCESS: Telegram test message sent! Check your Telegram.');
+      } else {
+        console.error('Telegram API error:', result);
+        return createResponse(false, 'Telegram error: ' + result.description + ' (Error code: ' + result.error_code + ')');
+      }
+      
+    } catch (sendError) {
+      console.error('Send message error:', sendError);
+      return createResponse(false, 'Send message failed: ' + sendError.message);
+    }
+    
+  } catch (mainError) {
+    console.error('Main test error:', mainError);
+    return createResponse(false, 'Test failed: ' + mainError.message);
+  }
+}
+
+function createResponse(success, message) {
+  var htmlContent = '<!DOCTYPE html><html><head><title>Telegram API Test</title></head><body>';
+  htmlContent += '<h2>Telegram API Test Result</h2>';
+  htmlContent += '<p style="color: ' + (success ? 'green' : 'red') + ';">' + message + '</p>';
+  htmlContent += '<p><small>Check the Google Apps Script execution logs for detailed information.</small></p>';
+  htmlContent += '</body></html>';
+  return HtmlService.createHtmlOutput(htmlContent);
+}

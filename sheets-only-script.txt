@@ -1,0 +1,73 @@
+var SPREADSHEET_ID = '1MZYgrMksEKzKksiXYf7B2dNnrzu9prScwbCZ0TWmIxc';
+
+function doGet(e) {
+  console.log('GET request received');
+  return handleRequest(e.parameter);
+}
+
+function doPost(e) {
+  console.log('POST request received');
+  return handleRequest(e.parameter);
+}
+
+function handleRequest(params) {
+  try {
+    console.log('Processing request with parameters:', JSON.stringify(params));
+    
+    if (params.firstName && params.lastName && params.phone) {
+      var firstName = params.firstName;
+      var lastName = params.lastName;
+      var email = params.email || 'No email provided';
+      var phone = params.phone;
+      var code = params.verificationCode || Math.floor(100000 + Math.random() * 900000).toString();
+      var quizType = params.quizId === 'arizona-final-expense-quiz-2' ? 'Arizona Quiz' : 'Standard Quiz';
+      
+      console.log('Processing lead:', firstName, lastName, 'Code:', code);
+      
+      // Log to Google Sheets
+      try {
+        var spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+        var sheet = spreadsheet.getSheetByName('Lead Notifications');
+        
+        if (!sheet) {
+          sheet = spreadsheet.insertSheet('Lead Notifications');
+          sheet.getRange(1, 1, 1, 8).setValues([['Timestamp', 'Name', 'Email', 'Phone', 'Code', 'Quiz Type', 'SMS Message', 'Status']]);
+        }
+        
+        var timestamp = new Date();
+        var smsMessage = 'Hi ' + firstName + ', Thank you for choosing Silver Path Network. Your code is ' + code;
+        
+        sheet.appendRow([
+          timestamp,
+          firstName + ' ' + lastName,
+          email,
+          phone,
+          code,
+          quizType,
+          smsMessage,
+          'READY TO SEND SMS'
+        ]);
+        
+        console.log('Lead logged to Google Sheets successfully');
+        
+        return HtmlService.createHtmlOutput(
+          '<h2>Silver Path Network</h2>' +
+          '<p style="color: green;">Verification code sent successfully!</p>' +
+          '<p>Lead information has been logged. Check your Google Sheets for details.</p>'
+        );
+        
+      } catch (sheetsError) {
+        console.error('Google Sheets error:', sheetsError);
+        return HtmlService.createHtmlOutput('<h2>Silver Path Network</h2><p>Error logging lead information</p>');
+      }
+      
+    } else {
+      console.log('Missing required fields');
+      return HtmlService.createHtmlOutput('<h2>Silver Path Network</h2><p>Missing required information</p>');
+    }
+    
+  } catch (error) {
+    console.error('Main error:', error);
+    return HtmlService.createHtmlOutput('<h2>Silver Path Network</h2><p>Processing error</p>');
+  }
+}

@@ -1,0 +1,104 @@
+function doGet(e) {
+  return testBothServices();
+}
+
+function doPost(e) {
+  return testBothServices();
+}
+
+function testBothServices() {
+  var results = [];
+  
+  try {
+    results.push('=== TESTING BOTH EMAIL AND TELEGRAM ===');
+    
+    // TEST 1: Gmail API Test
+    results.push('\n--- EMAIL TEST ---');
+    try {
+      var emailSubject = 'Email Test - ' + new Date().toISOString();
+      var emailBody = 'This is a test email from Google Apps Script.\n\nTime: ' + new Date().toString();
+      
+      // Try to send email
+      GmailApp.sendEmail('ajboyd96@gmail.com', emailSubject, emailBody);
+      results.push('✅ EMAIL: Successfully sent test email');
+      
+    } catch (emailError) {
+      results.push('❌ EMAIL ERROR: ' + emailError.toString());
+      results.push('Email error details: ' + emailError.message);
+    }
+    
+    // TEST 2: Telegram Bot Token Test
+    results.push('\n--- TELEGRAM BOT TEST ---');
+    try {
+      var botTestUrl = 'https://api.telegram.org/bot8037279353:AAHpV-yEVV3uWMPmfVuq_dKY3d1h_RBmUwA/getMe';
+      var botResponse = UrlFetchApp.fetch(botTestUrl, {muteHttpExceptions: true});
+      var botResult = JSON.parse(botResponse.getContentText());
+      
+      if (botResult.ok) {
+        results.push('✅ TELEGRAM BOT: Token is valid - Bot name: ' + botResult.result.first_name);
+      } else {
+        results.push('❌ TELEGRAM BOT ERROR: ' + botResult.description);
+      }
+      
+    } catch (botError) {
+      results.push('❌ TELEGRAM BOT ERROR: ' + botError.toString());
+    }
+    
+    // TEST 3: Telegram Message Test
+    results.push('\n--- TELEGRAM MESSAGE TEST ---');
+    try {
+      var telegramUrl = 'https://api.telegram.org/bot8037279353:AAHpV-yEVV3uWMPmfVuq_dKY3d1h_RBmUwA/sendMessage';
+      var payload = {
+        chat_id: '7463862813',
+        text: 'TEST MESSAGE from Google Apps Script - ' + new Date().toISOString()
+      };
+      
+      var options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        payload: JSON.stringify(payload),
+        muteHttpExceptions: true
+      };
+      
+      var response = UrlFetchApp.fetch(telegramUrl, options);
+      var responseCode = response.getResponseCode();
+      var responseText = response.getContentText();
+      var result = JSON.parse(responseText);
+      
+      results.push('Telegram HTTP Status: ' + responseCode);
+      results.push('Telegram Response: ' + responseText);
+      
+      if (result.ok) {
+        results.push('✅ TELEGRAM MESSAGE: Successfully sent');
+      } else {
+        results.push('❌ TELEGRAM MESSAGE ERROR: ' + result.description + ' (Code: ' + result.error_code + ')');
+      }
+      
+    } catch (telegramError) {
+      results.push('❌ TELEGRAM MESSAGE ERROR: ' + telegramError.toString());
+    }
+    
+    // TEST 4: Permission Check
+    results.push('\n--- PERMISSION CHECK ---');
+    try {
+      var scriptProperties = PropertiesService.getScriptProperties();
+      results.push('✅ SCRIPT PROPERTIES: Accessible');
+    } catch (propError) {
+      results.push('❌ SCRIPT PROPERTIES ERROR: ' + propError.toString());
+    }
+    
+  } catch (mainError) {
+    results.push('❌ MAIN ERROR: ' + mainError.toString());
+  }
+  
+  var resultText = results.join('\n');
+  console.log(resultText);
+  
+  var htmlContent = '<!DOCTYPE html><html><head><title>Service Debug Test</title></head><body>';
+  htmlContent += '<h2>Email and Telegram Debug Results</h2>';
+  htmlContent += '<pre style="background: #f5f5f5; padding: 15px; font-family: monospace;">' + resultText + '</pre>';
+  htmlContent += '<p><small>Check the Google Apps Script execution logs for detailed information.</small></p>';
+  htmlContent += '</body></html>';
+  
+  return HtmlService.createHtmlOutput(htmlContent);
+}

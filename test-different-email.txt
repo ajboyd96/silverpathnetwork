@@ -1,0 +1,15 @@
+function testDifferentEmail() {
+  try {
+    var subject = 'GMAIL TEST - ' + new Date().toISOString();
+    var body = 'This is a test email to verify Gmail is working.\n\nIf you receive this, Gmail API is functioning correctly.';
+    
+    // Try sending to the same email but with different subject/body
+    GmailApp.sendEmail('ajboyd96@gmail.com', subject, body);
+    console.log('Test email sent successfully');
+    
+    return 'Test email sent';
+  } catch (error) {
+    console.error('Email test failed:', error);
+    return 'Email test failed: ' + error.message;
+  }
+}
