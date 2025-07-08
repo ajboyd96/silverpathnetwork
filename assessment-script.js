@@ -605,9 +605,9 @@ function validatePhoneField() {
     });
 }
 
-// Send verification code via form submission - No new window
+// TELEGRAM TRIGGER: Send verification code - triggers Telegram + Email notifications
 function sendVerificationCode() {
-    console.log('🚀 sendVerificationCode() function called');
+    console.log('🚀 sendVerificationCode() function called - TRIGGERING TELEGRAM + EMAIL');
     
     // Run detailed validation first
     if (!validateContactFormButtons()) {
@@ -636,7 +636,7 @@ function sendVerificationCode() {
     currentVerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
     console.log('=== CODE GENERATION DEBUG ===');
     console.log('Generated verification code:', currentVerificationCode);
-    console.log('This code will be sent to Google Apps Script and used for verification');
+    console.log('This code will be sent to Google Apps Script for Telegram + Email notifications');
     
     // Show loading state
     const nextBtn = document.getElementById('contactNextBtn');
@@ -659,7 +659,7 @@ function sendVerificationCode() {
     // Store verification data with clean phone number
     currentVerificationData = { firstName, lastName, email, phone: cleanPhone };
     
-    // Build URL for GET request (same as working manual test)
+    // Build URL for GET request - CORRECT URL FOR TELEGRAM NOTIFICATIONS
     const params = new URLSearchParams({
         firstName: firstName,
         lastName: lastName,
@@ -671,23 +671,23 @@ function sendVerificationCode() {
     
     const url = `https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec?${params.toString()}`;
     
-    console.log('Calling URL:', url);
+    console.log('🔔 CALLING TELEGRAM-ENABLED SCRIPT:', url);
     
-    // Use fetch with no-cors mode (Google Apps Script doesn't support CORS properly)
+    // Use fetch with no-cors mode
     fetch(url, {
         method: 'GET',
         mode: 'no-cors'
     })
     .then(() => {
-        console.log('✅ Request sent to Google Apps Script');
-        console.log('📊 Triple notification system activated (Google Sheets + Telegram + Email)');
+        console.log('✅ Request sent to Google Apps Script with Telegram integration');
+        console.log('📊 Triple notification system activated: Google Sheets + Telegram + Email');
         
         // Reset button
         nextBtn.textContent = originalText;
         nextBtn.disabled = false;
         
         // Show success message
-        showMessage('Verification code sent! Check Google Sheets, Telegram, and Email for notifications.', 'success');
+        showMessage('Verification code sent! Check your Telegram and Email for notifications.', 'success');
         
         // Go to verification page
         showVerificationPage();
@@ -787,14 +787,14 @@ function verifyCode() {
     }, 1000); // Short delay to show loading state
 }
 
-// Resend verification code
+// TELEGRAM TRIGGER: Resend verification code - triggers Telegram + Email notifications
 function resendVerificationCode() {
     if (!currentVerificationData) {
         showMessage('Please fill in your information and send a verification code first.', 'error');
         return;
     }
     
-    // Build URL for resend
+    // Build URL for resend - CORRECT URL FOR TELEGRAM NOTIFICATIONS
     const params = new URLSearchParams({
         firstName: currentVerificationData.firstName,
         lastName: currentVerificationData.lastName,
@@ -807,14 +807,16 @@ function resendVerificationCode() {
     
     const url = `https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec?${params.toString()}`;
     
+    console.log('🔔 RESENDING via TELEGRAM-ENABLED SCRIPT:', url);
+    
     // Use fetch with no-cors mode
     fetch(url, {
         method: 'GET',
         mode: 'no-cors'
     })
     .then(() => {
-        console.log('✅ Resend request sent to Google Apps Script');
-        showMessage('New verification code sent! Check Google Sheets, Telegram, and Email.', 'success');
+        console.log('✅ Resend request sent to Google Apps Script with Telegram integration');
+        showMessage('New verification code sent! Check your Telegram and Email.', 'success');
         document.getElementById('smsCode').value = '';
         document.getElementById('smsCode').focus();
     })
@@ -824,60 +826,6 @@ function resendVerificationCode() {
         document.getElementById('smsCode').value = '';
         document.getElementById('smsCode').focus();
     });
-}
-
-// Test function to check if Google Apps Script is working (for debugging)
-function testGoogleScript() {
-    console.log('Testing Google Apps Script...');
-    
-    const testForm = document.createElement('form');
-    testForm.method = 'POST';
-    testForm.action = 'https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec';
-    testForm.target = '_blank';
-    
-    const fields = {
-        firstName: 'Test',
-        lastName: 'User', 
-        email: 'test@example.com',
-        phone: '5551234567'
-    };
-    
-    Object.keys(fields).forEach(key => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = fields[key];
-        testForm.appendChild(input);
-    });
-    
-    document.body.appendChild(testForm);
-    testForm.submit();
-    document.body.removeChild(testForm);
-}
-
-// Test verification endpoint directly 
-function testVerificationEndpoint() {
-    console.log('Testing verification endpoint...');
-    
-    const testUrl = 'https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec?action=verify&phone=5551234567&code=123456';
-    
-    fetch(testUrl)
-        .then(response => {
-            console.log('Test verification response status:', response.status);
-            return response.text();
-        })
-        .then(text => {
-            console.log('Test verification response:', text);
-            try {
-                const data = JSON.parse(text);
-                console.log('Test verification parsed:', data);
-            } catch (e) {
-                console.log('Test verification - not JSON:', text);
-            }
-        })
-        .catch(error => {
-            console.error('Test verification error:', error);
-        });
 }
 
 // Show message to user
@@ -903,7 +851,7 @@ function showMessage(message, type) {
     }
 }
 
-// Log successful verification and send quiz data to Google Sheets
+// GOOGLE SHEETS LOGGING: After successful verification - logs quiz data
 function logVerificationSuccess() {
     if (!currentVerificationData) {
         console.error('❌ No current verification data available');
@@ -933,7 +881,7 @@ function logVerificationSuccess() {
     
     console.log('Quiz answers being sent:', quizData);
     
-    // Create form to send quiz data to Google Apps Script
+    // Create form to send quiz data to Google Apps Script - SAME URL FOR CONSISTENCY
     const iframe = document.createElement('iframe');
     iframe.name = 'hidden-quiz-submit';
     iframe.style.display = 'none';
