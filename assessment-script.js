@@ -340,6 +340,14 @@ function showContactForm() {
         input.addEventListener('blur', validateContactFormButtons);
     });
     
+    // Add validation for SMS consent checkbox when it gets added to the form
+    setTimeout(() => {
+        const smsConsent = document.getElementById('smsConsent');
+        if (smsConsent) {
+            smsConsent.addEventListener('change', validateContactFormButtons);
+        }
+    }, 100);
+    
     // Initialize field-specific validation
     validateEmailField();
     validatePhoneField();
@@ -359,6 +367,16 @@ function addNavigationToContactForm() {
     const navContainer = document.createElement('div');
     navContainer.className = 'contact-form-nav';
     navContainer.innerHTML = `
+        <div style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #1B365D;">
+            <label style="display: flex; align-items: flex-start; font-size: 14px; line-height: 1.4;">
+                <input type="checkbox" id="smsConsent" required style="margin-right: 10px; margin-top: 2px;">
+                <span>
+                    <strong>SMS Verification Consent:</strong> I agree to receive a one-time SMS verification code from Silver Path Network to confirm my phone number. Message and data rates may apply. Consent is not required to get a quote. 
+                    <a href="#" style="color: #1B365D;">SMS Policy</a> | 
+                    <a href="#" style="color: #1B365D;">Privacy Policy</a>
+                </span>
+            </label>
+        </div>
         <div class="question-nav" style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px;">
             <button type="button" id="contactPrevBtn" class="quiz-btn secondary" onclick="goBackToResults()" style="font-size: 16px; padding: 12px 24px;">
                 ← Previous
@@ -474,6 +492,14 @@ function validateContactFormButtons() {
         }
     }
     
+    // Validate SMS consent checkbox
+    const smsConsent = document.getElementById('smsConsent');
+    if (!smsConsent || !smsConsent.checked) {
+        showFieldError('smsConsent', 'You must consent to SMS verification to proceed');
+        errors.push('SMS consent required');
+        isValid = false;
+    }
+    
     // Update button state
     if (nextBtn) {
         if (isValid) {
@@ -497,35 +523,73 @@ function showFieldError(fieldId, message) {
     const field = document.getElementById(fieldId);
     if (!field) return;
     
-    // Add error styling to field
-    field.style.borderColor = '#dc3545';
-    field.style.backgroundColor = '#fff5f5';
-    
-    // Remove existing error message
-    const existingError = field.parentNode.querySelector('.field-error');
-    if (existingError) {
-        existingError.remove();
-    }
-    
-    // Add error message
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'field-error';
-    errorDiv.style.color = '#dc3545';
-    errorDiv.style.fontSize = '12px';
-    errorDiv.style.marginTop = '5px';
-    errorDiv.textContent = message;
-    field.parentNode.appendChild(errorDiv);
-    
-    // Remove error styling when user starts typing
-    field.addEventListener('input', function clearError() {
-        field.style.borderColor = '#e1e1e1';
-        field.style.backgroundColor = '#fff';
-        const errorMsg = field.parentNode.querySelector('.field-error');
-        if (errorMsg) {
-            errorMsg.remove();
+    // Special handling for SMS consent checkbox
+    if (fieldId === 'smsConsent') {
+        const consentContainer = field.closest('div[style*="background: #f8f9fa"]');
+        if (consentContainer) {
+            consentContainer.style.borderLeftColor = '#dc3545';
+            consentContainer.style.backgroundColor = '#fff5f5';
         }
-        field.removeEventListener('input', clearError);
-    }, { once: true });
+        
+        // Remove existing error message
+        const existingError = consentContainer ? consentContainer.querySelector('.field-error') : field.parentNode.querySelector('.field-error');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        // Add error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'field-error';
+        errorDiv.style.color = '#dc3545';
+        errorDiv.style.fontSize = '12px';
+        errorDiv.style.marginTop = '5px';
+        errorDiv.textContent = message;
+        (consentContainer || field.parentNode).appendChild(errorDiv);
+        
+        // Remove error styling when user checks the box
+        field.addEventListener('change', function clearError() {
+            if (consentContainer) {
+                consentContainer.style.borderLeftColor = '#1B365D';
+                consentContainer.style.backgroundColor = '#f8f9fa';
+            }
+            const errorMsg = (consentContainer || field.parentNode).querySelector('.field-error');
+            if (errorMsg) {
+                errorMsg.remove();
+            }
+            field.removeEventListener('change', clearError);
+        }, { once: true });
+        
+    } else {
+        // Regular field styling
+        field.style.borderColor = '#dc3545';
+        field.style.backgroundColor = '#fff5f5';
+        
+        // Remove existing error message
+        const existingError = field.parentNode.querySelector('.field-error');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        // Add error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'field-error';
+        errorDiv.style.color = '#dc3545';
+        errorDiv.style.fontSize = '12px';
+        errorDiv.style.marginTop = '5px';
+        errorDiv.textContent = message;
+        field.parentNode.appendChild(errorDiv);
+        
+        // Remove error styling when user starts typing
+        field.addEventListener('input', function clearError() {
+            field.style.borderColor = '#e1e1e1';
+            field.style.backgroundColor = '#fff';
+            const errorMsg = field.parentNode.querySelector('.field-error');
+            if (errorMsg) {
+                errorMsg.remove();
+            }
+            field.removeEventListener('input', clearError);
+        }, { once: true });
+    }
 }
 
 // Clear all validation errors
@@ -541,6 +605,15 @@ function clearValidationErrors() {
             field.style.backgroundColor = '#fff';
         }
     });
+    
+    // Reset SMS consent checkbox styling
+    const smsConsent = document.getElementById('smsConsent');
+    if (smsConsent) {
+        const consentContainer = smsConsent.closest('div[style*="background: #f8f9fa"]');
+        if (consentContainer) {
+            consentContainer.style.borderColor = '#1B365D';
+        }
+    }
 }
 
 // Enhanced phone number validation
