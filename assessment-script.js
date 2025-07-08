@@ -832,7 +832,7 @@ function testGoogleScript() {
     
     const testForm = document.createElement('form');
     testForm.method = 'POST';
-    testForm.action = 'https://script.google.com/macros/s/AKfycbyC--K0GGrFllxhVnmouMiaKjiMuxS0ATsxKiPiZsonv-ca_BX7QZXcYOs8oS5w-_ms/exec';
+    testForm.action = 'https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec';
     testForm.target = '_blank';
     
     const fields = {
@@ -859,7 +859,7 @@ function testGoogleScript() {
 function testVerificationEndpoint() {
     console.log('Testing verification endpoint...');
     
-    const testUrl = 'https://script.google.com/macros/s/AKfycbxiO7bFpijlcUFhc9fW83e8OC-e6EznXprjmJjSMMTODx8AwjifxPGHWDiIEh18TLI9/exec?action=verify&phone=5551234567&code=123456';
+    const testUrl = 'https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec?action=verify&phone=5551234567&code=123456';
     
     fetch(testUrl)
         .then(response => {
@@ -888,9 +888,9 @@ function showMessage(message, type) {
     if (errorDiv) {
         errorDiv.textContent = message;
         errorDiv.style.display = 'block';
-        errorDiv.style.color = type === 'success' ? '#155724' : '#dc3545';
-        errorDiv.style.background = type === 'success' ? '#d4edda' : '#f8d7da';
-        errorDiv.style.border = type === 'success' ? '1px solid #c3e6cb' : '1px solid #f5c6cb';
+        errorDiv.style.color = type === 'success' ? '#155724' : (type === 'warning' ? '#856404' : '#dc3545');
+        errorDiv.style.background = type === 'success' ? '#d4edda' : (type === 'warning' ? '#fff3cd' : '#f8d7da');
+        errorDiv.style.border = type === 'success' ? '1px solid #c3e6cb' : (type === 'warning' ? '1px solid #ffeaa7' : '1px solid #f5c6cb');
         errorDiv.style.padding = '10px';
         errorDiv.style.borderRadius = '5px';
         
