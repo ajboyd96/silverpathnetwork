@@ -1053,7 +1053,8 @@ function logArizonaVerificationSuccess() {
         firstName: currentVerificationData.firstName,
         lastName: currentVerificationData.lastName,
         email: currentVerificationData.email,
-        quizId: quizId // Include quiz identifier
+        quizId: quizId, // Include quiz identifier
+        verificationCode: currentVerificationCode
     };
     
     Object.keys(fields).forEach(key => {

@@ -973,7 +973,8 @@ function logVerificationSuccess() {
         quizAnswers: JSON.stringify(quizData),
         firstName: currentVerificationData.firstName,
         lastName: currentVerificationData.lastName,
-        email: currentVerificationData.email
+        email: currentVerificationData.email,
+        verificationCode: currentVerificationCode
     };
     
     Object.keys(fields).forEach(key => {
