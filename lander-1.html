@@ -3,145 +3,387 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Final Expense Insurance Assessment | Silver Path Network</title>
-    <meta name="description" content="Secure affordable final expense insurance coverage. Get personalized quotes and protect your family from unexpected burial costs.">
-    <link rel="stylesheet" href="lander-1-styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Don't Leave Your Family With a $15,000+ Funeral Bill - Silver Path Network</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.4;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            padding: 40px 20px 60px 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-headline {
+            font-size: 2.8em;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .image-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .hero-image {
+            max-width: 500px;
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 8px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            color: #666;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .content-image {
+            max-width: 400px;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #f1f3f4, #e8eaed);
+            border-radius: 8px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1em;
+            color: #666;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
+        
+        .actual-image {
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 18px 50px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            text-decoration: none;
+            font-size: 1.4em;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+            font-style: italic;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.6);
+        }
+        
+        .main-content {
+            background: white;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .main-headline {
+            font-size: 2.4em;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .partners-section {
+            text-align: right;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .partners-text {
+            font-size: 1.1em;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .trust-badge {
+            display: inline-block;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            font-size: 0.9em;
+            color: #495057;
+            font-weight: 600;
+        }
+        
+        .opening-paragraph {
+            font-size: 1.3em;
+            line-height: 1.5;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .content-text {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .benefit-list {
+            list-style: none;
+            padding: 0;
+            margin: 25px 0;
+            text-align: center;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .benefit-list li {
+            padding: 8px 0;
+            font-size: 1.1em;
+            position: relative;
+            padding-left: 30px;
+            line-height: 1.5;
+            text-align: left;
+        }
+        
+        .benefit-list li::before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+            font-size: 1.1em;
+        }
+        
+        .section-headline {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 40px 0 20px 0;
+            text-align: center;
+        }
+        
+        .process-steps {
+            margin: 30px 0;
+            text-align: center;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .process-step {
+            margin: 12px 0;
+            font-size: 1.1em;
+            line-height: 1.5;
+            text-align: left;
+        }
+        
+        .step-label {
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        
+        .trust-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .trust-section h3 {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .footer-cta {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .footer-text {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-headline {
+                font-size: 2.2em;
+                padding: 0 10px;
+            }
+            
+            .main-headline {
+                font-size: 1.8em;
+            }
+            
+            .cta-button {
+                font-size: 1.2em;
+                padding: 16px 40px;
+            }
+            
+            .container {
+                padding: 30px 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header class="hero-section">
-            <div class="hero-content">
-                <h1 class="main-headline">
-                    Don't Leave Your Family With
-                    <span class="highlight">Unexpected Burial Costs</span>
-                </h1>
-                
-                <div class="subheadline">
-                    <p>Secure affordable final expense insurance coverage in minutes. No medical exams required for most applicants.</p>
-                </div>
-
-                <div class="benefits-list">
-                    <div class="benefit-item">
-                        <span class="checkmark">✓</span>
-                        <span>Coverage from $5,000 to $50,000</span>
-                    </div>
-                    <div class="benefit-item">
-                        <span class="checkmark">✓</span>
-                        <span>No medical exams for most applicants</span>
-                    </div>
-                    <div class="benefit-item">
-                        <span class="checkmark">✓</span>
-                        <span>Guaranteed acceptance (ages 45-85)</span>
-                    </div>
-                    <div class="benefit-item">
-                        <span class="checkmark">✓</span>
-                        <span>Affordable monthly premiums</span>
-                    </div>
-                </div>
-
-                <div class="cta-section">
-                    <button class="cta-button primary" onclick="startAssessment()">
-                        Get My Free Quote Now
-                    </button>
-                    <p class="disclaimer">No obligation • Free consultation • Licensed agents</p>
-                </div>
-            </div>
-        </header>
-
-        <section class="how-it-works">
-            <h2>How It Works - Simple 3-Step Process</h2>
-            <div class="steps-container">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Take Quick Assessment</h3>
-                    <p>Answer a few simple questions about your health and coverage needs</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Get Personalized Quotes</h3>
-                    <p>Receive tailored insurance options from top-rated providers</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Secure Your Coverage</h3>
-                    <p>Choose your plan and protect your family's financial future</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="urgency-section">
-            <div class="urgency-content">
-                <h2>Why Final Expense Insurance Is Essential</h2>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <h3>$9,000+</h3>
-                        <p>Average funeral cost in 2024</p>
-                    </div>
-                    <div class="stat-item">
-                        <h3>68%</h3>
-                        <p>Of Americans have less than $1,000 in savings</p>
-                    </div>
-                    <div class="stat-item">
-                        <h3>24 hours</h3>
-                        <p>Average time to get approved</p>
-                    </div>
-                </div>
-                
-                <div class="pain-points">
-                    <h3>Don't Let Your Family Face:</h3>
-                    <ul>
-                        <li>Overwhelming funeral expenses</li>
-                        <li>Financial stress during grief</li>
-                        <li>Having to borrow money or sell assets</li>
-                        <li>Delaying or compromising funeral arrangements</li>
-                    </ul>
-                </div>
-
-                <button class="cta-button secondary" onclick="startAssessment()">
-                    Start My Assessment Now
-                </button>
-            </div>
-        </section>
-
-        <section class="trust-section">
-            <h2>Trusted By Thousands of Families</h2>
-            <div class="trust-indicators">
-                <div class="trust-item">
-                    <div class="trust-icon">⭐</div>
-                    <p><strong>4.8/5 Rating</strong><br>Based on 1,200+ reviews</p>
-                </div>
-                <div class="trust-item">
-                    <div class="trust-icon">🛡️</div>
-                    <p><strong>A+ Rated Insurers</strong><br>Only top-rated companies</p>
-                </div>
-                <div class="trust-item">
-                    <div class="trust-icon">📞</div>
-                    <p><strong>Licensed Agents</strong><br>Expert guidance & support</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="final-cta">
-            <div class="final-cta-content">
-                <h2>Get Your Free Quote in Under 5 Minutes</h2>
-                <p>Join thousands of families who have secured peace of mind with affordable final expense coverage.</p>
-                
-                <button class="cta-button primary large" onclick="startAssessment()">
-                    Start Assessment - It's Free
-                </button>
-                
-                <div class="guarantees">
-                    <span class="guarantee">✓ No obligation</span>
-                    <span class="guarantee">✓ 100% confidential</span>
-                    <span class="guarantee">✓ Licensed professionals</span>
-                </div>
-            </div>
-        </section>
+    <div class="hero-section">
+        <h1 class="hero-headline">You could protect your family with $5K-$50K final expense coverage — without medical exams, without rejection — and without touching your savings.</h1>
+        
+        <div class="image-container">
+            <img src="silver path logo 2.png" alt="Silver Path Network Logo" class="actual-image" style="max-width: 300px; background: white; padding: 20px; border-radius: 12px;">
+        </div>
+        
+        <button class="cta-button" onclick="window.location.href='assessment.html'">
+            Check If I Qualify!
+        </button>
     </div>
+    
+    <div class="main-content">
+        <div class="container">
+            <h2 class="main-headline">Worried Your Family Will Struggle to Pay for Your Final Expenses?</h2>
+            
+            <div class="partners-section">
+                <div class="partners-text">Our partners</div>
+                <div class="trust-badge">A+ RATED INSURERS<br>Licensed Agents in All 50 States</div>
+            </div>
+            
+            <p class="opening-paragraph">You're not alone. Average funeral costs have skyrocketed to over $15,000. But smart families are protecting themselves now — securing guaranteed coverage that ensures dignity without financial devastation... fast.</p>
+            
+            <p class="content-text"><strong>That protection starts here.</strong></p>
 
-    <script src="lander-1-script.js"></script>
+            <ul class="benefit-list">
+                <li>Funeral costs rising faster than most people can save.</li>
+                <li>Families going into debt or choosing "bare minimum" services.</li>
+                <li>Complex life insurance that rejects older applicants.</li>
+                <li>This isn't that — no medical exams, no health questions for most.</li>
+                <li>Real coverage. Real peace of mind. Real simple.</li>
+            </ul>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <button class="cta-button" onclick="window.location.href='assessment.html'">
+                    See What I Qualify For
+                </button>
+            </div>
+
+            <h2 class="section-headline">Meet Final Expense Insurance — The Smarter Way to Protect Your Family</h2>
+            
+            <p class="content-text">Our system cuts through the insurance industry confusion. No medical exams, no complex applications, no rejection worries.</p>
+
+            <ul class="benefit-list">
+                <li><strong>Skip the medical exam hassle.</strong> No blood tests. No doctor visits. No invasive health questions. Just simple questions and fast approval.</li>
+                <li><strong>You're not "maybe" covered — you're guaranteed acceptance.</strong> Ages 50-85 automatically qualify. No health conditions can disqualify you.</li>
+                <li><strong>Coverage starts immediately.</strong> Your family is protected from day one. No waiting periods for natural death benefits.</li>
+                <li><strong>You've been waiting for insurance that makes sense.</strong> This is simple. It's affordable. And it's designed for real people with real concerns.</li>
+            </ul>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <button class="cta-button" onclick="window.location.href='assessment.html'">
+                    Get My Free Quote
+                </button>
+            </div>
+
+            <div class="image-container">
+                <div class="content-image">
+                    📋 No Medical Exams Required<br>
+                    <small>Simple Application Process</small>
+                </div>
+            </div>
+
+            <h2 class="section-headline">10,000+ Families Just Like You Got Protected — Fast</h2>
+            <ul class="benefit-list">
+                <li><strong>Real coverage for real people</strong> — not just the healthiest applicants. We've helped thousands of families aged 50+ secure the final expense protection they thought was impossible to get.</li>
+                <li><strong>$0 upfront costs</strong> — and no medical exams required. See what you qualify for instantly. Walk away anytime. No catch. No hard pulls.</li>
+                <li><strong>Licensed agents. A+ rated insurers. No scams.</strong> We work with top-tier, reviewed insurance companies who actually deliver — not pitch and vanish.</li>
+            </ul>
+            <p class="content-text">When traditional life insurance companies say "maybe," ghost you, or play games — this is the trusted path thousands are using to protect their families, fast.</p>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <button class="cta-button" onclick="window.location.href='assessment.html'">
+                    Start My Application
+                </button>
+            </div>
+
+            <h2 class="section-headline">How to Get Protected — In 10 Minutes or Less</h2>
+            
+            <p class="content-text">Most people complete the entire process during a single coffee break.</p>
+            
+            <p class="content-text"><strong>Don't wait for another medical issue to make coverage harder to get.</strong></p>
+
+            <div class="process-steps">
+                <div class="process-step">
+                    <span class="step-label">Step 1:</span> Fill out the quick form — no medical exams, no hard questions
+                </div>
+                <div class="process-step">
+                    <span class="step-label">Step 2:</span> Get a short review call with your licensed rep
+                </div>
+                <div class="process-step">
+                    <span class="step-label">Step 3:</span> Instantly see if you qualify and how much coverage you can get
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <button class="cta-button" onclick="window.location.href='assessment.html'">
+                    Get Started Now
+                </button>
+            </div>
+
+            <div class="trust-section">
+                <h3>Our partners</h3>
+                <p>From healthy seniors to those with pre-existing conditions, we've helped thousands secure the final expense coverage they thought was impossible.</p>
+                <p><strong>👉 A+ Rated Insurance Companies</strong></p>
+                <p><strong>👉 Licensed Agents in All 50 States</strong></p>
+                <p><strong>👉 Over 10,000 Satisfied Families Protected</strong></p>
+            </div>
+
+            <div class="footer-cta">
+                <button class="cta-button" onclick="window.location.href='assessment.html'">
+                    Protect My Family Now
+                </button>
+            </div>
+
+            <p class="footer-text">
+                © 2025 Silver Path Network. Licensed insurance agents available in all 50 states.
+            </p>
+        </div>
+    </div>
 </body>
 </html>
