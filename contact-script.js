@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             // Submit to your existing Google Apps Script endpoint
-            const response = await fetch('https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec', {
+            const response = await fetch('https://script.google.com/macros/s/AKfycbwNwQVPQm2Bsjz3_DlMLfcwr-lNnuMOjFNiaI7TbzuwL_Q6bYLiUEQFpbjw83auN_9h/exec', {
                 method: 'POST',
                 mode: 'no-cors',
                 body: formDataToSend
