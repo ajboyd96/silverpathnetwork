@@ -120,14 +120,17 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         
         try {
+            // Convert to form data for Google Apps Script
+            const formDataToSend = new FormData();
+            Object.keys(contactData).forEach(key => {
+                formDataToSend.append(key, contactData[key]);
+            });
+            
             // Submit to your existing Google Apps Script endpoint
             const response = await fetch('https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec', {
                 method: 'POST',
                 mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(contactData)
+                body: formDataToSend
             });
             
             // Since we're using no-cors, we can't read the response
