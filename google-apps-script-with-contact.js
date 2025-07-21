@@ -48,8 +48,8 @@ function doPost(e) {
       return handleQuizDataSubmission(params);
     }
     
-    // Handle verification code sending request
-    if (params.firstName && params.lastName && params.email && params.phone) {
+    // Handle verification code sending request (only if no action specified - from quiz)
+    if (params.firstName && params.lastName && params.email && params.phone && !params.action) {
       console.log('📧 Processing verification code request');
       return handleVerificationRequest(params);
     }
