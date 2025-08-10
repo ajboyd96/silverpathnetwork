@@ -827,7 +827,7 @@ function sendVerificationCode() {
         quizId: 'arizona-final-expense-quiz-2'
     });
     
-    const url = `https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec?${params.toString()}`;
+    const url = `https://script.google.com/macros/s/AKfycbwNwQVPQm2Bsjz3_DlMLfcwr-lNnuMOjFNiaI7TbzuwL_Q6bYLiUEQFpbjw83auN_9h/exec?${params.toString()}`;
     
     console.log('Calling URL:', url);
     
@@ -963,7 +963,7 @@ function resendVerificationCode() {
         quizId: 'arizona-final-expense-quiz-2'
     });
     
-    const url = `https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec?${params.toString()}`;
+    const url = `https://script.google.com/macros/s/AKfycbwNwQVPQm2Bsjz3_DlMLfcwr-lNnuMOjFNiaI7TbzuwL_Q6bYLiUEQFpbjw83auN_9h/exec?${params.toString()}`;
     
     // Use fetch with no-cors mode
     fetch(url, {
@@ -1041,7 +1041,7 @@ function logArizonaVerificationSuccess() {
     
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbwNwQVPQm2Bsjz3_DlMLfcwr-lNnuMOjFNiaI7TbzuwL_Q6bYLiUEQFpbjw83auN_9h/exec';
     form.target = 'hidden-arizona-quiz-submit';
     form.style.display = 'none';
     

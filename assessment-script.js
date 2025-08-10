@@ -742,7 +742,7 @@ function sendVerificationCode() {
         quizId: 'standard-quiz'
     });
     
-    const url = `https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec?${params.toString()}`;
+    const url = `https://script.google.com/macros/s/AKfycbwNwQVPQm2Bsjz3_DlMLfcwr-lNnuMOjFNiaI7TbzuwL_Q6bYLiUEQFpbjw83auN_9h/exec?${params.toString()}`;
     
     console.log('🔔 CALLING TELEGRAM-ENABLED SCRIPT:', url);
     
@@ -878,7 +878,7 @@ function resendVerificationCode() {
         quizId: 'standard-quiz'
     });
     
-    const url = `https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec?${params.toString()}`;
+    const url = `https://script.google.com/macros/s/AKfycbwNwQVPQm2Bsjz3_DlMLfcwr-lNnuMOjFNiaI7TbzuwL_Q6bYLiUEQFpbjw83auN_9h/exec?${params.toString()}`;
     
     console.log('🔔 RESENDING via TELEGRAM-ENABLED SCRIPT:', url);
     
@@ -962,7 +962,7 @@ function logVerificationSuccess() {
     
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbzJUlMw6PG5iLFy6aTBaZd7WrVnWKfEhQ8FiOZwEcD2wcIM2v_hHrNJyjWEapAPbUD5/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbwNwQVPQm2Bsjz3_DlMLfcwr-lNnuMOjFNiaI7TbzuwL_Q6bYLiUEQFpbjw83auN_9h/exec';
     form.target = 'hidden-quiz-submit';
     form.style.display = 'none';
     
