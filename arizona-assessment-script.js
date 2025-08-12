@@ -498,6 +498,12 @@ function showContactForm() {
         input.addEventListener('blur', validateContactFormButtons);
     });
     
+    // Add event listener for SMS consent checkbox
+    const smsConsent = document.getElementById('smsConsent');
+    if (smsConsent) {
+        smsConsent.addEventListener('change', validateContactFormButtons);
+    }
+    
     // Initialize field-specific validation
     validateEmailField();
     validatePhoneField();
@@ -517,6 +523,16 @@ function addNavigationToContactForm() {
     const navContainer = document.createElement('div');
     navContainer.className = 'contact-form-nav';
     navContainer.innerHTML = `
+        <div style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #1B365D;">
+            <label style="display: flex; align-items: flex-start; font-size: 14px; line-height: 1.4;">
+                <input type="checkbox" id="smsConsent" required style="margin-right: 10px; margin-top: 2px;">
+                <span>
+                    <strong>SMS Verification Consent:</strong> I agree to receive a one-time SMS verification code from Silver Path Network to confirm my phone number. Message and data rates may apply. Consent is not required to get a quote. 
+                    <a href="privacy-policy.html#sms-policy" style="color: #1B365D;">SMS Policy</a> | 
+                    <a href="privacy-policy.html" style="color: #1B365D;">Privacy Policy</a>
+                </span>
+            </label>
+        </div>
         <div class="question-nav" style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px;">
             <button type="button" id="contactPrevBtn" class="quiz-btn secondary" onclick="goBackToResults()" style="font-size: 16px; padding: 12px 24px;">
                 ← Previous
@@ -630,6 +646,14 @@ function validateContactFormButtons() {
             errors.push('Invalid phone number');
             isValid = false;
         }
+    }
+    
+    // Validate SMS consent checkbox
+    const smsConsent = document.getElementById('smsConsent');
+    if (!smsConsent || !smsConsent.checked) {
+        showFieldError('smsConsent', 'You must consent to SMS verification to proceed');
+        errors.push('SMS consent required');
+        isValid = false;
     }
     
     // Update button state
@@ -817,50 +841,63 @@ function sendVerificationCode() {
     // Store verification data with clean phone number
     currentVerificationData = { firstName, lastName, email, phone: cleanPhone };
     
-    // Build URL for GET request (same as working manual test)
-    const params = new URLSearchParams({
+    // Create form to send verification request to Google Apps Script - Use POST method
+    const iframe = document.createElement('iframe');
+    iframe.name = 'hidden-verification-submit';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+    
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://script.google.com/macros/s/AKfycbwAJNok2I966aEJ_ec01HuTLaP42mQtIZtHkrpuDz170b5U-wCfgl3SklA1ttLC2ff0/exec';
+    form.target = 'hidden-verification-submit';
+    form.style.display = 'none';
+    
+    // Add form fields for verification request
+    const fields = {
+        action: 'send_verification',
         firstName: firstName,
         lastName: lastName,
         email: email,
         phone: cleanPhone,
         verificationCode: currentVerificationCode,
         quizId: 'arizona-final-expense-quiz-2'
+    };
+    
+    Object.keys(fields).forEach(key => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = fields[key];
+        form.appendChild(input);
     });
     
-    const url = `https://script.google.com/macros/s/AKfycbwAJNok2I966aEJ_ec01HuTLaP42mQtIZtHkrpuDz170b5U-wCfgl3SklA1ttLC2ff0/exec?${params.toString()}`;
+    document.body.appendChild(form);
     
-    console.log('Calling URL:', url);
+    console.log('🔔 CALLING ARIZONA ASSESSMENT SCRIPT via POST:', form.action);
+    console.log('📊 Arizona Quiz triple notification system activated (Google Sheets + Telegram + Email)');
     
-    // Use fetch with no-cors mode (Google Apps Script doesn't support CORS properly)
-    fetch(url, {
-        method: 'GET',
-        mode: 'no-cors'
-    })
-    .then(() => {
-        console.log('✅ Arizona Quiz request sent to Google Apps Script');
-        console.log('📊 Arizona Quiz triple notification system activated (Google Sheets + Telegram + Email)');
+    form.submit();
+    
+    // Clean up after short delay
+    setTimeout(() => {
+        if (document.body.contains(form)) {
+            document.body.removeChild(form);
+        }
+        if (document.body.contains(iframe)) {
+            document.body.removeChild(iframe);
+        }
+    }, 3000);
         
-        // Reset button
-        nextBtn.textContent = originalText;
-        nextBtn.disabled = false;
+    // Reset button
+    nextBtn.textContent = originalText;
+    nextBtn.disabled = false;
         
-        // Show success message
-        showMessage('Verification code sent! Check Google Sheets, Telegram, and Email for notifications.', 'success');
-        
-        // Go to verification page
-        showVerificationPage();
-    })
-    .catch(error => {
-        console.error('❌ Arizona Quiz request failed:', error);
-        
-        // Reset button
-        nextBtn.textContent = originalText;
-        nextBtn.disabled = false;
-        
-        // Show error message but still go to verification page
-        showMessage('Request sent, but please check notifications manually.', 'warning');
-        showVerificationPage();
-    });
+    // Show success message
+    showMessage('Verification code sent! Check Google Sheets, Telegram, and Email for notifications.', 'success');
+    
+    // Go to verification page
+    showVerificationPage();
 }
 
 function showVerificationPage() {
