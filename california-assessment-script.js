@@ -1,69 +1,189 @@
-// Original quiz data with images and simple text options
+// California Final Expense Eligibility Quiz - 20 Questions
 const assessmentData = [
     {
-        question: "What's your age range?",
+        question: "How old are you?",
         image: "silverpath website photos/image1.png",
         options: [
-            "50-60 years old",
-            "61-70 years old", 
-            "71-80 years old",
-            "Over 80 years old"
+            "Under 45",
+            "45–54",
+            "55–64",
+            "65–74",
+            "75+"
         ]
     },
     {
-        question: "Do you currently use tobacco products?",
+        question: "Do you currently live in California?",
         image: "silverpath website photos/image2.png",
         options: [
-            "No, I don't smoke",
-            "Yes, I smoke occasionally",
-            "Yes, I smoke regularly",
-            "I quit in the last 2 years"
+            "Yes",
+            "No"
         ]
     },
     {
-        question: "What coverage amount interests you most?",
+        question: "Are you a U.S. citizen or permanent resident?",
         image: "silverpath website photos/image3.png",
         options: [
-            "$5,000 - $10,000",
-            "$10,000 - $25,000",
-            "$25,000 - $50,000",
-            "More than $50,000"
+            "Yes",
+            "No"
         ]
     },
     {
-        question: "What's your primary goal for this insurance?",
+        question: "Do you already have a life insurance policy?",
         image: "silverpath website photos/fatherdaughter.png",
         options: [
-            "Cover funeral and burial costs",
-            "Pay off existing debts",
-            "Leave money for my family",
-            "All of the above"
+            "Yes – large policy",
+            "Yes – small policy",
+            "No"
+        ]
+    },
+    {
+        question: "Are you currently married or single?",
+        image: "silverpath website photos/garden.png",
+        options: [
+            "Married",
+            "Single",
+            "Widowed",
+            "Divorced"
+        ]
+    },
+    {
+        question: "Do you have children or grandchildren who may be financially affected by your passing?",
+        image: "silverpath website photos/carwave.png",
+        options: [
+            "Yes",
+            "No"
+        ]
+    },
+    {
+        question: "Do you smoke or use tobacco products?",
+        image: "silverpath website photos/image1.png",
+        options: [
+            "Yes",
+            "No",
+            "Occasionally"
+        ]
+    },
+    {
+        question: "Have you been diagnosed with any major health conditions in the last 2 years?",
+        image: "silverpath website photos/image2.png",
+        options: [
+            "Yes",
+            "No",
+            "Not sure"
+        ]
+    },
+    {
+        question: "Have you been hospitalized in the past 12 months?",
+        image: "silverpath website photos/image3.png",
+        options: [
+            "Yes",
+            "No"
+        ]
+    },
+    {
+        question: "Do you take prescription medications regularly?",
+        image: "silverpath website photos/fatherdaughter.png",
+        options: [
+            "Yes",
+            "No"
         ]
     },
     {
         question: "How would you describe your overall health?",
         image: "silverpath website photos/garden.png",
         options: [
-            "Excellent health",
-            "Good health with minor issues",
-            "Fair health with some conditions",
-            "Poor health with major conditions"
+            "Excellent",
+            "Good",
+            "Fair",
+            "Poor"
         ]
     },
     {
-        question: "When would you like coverage to start?",
+        question: "Do you know how much funerals cost today?",
         image: "silverpath website photos/carwave.png",
         options: [
-            "As soon as possible",
-            "Within the next month",
-            "Within the next 3 months",
-            "Just exploring options"
+            "Less than $5,000",
+            "Around $10,000",
+            "More than $10,000",
+            "I'm not sure"
         ]
+    },
+    {
+        question: "If something happened tomorrow, would your family be financially prepared?",
+        image: "silverpath website photos/image1.png",
+        options: [
+            "Yes",
+            "Somewhat",
+            "No"
+        ]
+    },
+    {
+        question: "What's most important to you when choosing final expense coverage?",
+        image: "silverpath website photos/image2.png",
+        options: [
+            "Lowest cost",
+            "Easy approval",
+            "No health exams",
+            "Leaving a legacy"
+        ]
+    },
+    {
+        question: "Are you interested in burial, cremation, or not sure yet?",
+        image: "silverpath website photos/image3.png",
+        options: [
+            "Burial",
+            "Cremation",
+            "Not sure"
+        ]
+    },
+    {
+        question: "How soon are you looking to get coverage in place?",
+        image: "silverpath website photos/fatherdaughter.png",
+        options: [
+            "Immediately",
+            "Within a week",
+            "In the next 30 days",
+            "Just looking for now"
+        ]
+    },
+    {
+        question: "Would you like to see what plans you qualify for today?",
+        image: "silverpath website photos/garden.png",
+        options: [
+            "Yes",
+            "Maybe",
+            "Not sure"
+        ]
+    },
+    {
+        question: "Do you prefer speaking to someone by phone or viewing quotes online?",
+        image: "silverpath website photos/carwave.png",
+        options: [
+            "Phone",
+            "Online",
+            "Text"
+        ]
+    },
+    {
+        question: "When is the best time for a licensed agent to reach you?",
+        image: "silverpath website photos/image1.png",
+        options: [
+            "Morning",
+            "Afternoon",
+            "Evening"
+        ]
+    },
+    {
+        question: "What's your zip code in California?",
+        image: "silverpath website photos/image2.png",
+        isTextInput: true,
+        placeholder: "Enter your California zip code (e.g., 90210)"
     }
 ];
 
 let currentQuestionIndex = 0;
 let assessmentAnswers = {};
+const quizId = 'arizona-final-expense-quiz-2';
 
 // Start the assessment function
 function startAssessment() {
@@ -143,24 +263,59 @@ function displayQuestion() {
         questionContent.innerHTML = `<h2>${question.question}</h2>`;
     }
     
-    // Display options (simple text, no icons)
+    // Display options or text input
     if (questionOptions) {
-        const optionsHTML = question.options.map((option, index) => `
-            <div class="option" onclick="selectOption(${index}, \`${option.replace(/`/g, '\\`')}\`)">
-                ${option}
-            </div>
-        `).join('');
-        
-        questionOptions.innerHTML = optionsHTML;
+        if (question.isTextInput) {
+            // Text input for zip code
+            const savedAnswer = assessmentAnswers[currentQuestionIndex]?.answer || '';
+            questionOptions.innerHTML = `
+                <input type="text" 
+                       class="text-input" 
+                       id="textAnswer" 
+                       placeholder="${question.placeholder}"
+                       value="${savedAnswer}"
+                       maxlength="10"
+                       onInput="handleTextInput(this.value)"
+                       style="max-width: 400px; margin: 0 auto;">
+            `;
+            
+            // Focus on input
+            setTimeout(() => {
+                const input = document.getElementById('textAnswer');
+                if (input) input.focus();
+            }, 100);
+        } else {
+            // Multiple choice options
+            const optionsHTML = question.options.map((option, index) => {
+                const isSelected = assessmentAnswers[currentQuestionIndex]?.answer === option;
+                return `
+                    <div class="option ${isSelected ? 'selected' : ''}" onclick="selectOption(${index}, \`${option.replace(/`/g, '\\`')}\`)">
+                        ${option}
+                    </div>
+                `;
+            }).join('');
+            
+            questionOptions.innerHTML = optionsHTML;
+        }
     }
     
     // Update navigation buttons
     updateNavigationButtons();
 }
 
-function updateStepIndicators() {
-    // Step indicators don't exist in current HTML, so this function does nothing
-    // Keeping it here in case step indicators are added later
+function handleTextInput(value) {
+    // Store text input answer
+    assessmentAnswers[currentQuestionIndex] = {
+        question: assessmentData[currentQuestionIndex].question,
+        answer: value.trim(),
+        answerText: value.trim()
+    };
+    
+    console.log('✅ Stored text answer for question', currentQuestionIndex + 1, ':', value.trim());
+    console.log('📊 Current assessment answers:', assessmentAnswers);
+    
+    // Update navigation buttons
+    updateNavigationButtons();
 }
 
 function updateNavigationButtons() {
@@ -170,9 +325,13 @@ function updateNavigationButtons() {
     // Show/hide previous button
     prevBtn.style.display = currentQuestionIndex > 0 ? 'block' : 'none';
     
-    // Update next button
-    nextBtn.textContent = currentQuestionIndex === assessmentData.length - 1 ? 'Get My Quote →' : 'Next →';
-    nextBtn.disabled = !assessmentAnswers[currentQuestionIndex];
+    // Update next button text and state
+    const hasAnswer = assessmentAnswers[currentQuestionIndex] && 
+                     assessmentAnswers[currentQuestionIndex].answer && 
+                     assessmentAnswers[currentQuestionIndex].answer.trim() !== '';
+    
+    nextBtn.textContent = currentQuestionIndex === assessmentData.length - 1 ? 'Get My California Quote →' : 'Next →';
+    nextBtn.disabled = !hasAnswer;
     nextBtn.style.opacity = nextBtn.disabled ? '0.5' : '1';
 }
 
@@ -186,7 +345,7 @@ function selectOption(index, value) {
         options[index].classList.add('selected');
     }
     
-    // Store answer (value is the text since options are simple strings)
+    // Store answer
     assessmentAnswers[currentQuestionIndex] = {
         question: assessmentData[currentQuestionIndex].question,
         answer: value,
@@ -201,8 +360,10 @@ function selectOption(index, value) {
 }
 
 function nextQuestion() {
-    if (!assessmentAnswers[currentQuestionIndex]) {
-        showMessage('Please select an answer before continuing.', 'error');
+    if (!assessmentAnswers[currentQuestionIndex] || 
+        !assessmentAnswers[currentQuestionIndex].answer || 
+        assessmentAnswers[currentQuestionIndex].answer.trim() === '') {
+        showMessage('Please answer the question before continuing.', 'error');
         return;
     }
     
@@ -210,7 +371,7 @@ function nextQuestion() {
         currentQuestionIndex++;
         displayQuestion();
     } else {
-        // Assessment completed, calculate estimate and show lead form
+        // Assessment completed, show lead form
         showLeadForm();
     }
 }
@@ -222,55 +383,52 @@ function previousQuestion() {
     }
 }
 
-function calculatePremiumEstimate() {
-    let basePremium = 35;
+function calculateCaliforniaPremiumEstimate() {
+    let basePremium = 45; // Base premium for California (slightly higher cost of living)
     
-    // Age factor
+    // Age factor (Question 1)
     const age = assessmentAnswers[0]?.answer;
     switch(age) {
-        case 'under-50': basePremium = 20; break;
-        case '50-60': basePremium = 30; break;
-        case '61-70': basePremium = 45; break;
-        case '71-80': basePremium = 65; break;
-        case 'over-80': basePremium = 95; break;
+        case 'Under 45': basePremium = 25; break;
+        case '45–54': basePremium = 35; break;
+        case '55–64': basePremium = 50; break;
+        case '65–74': basePremium = 70; break;
+        case '75+': basePremium = 95; break;
     }
     
-    // Gender factor
-    const gender = assessmentAnswers[1]?.answer;
-    if (gender === 'male') {
-        basePremium *= 1.15; // Males typically pay slightly more
-    }
-    
-    // Tobacco factor
-    const tobacco = assessmentAnswers[2]?.answer;
-    if (tobacco === 'current-smoker') {
+    // Tobacco factor (Question 7)
+    const tobacco = assessmentAnswers[6]?.answer;
+    if (tobacco === 'Yes') {
         basePremium *= 1.8;
-    } else if (tobacco === 'recent-quit') {
+    } else if (tobacco === 'Occasionally') {
         basePremium *= 1.3;
     }
     
-    // Coverage amount factor
-    const coverage = assessmentAnswers[3]?.answer;
-    switch(coverage) {
-        case '5k-10k': basePremium *= 0.7; break;
-        case '10k-25k': basePremium *= 1.0; break;
-        case '25k-50k': basePremium *= 1.8; break;
-        case '50k-plus': basePremium *= 2.5; break;
-    }
-    
-    // Health factor
-    const health = assessmentAnswers[5]?.answer;
+    // Health factor (Question 11)
+    const health = assessmentAnswers[10]?.answer;
     switch(health) {
-        case 'excellent': basePremium *= 0.9; break;
-        case 'good': basePremium *= 1.0; break;
-        case 'fair': basePremium *= 1.3; break;
-        case 'poor': basePremium *= 1.7; break;
+        case 'Excellent': basePremium *= 0.9; break;
+        case 'Good': basePremium *= 1.0; break;
+        case 'Fair': basePremium *= 1.3; break;
+        case 'Poor': basePremium *= 1.7; break;
     }
     
-    // Previous decline factor
-    const declined = assessmentAnswers[4]?.answer;
-    if (declined === 'declined') {
+    // Major health conditions (Question 8)
+    const healthConditions = assessmentAnswers[7]?.answer;
+    if (healthConditions === 'Yes') {
         basePremium *= 1.4;
+    }
+    
+    // Hospitalization (Question 9)
+    const hospitalized = assessmentAnswers[8]?.answer;
+    if (hospitalized === 'Yes') {
+        basePremium *= 1.2;
+    }
+    
+    // Prescription medications (Question 10)
+    const medications = assessmentAnswers[9]?.answer;
+    if (medications === 'Yes') {
+        basePremium *= 1.1;
     }
     
     return Math.round(basePremium);
@@ -283,7 +441,7 @@ function showLeadForm() {
     document.getElementById('navigationSection').style.display = 'none';
     
     // Calculate and display premium estimate
-    const estimatedPremium = calculatePremiumEstimate();
+    const estimatedPremium = calculateCaliforniaPremiumEstimate();
     
     // Show results container with "Get Your Quote" button
     showResults(estimatedPremium);
@@ -294,28 +452,28 @@ function showResults(estimatedPremium) {
     document.getElementById('resultsContainer').innerHTML = `
         <h2>🎉 Great News!</h2>
         <div class="results-image">
-            <img src="silverpath website photos/happycouplewhite.png" alt="Happy couple celebrating their coverage" style="max-width: 300px; border-radius: 15px;">
+            <img src="silverpath website photos/happycouplewhite.png" alt="Happy couple celebrating their California coverage" style="max-width: 300px; border-radius: 15px;">
         </div>
         
         <p style="font-size: 20px; color: #666; margin-bottom: 30px;">
-            You qualify for final expense coverage!
+            You qualify for California final expense coverage!
         </p>
         
         <div class="premium-estimate" style="background: #f8f9fa; padding: 30px; border-radius: 15px; margin: 30px 0; text-align: center;">
             <h3 style="color: #1B365D; margin-bottom: 15px;">Your Estimated Monthly Premium</h3>
             <div id="premiumAmount" style="font-size: 48px; font-weight: bold; color: #28a745; margin-bottom: 15px;">$${estimatedPremium}</div>
-            <p style="color: #666; margin: 0;">Based on your assessment answers</p>
+            <p style="color: #666; margin: 0;">Based on your California assessment</p>
         </div>
         
         <div style="text-align: center; margin-top: 40px;">
             <button onclick="showContactForm()" class="quiz-btn" style="font-size: 20px; padding: 20px 40px; background: #1B365D;">
-                Get Your Personalized Quote →
+                Get Your California Quote →
             </button>
         </div>
         
         <div style="margin-top: 30px; padding: 20px; background: #fff3cd; border-radius: 10px; border-left: 4px solid #ffc107;">
             <p style="margin: 0; color: #856404; font-size: 14px;">
-                <strong>Next Step:</strong> Complete your contact information to receive your free, personalized quote from a licensed insurance professional.
+                <strong>Next Step:</strong> Complete your contact information to receive your personalized California quote from a licensed insurance professional.
             </p>
         </div>
     `;
@@ -349,13 +507,11 @@ function showContactForm() {
         input.addEventListener('blur', validateContactFormButtons);
     });
     
-    // Add validation for SMS consent checkbox when it gets added to the form
-    setTimeout(() => {
-        const smsConsent = document.getElementById('smsConsent');
-        if (smsConsent) {
-            smsConsent.addEventListener('change', validateContactFormButtons);
-        }
-    }, 100);
+    // Add event listener for SMS consent checkbox
+    const smsConsent = document.getElementById('smsConsent');
+    if (smsConsent) {
+        smsConsent.addEventListener('change', validateContactFormButtons);
+    }
     
     // Initialize field-specific validation
     validateEmailField();
@@ -381,8 +537,8 @@ function addNavigationToContactForm() {
                 <input type="checkbox" id="smsConsent" required style="margin-right: 10px; margin-top: 2px;">
                 <span>
                     <strong>SMS Verification Consent:</strong> I agree to receive a one-time SMS verification code from Silver Path Network to confirm my phone number. Message and data rates may apply. Consent is not required to get a quote. 
-                    <a href="#" style="color: #1B365D;">SMS Policy</a> | 
-                    <a href="#" style="color: #1B365D;">Privacy Policy</a>
+                    <a href="privacy-policy.html#sms-policy" style="color: #1B365D;">SMS Policy</a> | 
+                    <a href="privacy-policy.html" style="color: #1B365D;">Privacy Policy</a>
                 </span>
             </label>
         </div>
@@ -412,7 +568,7 @@ function goBackToResults() {
 
 // Verification flow variables
 let currentVerificationData = null;
-let currentVerificationCode = null; // Store code locally for simple verification
+let currentVerificationCode = null;
 
 // Phone number normalization function
 function normalizePhoneNumber(phone) {
@@ -532,73 +688,35 @@ function showFieldError(fieldId, message) {
     const field = document.getElementById(fieldId);
     if (!field) return;
     
-    // Special handling for SMS consent checkbox
-    if (fieldId === 'smsConsent') {
-        const consentContainer = field.closest('div[style*="background: #f8f9fa"]');
-        if (consentContainer) {
-            consentContainer.style.borderLeftColor = '#dc3545';
-            consentContainer.style.backgroundColor = '#fff5f5';
-        }
-        
-        // Remove existing error message
-        const existingError = consentContainer ? consentContainer.querySelector('.field-error') : field.parentNode.querySelector('.field-error');
-        if (existingError) {
-            existingError.remove();
-        }
-        
-        // Add error message
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'field-error';
-        errorDiv.style.color = '#dc3545';
-        errorDiv.style.fontSize = '12px';
-        errorDiv.style.marginTop = '5px';
-        errorDiv.textContent = message;
-        (consentContainer || field.parentNode).appendChild(errorDiv);
-        
-        // Remove error styling when user checks the box
-        field.addEventListener('change', function clearError() {
-            if (consentContainer) {
-                consentContainer.style.borderLeftColor = '#1B365D';
-                consentContainer.style.backgroundColor = '#f8f9fa';
-            }
-            const errorMsg = (consentContainer || field.parentNode).querySelector('.field-error');
-            if (errorMsg) {
-                errorMsg.remove();
-            }
-            field.removeEventListener('change', clearError);
-        }, { once: true });
-        
-    } else {
-        // Regular field styling
-        field.style.borderColor = '#dc3545';
-        field.style.backgroundColor = '#fff5f5';
-        
-        // Remove existing error message
-        const existingError = field.parentNode.querySelector('.field-error');
-        if (existingError) {
-            existingError.remove();
-        }
-        
-        // Add error message
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'field-error';
-        errorDiv.style.color = '#dc3545';
-        errorDiv.style.fontSize = '12px';
-        errorDiv.style.marginTop = '5px';
-        errorDiv.textContent = message;
-        field.parentNode.appendChild(errorDiv);
-        
-        // Remove error styling when user starts typing
-        field.addEventListener('input', function clearError() {
-            field.style.borderColor = '#e1e1e1';
-            field.style.backgroundColor = '#fff';
-            const errorMsg = field.parentNode.querySelector('.field-error');
-            if (errorMsg) {
-                errorMsg.remove();
-            }
-            field.removeEventListener('input', clearError);
-        }, { once: true });
+    // Add error styling to field
+    field.style.borderColor = '#dc3545';
+    field.style.backgroundColor = '#fff5f5';
+    
+    // Remove existing error message
+    const existingError = field.parentNode.querySelector('.field-error');
+    if (existingError) {
+        existingError.remove();
     }
+    
+    // Add error message
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'field-error';
+    errorDiv.style.color = '#dc3545';
+    errorDiv.style.fontSize = '12px';
+    errorDiv.style.marginTop = '5px';
+    errorDiv.textContent = message;
+    field.parentNode.appendChild(errorDiv);
+    
+    // Remove error styling when user starts typing
+    field.addEventListener('input', function clearError() {
+        field.style.borderColor = '#e1e1e1';
+        field.style.backgroundColor = '#fff';
+        const errorMsg = field.parentNode.querySelector('.field-error');
+        if (errorMsg) {
+            errorMsg.remove();
+        }
+        field.removeEventListener('input', clearError);
+    }, { once: true });
 }
 
 // Clear all validation errors
@@ -614,15 +732,6 @@ function clearValidationErrors() {
             field.style.backgroundColor = '#fff';
         }
     });
-    
-    // Reset SMS consent checkbox styling
-    const smsConsent = document.getElementById('smsConsent');
-    if (smsConsent) {
-        const consentContainer = smsConsent.closest('div[style*="background: #f8f9fa"]');
-        if (consentContainer) {
-            consentContainer.style.borderColor = '#1B365D';
-        }
-    }
 }
 
 // Enhanced phone number validation
@@ -687,9 +796,9 @@ function validatePhoneField() {
     });
 }
 
-// TELEGRAM TRIGGER: Send verification code - triggers Telegram + Email notifications
+// Send verification code via form submission - No new window
 function sendVerificationCode() {
-    console.log('🚀 sendVerificationCode() function called - TRIGGERING TELEGRAM + EMAIL');
+    console.log('🚀 sendVerificationCode() function called - CALIFORNIA QUIZ');
     
     // Run detailed validation first
     if (!validateContactFormButtons()) {
@@ -716,9 +825,9 @@ function sendVerificationCode() {
     
     // Generate verification code FIRST before everything else
     currentVerificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-    console.log('=== CODE GENERATION DEBUG ===');
+    console.log('=== CALIFORNIA CODE GENERATION DEBUG ===');
     console.log('Generated verification code:', currentVerificationCode);
-    console.log('This code will be sent to Google Apps Script for Telegram + Email notifications');
+    console.log('This code will be sent to Google Apps Script and used for verification');
     
     // Show loading state
     const nextBtn = document.getElementById('contactNextBtn');
@@ -741,7 +850,7 @@ function sendVerificationCode() {
     // Store verification data with clean phone number
     currentVerificationData = { firstName, lastName, email, phone: cleanPhone };
     
-    // Create form to send verification request to Google Apps Script - Use POST like logVerificationSuccess
+    // Create form to send verification request to Google Apps Script - Use POST method
     const iframe = document.createElement('iframe');
     iframe.name = 'hidden-verification-submit';
     iframe.style.display = 'none';
@@ -761,7 +870,7 @@ function sendVerificationCode() {
         email: email,
         phone: cleanPhone,
         verificationCode: currentVerificationCode,
-        quizId: 'standard-quiz'
+        quizId: 'california-final-expense-quiz'
     };
     
     Object.keys(fields).forEach(key => {
@@ -774,8 +883,8 @@ function sendVerificationCode() {
     
     document.body.appendChild(form);
     
-    console.log('🔔 CALLING TELEGRAM-ENABLED SCRIPT via POST:', form.action);
-    console.log('📊 Triple notification system activated: Google Sheets + Telegram + Email');
+    console.log('🔔 CALLING CALIFORNIA ASSESSMENT SCRIPT via POST:', form.action);
+    console.log('📊 California Quiz triple notification system activated (Google Sheets + Telegram + Email)');
     
     form.submit();
     
@@ -792,16 +901,16 @@ function sendVerificationCode() {
     // Reset button
     nextBtn.textContent = originalText;
     nextBtn.disabled = false;
-    
+        
     // Show success message
-    showMessage('Verification code sent! Check your Telegram and Email for notifications.', 'success');
+    showMessage('Verification code sent! Check Google Sheets, Telegram, and Email for notifications.', 'success');
     
     // Go to verification page
     showVerificationPage();
 }
 
 function showVerificationPage() {
-    console.log('=== SHOWING VERIFICATION PAGE ===');
+    console.log('=== SHOWING CALIFORNIA VERIFICATION PAGE ===');
     console.log('Current verification code:', currentVerificationCode);
     
     // Hide contact form
@@ -841,7 +950,7 @@ function verifyCode() {
     verifyBtn.textContent = 'Verifying...';
     verifyBtn.disabled = true;
     
-    console.log('=== SIMPLE VERIFICATION DEBUG ===');
+    console.log('=== ARIZONA VERIFICATION DEBUG ===');
     console.log('Entered code:', enteredCode);
     console.log('Entered code type:', typeof enteredCode);
     console.log('Expected code:', currentVerificationCode);
@@ -852,7 +961,7 @@ function verifyCode() {
     // Simple comparison - no server needed!
     setTimeout(() => {
         if (enteredCode === currentVerificationCode) {
-            console.log('✅ VERIFICATION SUCCESSFUL - Codes match!');
+            console.log('✅ ARIZONA VERIFICATION SUCCESSFUL - Codes match!');
             showMessage('Code verified successfully! Click "Continue to Results" to proceed.', 'success');
             
             // Change button to continue button
@@ -867,9 +976,9 @@ function verifyCode() {
             verifyBtn.style.fontSize = '18px';
             
             // Log successful verification 
-            logVerificationSuccess();
+            logCaliforniaVerificationSuccess();
         } else {
-            console.log('❌ VERIFICATION FAILED - Codes do not match');
+            console.log('❌ CALIFORNIA VERIFICATION FAILED - Codes do not match');
             showMessage('Invalid verification code. Please try again.', 'error');
             document.getElementById('smsCode').value = '';
             document.getElementById('smsCode').focus();
@@ -882,14 +991,14 @@ function verifyCode() {
     }, 1000); // Short delay to show loading state
 }
 
-// TELEGRAM TRIGGER: Resend verification code - triggers Telegram + Email notifications
+// Resend verification code
 function resendVerificationCode() {
     if (!currentVerificationData) {
         showMessage('Please fill in your information and send a verification code first.', 'error');
         return;
     }
     
-    // Build URL for resend - CORRECT URL FOR TELEGRAM NOTIFICATIONS
+    // Build URL for resend
     const params = new URLSearchParams({
         firstName: currentVerificationData.firstName,
         lastName: currentVerificationData.lastName,
@@ -897,12 +1006,10 @@ function resendVerificationCode() {
         phone: currentVerificationData.phone,
         verificationCode: currentVerificationCode,
         resend: 'true',
-        quizId: 'standard-quiz'
+        quizId: 'california-final-expense-quiz'
     });
     
     const url = `https://script.google.com/macros/s/AKfycbwAJNok2I966aEJ_ec01HuTLaP42mQtIZtHkrpuDz170b5U-wCfgl3SklA1ttLC2ff0/exec?${params.toString()}`;
-    
-    console.log('🔔 RESENDING via TELEGRAM-ENABLED SCRIPT:', url);
     
     // Use fetch with no-cors mode
     fetch(url, {
@@ -910,13 +1017,13 @@ function resendVerificationCode() {
         mode: 'no-cors'
     })
     .then(() => {
-        console.log('✅ Resend request sent to Google Apps Script with Telegram integration');
-        showMessage('New verification code sent! Check your Telegram and Email.', 'success');
+        console.log('✅ Arizona Quiz resend request sent to Google Apps Script');
+        showMessage('New verification code sent! Check Google Sheets, Telegram, and Email.', 'success');
         document.getElementById('smsCode').value = '';
         document.getElementById('smsCode').focus();
     })
     .catch(error => {
-        console.log('⚠️ Resend error:', error);
+        console.log('⚠️ Arizona Quiz resend error:', error);
         showMessage('Resend request sent, please check notifications manually.', 'warning');
         document.getElementById('smsCode').value = '';
         document.getElementById('smsCode').focus();
@@ -931,9 +1038,9 @@ function showMessage(message, type) {
     if (errorDiv) {
         errorDiv.textContent = message;
         errorDiv.style.display = 'block';
-        errorDiv.style.color = type === 'success' ? '#155724' : (type === 'warning' ? '#856404' : '#dc3545');
-        errorDiv.style.background = type === 'success' ? '#d4edda' : (type === 'warning' ? '#fff3cd' : '#f8d7da');
-        errorDiv.style.border = type === 'success' ? '1px solid #c3e6cb' : (type === 'warning' ? '1px solid #ffeaa7' : '1px solid #f5c6cb');
+        errorDiv.style.color = type === 'success' ? '#155724' : '#dc3545';
+        errorDiv.style.background = type === 'success' ? '#d4edda' : '#f8d7da';
+        errorDiv.style.border = type === 'success' ? '1px solid #c3e6cb' : '1px solid #f5c6cb';
         errorDiv.style.padding = '10px';
         errorDiv.style.borderRadius = '5px';
         
@@ -946,14 +1053,14 @@ function showMessage(message, type) {
     }
 }
 
-// GOOGLE SHEETS LOGGING: After successful verification - logs quiz data
-function logVerificationSuccess() {
+// Log successful verification and send California quiz data to Google Sheets
+function logCaliforniaVerificationSuccess() {
     if (!currentVerificationData) {
         console.error('❌ No current verification data available');
         return;
     }
     
-    console.log('📊 Logging verification success and quiz data to Google Sheets');
+    console.log('📊 Logging California verification success and quiz data to Google Sheets');
     console.log('👤 Current verification data:', currentVerificationData);
     
     // Check if we have any quiz answers
@@ -962,40 +1069,37 @@ function logVerificationSuccess() {
         console.log('📝 Assessment answers object:', assessmentAnswers);
     }
     
-    // Prepare quiz answers in a structured format
-    console.log('📝 Raw assessment answers:', assessmentAnswers);
+    // Prepare California quiz answers in a structured format (20 questions)
+    console.log('📝 Raw California assessment answers:', assessmentAnswers);
     
-    const quizData = {
-        q1: (assessmentAnswers[0] && assessmentAnswers[0].answer) ? assessmentAnswers[0].answer : 'No answer',
-        q2: (assessmentAnswers[1] && assessmentAnswers[1].answer) ? assessmentAnswers[1].answer : 'No answer', 
-        q3: (assessmentAnswers[2] && assessmentAnswers[2].answer) ? assessmentAnswers[2].answer : 'No answer',
-        q4: (assessmentAnswers[3] && assessmentAnswers[3].answer) ? assessmentAnswers[3].answer : 'No answer',
-        q5: (assessmentAnswers[4] && assessmentAnswers[4].answer) ? assessmentAnswers[4].answer : 'No answer',
-        q6: (assessmentAnswers[5] && assessmentAnswers[5].answer) ? assessmentAnswers[5].answer : 'No answer'
-    };
+    const californiaQuizData = {};
+    for (let i = 0; i < 20; i++) {
+        californiaQuizData[`q${i + 1}`] = (assessmentAnswers[i] && assessmentAnswers[i].answer) ? assessmentAnswers[i].answer : 'No answer';
+    }
     
-    console.log('Quiz answers being sent:', quizData);
+    console.log('California quiz answers being sent:', californiaQuizData);
     
-    // Create form to send quiz data to Google Apps Script - SAME URL FOR CONSISTENCY
+    // Create form to send California quiz data to Google Apps Script
     const iframe = document.createElement('iframe');
-    iframe.name = 'hidden-quiz-submit';
+    iframe.name = 'hidden-california-quiz-submit';
     iframe.style.display = 'none';
     document.body.appendChild(iframe);
     
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = 'https://script.google.com/macros/s/AKfycbwAJNok2I966aEJ_ec01HuTLaP42mQtIZtHkrpuDz170b5U-wCfgl3SklA1ttLC2ff0/exec';
-    form.target = 'hidden-quiz-submit';
+    form.target = 'hidden-california-quiz-submit';
     form.style.display = 'none';
     
     // Add form fields
     const fields = {
         action: 'submit_lead',
         phone: currentVerificationData.phone,
-        quizAnswers: JSON.stringify(quizData),
+        quizAnswers: JSON.stringify(californiaQuizData),
         firstName: currentVerificationData.firstName,
         lastName: currentVerificationData.lastName,
         email: currentVerificationData.email,
+        quizId: quizId, // Include quiz identifier
         verificationCode: currentVerificationCode
     };
     
@@ -1020,7 +1124,7 @@ function logVerificationSuccess() {
         }
     }, 3000);
     
-    console.log('✅ Quiz data submitted to Google Sheets');
+    console.log('✅ California quiz data submitted to Google Sheets');
 }
 
 function submitLead(event) {

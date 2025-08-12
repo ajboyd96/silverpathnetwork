@@ -205,8 +205,17 @@ function startAssessment() {
 
 // Initialize the assessment
 document.addEventListener('DOMContentLoaded', function() {
-    // Start the assessment
-    displayQuestion();
+    // Check if we should auto-start the assessment from landing page
+    const urlParams = new URLSearchParams(window.location.search);
+    const shouldAutoStart = urlParams.get('start') === 'true';
+    
+    if (shouldAutoStart) {
+        // Auto-start the assessment, hide intro
+        startAssessment();
+    } else {
+        // Normal flow - just prepare the first question
+        displayQuestion();
+    }
     
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

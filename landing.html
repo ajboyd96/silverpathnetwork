@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silver Path Network | Final Expense Insurance Made Simple</title>
+    <meta name="description" content="Get affordable final expense insurance coverage. Quick online eligibility check - no medical exams required for many plans.">
+    <meta name="keywords" content="final expense insurance, burial insurance, life insurance, affordable coverage">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Section */
+        .header {
+            background: linear-gradient(135deg, #1B365D 0%, #2c5aa0 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .header .guarantee {
+            background: #28a745;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            background: #ea9901;
+            color: white;
+            padding: 20px 40px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin: 10px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(234, 153, 1, 0.3);
+        }
+
+        .cta-button:hover {
+            background: #d4860a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(234, 153, 1, 0.4);
+        }
+
+        /* Stats Section */
+        .stats {
+            background: #f8f9fa;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .stats h2 {
+            color: #1B365D;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ea9901;
+            margin-bottom: 10px;
+        }
+
+        .stat-text {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .how-it-works h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1B365D;
+            margin-bottom: 60px;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .step {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .step-number {
+            background: #ea9901;
+            color: white;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+
+        .step h3 {
+            font-size: 1.3rem;
+            color: #1B365D;
+            margin-bottom: 15px;
+        }
+
+        .step p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background: #1B365D;
+            color: white;
+            padding: 80px 0;
+        }
+
+        .benefits h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .benefit-item {
+            background: rgba(255,255,255,0.1);
+            padding: 30px 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .benefit-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #ea9901;
+        }
+
+        .benefit-item p {
+            opacity: 0.9;
+        }
+
+        /* State Selection Section */
+        .state-selection {
+            background: #f8f9fa;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .state-selection h2 {
+            color: #1B365D;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+
+        .state-selection p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 50px;
+        }
+
+        .state-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .state-button {
+            background: white;
+            color: #1B365D;
+            padding: 25px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: 3px solid #1B365D;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            min-width: 200px;
+        }
+
+        .state-button:hover {
+            background: #1B365D;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(27, 54, 93, 0.3);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .testimonials h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1B365D;
+            margin-bottom: 60px;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid #ea9901;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #1B365D;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1B365D;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer h3 {
+            color: #ea9901;
+            margin-bottom: 20px;
+        }
+
+        .footer a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            color: #ccc;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .cta-button {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+            }
+
+            .stats h2,
+            .how-it-works h2,
+            .benefits h2,
+            .state-selection h2,
+            .testimonials h2 {
+                font-size: 2rem;
+            }
+
+            .state-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .state-button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <section class="header">
+        <div class="container">
+            <h1>SILVER PATH NETWORK</h1>
+            <p class="subtitle">Final Expense Insurance Made Simple</p>
+            <div class="guarantee">✓ NO MEDICAL EXAMS REQUIRED</div>
+            <div>
+                <a href="#state-selection" class="cta-button">Check Your Eligibility Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <h2>Trusted by Thousands of Families</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">15,000+</div>
+                    <div class="stat-text">Policies Issued</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">$25</div>
+                    <div class="stat-text">Starting Monthly Premium</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2 Min</div>
+                    <div class="stat-text">Quick Assessment</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+ States</div>
+                    <div class="stat-text">Coverage Available</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2>How to Get Coverage in 3 Simple Steps</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Take the Quick Assessment</h3>
+                    <p>Answer 20 simple questions about your health, age, and coverage needs. No medical exams required for most applicants.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Get Your Instant Quote</h3>
+                    <p>Receive your personalized premium estimate immediately. Our licensed agents will contact you to discuss your options.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Secure Your Coverage</h3>
+                    <p>Complete your application and get approved quickly. Your family's financial protection starts immediately.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <h2>Why Choose Silver Path Network?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-icon">⚡</div>
+                    <h3>Quick & Easy</h3>
+                    <p>Get covered in minutes, not hours. Our streamlined process makes getting life insurance simple and stress-free.</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">💰</div>
+                    <h3>Affordable Rates</h3>
+                    <p>Coverage starting at just $25/month. We work with top-rated insurance companies to find you the best rates.</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🏥</div>
+                    <h3>No Medical Exams</h3>
+                    <p>Most applicants qualify without medical exams. Just answer a few health questions and get approved quickly.</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🛡️</div>
+                    <h3>Guaranteed Acceptance</h3>
+                    <p>Special programs available for those who may not qualify for traditional life insurance coverage.</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">📞</div>
+                    <h3>Expert Support</h3>
+                    <p>Licensed insurance professionals guide you through every step of the process. Get personalized advice and support.</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">✅</div>
+                    <h3>Instant Coverage</h3>
+                    <p>Many policies offer immediate coverage. Protect your family's financial future starting today.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- State Selection Section -->
+    <section class="state-selection" id="state-selection">
+        <div class="container">
+            <h2>Select Your State to Begin</h2>
+            <p>Choose your state below to start your personalized final expense insurance assessment</p>
+            <div class="state-buttons">
+                <a href="assessment.html?start=true" class="state-button">🌵 Arizona Assessment</a>
+                <a href="california-assessment.html?start=true" class="state-button">🌴 California Assessment</a>
+                <a href="texas-assessment.html?start=true" class="state-button">🤠 Texas Assessment</a>
+            </div>
+            <div style="margin-top: 40px;">
+                <p style="color: #666; font-size: 1rem;">Don't see your state? We offer coverage in all 50 states.</p>
+                <a href="contact.html" class="cta-button" style="margin-top: 20px; font-size: 1rem; padding: 15px 30px;">Contact Us For Other States</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2>What Our Customers Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        "The process was incredibly simple. I got approved in just minutes and now have peace of mind knowing my family is protected. The monthly payment fits perfectly in my budget."
+                    </div>
+                    <div class="testimonial-author">- Maria S., Age 67</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        "I was worried about medical exams, but Silver Path Network made it easy. Just answered some questions online and got my policy approved the same day."
+                    </div>
+                    <div class="testimonial-author">- Robert T., Age 72</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        "After my husband passed, I realized how important it is to have this coverage. The application was straightforward and the agent was very helpful throughout the process."
+                    </div>
+                    <div class="testimonial-author">- Linda M., Age 69</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3>Silver Path Network</h3>
+                    <p>Making final expense insurance simple, affordable, and accessible for everyone. Protecting families nationwide with trusted coverage options.</p>
+                </div>
+                <div>
+                    <h3>Quick Links</h3>
+                    <p><a href="assessment.html?start=true">Arizona Assessment</a></p>
+                    <p><a href="california-assessment.html?start=true">California Assessment</a></p>
+                    <p><a href="texas-assessment.html?start=true">Texas Assessment</a></p>
+                    <p><a href="contact.html">Contact Us</a></p>
+                </div>
+                <div>
+                    <h3>Legal</h3>
+                    <p><a href="privacy-policy.html">Privacy Policy</a></p>
+                    <p><a href="privacy-policy.html#terms">Terms of Service</a></p>
+                    <p><a href="privacy-policy.html#sms-policy">SMS Policy</a></p>
+                </div>
+                <div>
+                    <h3>Contact Info</h3>
+                    <p>📧 info@silverpathnetwork.com</p>
+                    <p>📱 Available 7 days a week</p>
+                    <p>🏢 Licensed in all 50 states</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Silver Path Network. All rights reserved. | Licensed Insurance Agency</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add smooth fade-in animation when elements come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Initialize animations when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const elementsToAnimate = document.querySelectorAll('.stat-item, .step, .benefit-item, .testimonial');
+            elementsToAnimate.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
