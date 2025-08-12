@@ -36,12 +36,36 @@ function getTwilioCredentials() {
 }
 
 /**
- * Handle GET requests
+ * Handle GET requests (for assessment form verification requests)
  */
 function doGet(e) {
-  return ContentService
-    .createTextOutput('Silver Path Network Automated SMS Verification API is running')
-    .setMimeType(ContentService.MimeType.TEXT);
+  try {
+    console.log('=== RECEIVED GET REQUEST ===');
+    console.log('Request parameters:', e.parameter);
+    
+    var params = e.parameter;
+    
+    // Handle verification code sending request via GET (from assessment forms)
+    if (params.firstName && params.lastName && params.email && params.phone) {
+      console.log('📱 Processing GET SMS verification request');
+      return handleSMSVerificationRequest(params);
+    }
+    
+    // Handle resend requests via GET
+    if (params.resend === 'true') {
+      console.log('🔄 Processing GET SMS resend request');
+      return handleSMSResendRequest(params);
+    }
+    
+    // Default response for simple API checks
+    return ContentService
+      .createTextOutput('Silver Path Network Automated SMS Verification API is running')
+      .setMimeType(ContentService.MimeType.TEXT);
+      
+  } catch (error) {
+    console.error('❌ Error in doGet:', error);
+    return createFormResponse(false, 'Server error occurred: ' + error.message);
+  }
 }
 
 /**
@@ -53,6 +77,12 @@ function doPost(e) {
     console.log('Request parameters:', e.parameter);
     
     var params = e.parameter;
+    
+    // Handle verification code sending (from "Send Verification Code" button)
+    if (params.action === 'send_verification') {
+      console.log('📱 Processing verification code sending request');
+      return handleSMSVerificationRequest(params);
+    }
     
     // Handle contact form submission
     if (params.action === 'contact_form') {
@@ -692,10 +722,5 @@ function createFormResponse(success, message) {
   
   return ContentService
     .createTextOutput(JSON.stringify(response))
-    .setMimeType(ContentService.MimeType.JSON)
-    .setHeaders({
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type'
-    });
+    .setMimeType(ContentService.MimeType.JSON);
 }

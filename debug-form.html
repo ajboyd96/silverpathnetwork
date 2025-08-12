@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test Form - Silver Path Network</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, button { padding: 10px; width: 100%; box-sizing: border-box; }
+        button { background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { margin-top: 20px; padding: 15px; border-radius: 5px; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .loading { background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Debug Test Form</h1>
+    <p>This form will test if your Google Apps Script is working properly.</p>
+    
+    <form id="debugForm">
+        <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" value="Debug" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" value="Test" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="test@example.com" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" value="9288462608" required>
+        </div>
+        
+        <button type="submit">🧪 Test Google Apps Script</button>
+    </form>
+    
+    <div id="result" class="result" style="display: none;"></div>
+    
+    <div style="margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px;">
+        <h3>📋 What This Test Does:</h3>
+        <ul>
+            <li>Sends a verification request to your Google Apps Script</li>
+            <li>Tests email notifications to ajboyd96@gmail.com</li>
+            <li>Tests Telegram notifications</li>
+            <li>Tests SMS sending (if Twilio is configured)</li>
+            <li>Logs detailed information for debugging</li>
+        </ul>
+        
+        <h3>🔍 What to Check:</h3>
+        <ol>
+            <li><strong>Google Apps Script Console:</strong> Check the execution logs</li>
+            <li><strong>Email:</strong> Should receive notification at ajboyd96@gmail.com</li>
+            <li><strong>Telegram:</strong> Should receive message in your Telegram</li>
+            <li><strong>SMS:</strong> Should receive text at the phone number (if Twilio configured)</li>
+        </ol>
+    </div>
+    
+    <script>
+        document.getElementById('debugForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const resultDiv = document.getElementById('result');
+            const formData = new FormData(this);
+            
+            // Show loading state
+            resultDiv.className = 'result loading';
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '⏳ Testing Google Apps Script... Please wait and check your email/Telegram.';
+            
+            try {
+                // Test the current Google Apps Script URL
+                const testUrl = 'https://script.google.com/macros/s/AKfycbwAJNok2I966aEJ_ec01HuTLaP42mQtIZtHkrpuDz170b5U-wCfgl3SklA1ttLC2ff0/exec';
+                
+                const params = new URLSearchParams();
+                params.append('firstName', formData.get('firstName'));
+                params.append('lastName', formData.get('lastName'));
+                params.append('email', formData.get('email'));
+                params.append('phone', formData.get('phone'));
+                params.append('verificationCode', '123456'); // Test code
+                
+                const fullUrl = testUrl + '?' + params.toString();
+                
+                console.log('🧪 Testing URL:', fullUrl);
+                
+                // Test with fetch
+                const response = await fetch(testUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: params
+                });
+                
+                console.log('✅ Request sent successfully');
+                
+                resultDiv.className = 'result success';
+                resultDiv.innerHTML = `
+                    ✅ <strong>Test request sent successfully!</strong><br><br>
+                    📧 <strong>Check your email</strong> (ajboyd96@gmail.com) for admin notification<br>
+                    📱 <strong>Check Telegram</strong> for notification<br>
+                    📲 <strong>Check phone ${formData.get('phone')}</strong> for SMS (if Twilio configured)<br><br>
+                    🔍 <strong>Google Apps Script Logs:</strong><br>
+                    Go to <a href="https://script.google.com/home/executions" target="_blank">Apps Script Executions</a> to see detailed logs<br><br>
+                    📊 <strong>Phone number tested:</strong> ${formData.get('phone')}<br>
+                    ⏰ <strong>Test time:</strong> ${new Date().toLocaleString()}
+                `;
+                
+            } catch (error) {
+                console.error('❌ Test failed:', error);
+                
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `
+                    ❌ <strong>Test failed with error:</strong><br>
+                    ${error.message}<br><br>
+                    🔍 <strong>Possible issues:</strong><br>
+                    • Google Apps Script not deployed as web app<br>
+                    • Script URL incorrect<br>
+                    • Network connectivity issue<br>
+                    • CORS restriction<br><br>
+                    📝 Check the browser console (F12) for more details
+                `;
+            }
+        });
+        
+        // Log the current script URL for reference
+        console.log('🔗 Current Google Apps Script URL:', 'https://script.google.com/macros/s/AKfycbwAJNok2I966aEJ_ec01HuTLaP42mQtIZtHkrpuDz170b5U-wCfgl3SklA1ttLC2ff0/exec');
+    </script>
+</body>
+</html>

@@ -732,28 +732,53 @@ function sendVerificationCode() {
     // Store verification data with clean phone number
     currentVerificationData = { firstName, lastName, email, phone: cleanPhone };
     
-    // Build URL for GET request - CORRECT URL FOR TELEGRAM NOTIFICATIONS
-    const params = new URLSearchParams({
+    // Create form to send verification request to Google Apps Script - Use POST like logVerificationSuccess
+    const iframe = document.createElement('iframe');
+    iframe.name = 'hidden-verification-submit';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+    
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://script.google.com/macros/s/AKfycbwAJNok2I966aEJ_ec01HuTLaP42mQtIZtHkrpuDz170b5U-wCfgl3SklA1ttLC2ff0/exec';
+    form.target = 'hidden-verification-submit';
+    form.style.display = 'none';
+    
+    // Add form fields for verification request
+    const fields = {
+        action: 'send_verification',
         firstName: firstName,
         lastName: lastName,
         email: email,
         phone: cleanPhone,
         verificationCode: currentVerificationCode,
         quizId: 'standard-quiz'
+    };
+    
+    Object.keys(fields).forEach(key => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = fields[key];
+        form.appendChild(input);
     });
     
-    const url = `https://script.google.com/macros/s/AKfycbwNwQVPQm2Bsjz3_DlMLfcwr-lNnuMOjFNiaI7TbzuwL_Q6bYLiUEQFpbjw83auN_9h/exec?${params.toString()}`;
+    document.body.appendChild(form);
     
-    console.log('🔔 CALLING TELEGRAM-ENABLED SCRIPT:', url);
+    console.log('🔔 CALLING TELEGRAM-ENABLED SCRIPT via POST:', form.action);
+    console.log('📊 Triple notification system activated: Google Sheets + Telegram + Email');
     
-    // Use fetch with no-cors mode
-    fetch(url, {
-        method: 'GET',
-        mode: 'no-cors'
-    })
-    .then(() => {
-        console.log('✅ Request sent to Google Apps Script with Telegram integration');
-        console.log('📊 Triple notification system activated: Google Sheets + Telegram + Email');
+    form.submit();
+    
+    // Clean up after short delay
+    setTimeout(() => {
+        if (document.body.contains(form)) {
+            document.body.removeChild(form);
+        }
+        if (document.body.contains(iframe)) {
+            document.body.removeChild(iframe);
+        }
+    }, 3000);
         
         // Reset button
         nextBtn.textContent = originalText;
@@ -878,7 +903,7 @@ function resendVerificationCode() {
         quizId: 'standard-quiz'
     });
     
-    const url = `https://script.google.com/macros/s/AKfycbwNwQVPQm2Bsjz3_DlMLfcwr-lNnuMOjFNiaI7TbzuwL_Q6bYLiUEQFpbjw83auN_9h/exec?${params.toString()}`;
+    const url = `https://script.google.com/macros/s/AKfycbwAJNok2I966aEJ_ec01HuTLaP42mQtIZtHkrpuDz170b5U-wCfgl3SklA1ttLC2ff0/exec?${params.toString()}`;
     
     console.log('🔔 RESENDING via TELEGRAM-ENABLED SCRIPT:', url);
     
@@ -962,7 +987,7 @@ function logVerificationSuccess() {
     
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = 'https://script.google.com/macros/s/AKfycbwNwQVPQm2Bsjz3_DlMLfcwr-lNnuMOjFNiaI7TbzuwL_Q6bYLiUEQFpbjw83auN_9h/exec';
+    form.action = 'https://script.google.com/macros/s/AKfycbwAJNok2I966aEJ_ec01HuTLaP42mQtIZtHkrpuDz170b5U-wCfgl3SklA1ttLC2ff0/exec';
     form.target = 'hidden-quiz-submit';
     form.style.display = 'none';
     

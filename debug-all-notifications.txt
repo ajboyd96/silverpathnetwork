@@ -1,0 +1,197 @@
+// DEBUG VERSION - Tests all three notification systems with detailed logging
+var SPREADSHEET_ID = '1MZYgrMksEKzKksiXYf7B2dNnrzu9prScwbCZ0TWmIxc';
+var TELEGRAM_BOT_TOKEN = PropertiesService.getScriptProperties().getProperty('TELEGRAM_BOT_TOKEN');
+var TELEGRAM_CHAT_ID = PropertiesService.getScriptProperties().getProperty('TELEGRAM_CHAT_ID');
+
+function doGet(e) {
+  console.log('=== FULL DEBUG TEST - ALL NOTIFICATIONS ===');
+  console.log('GET request received with params:', JSON.stringify(e.parameter));
+  
+  var debugResults = [];
+  
+  // 1. TEST TELEGRAM CREDENTIALS
+  try {
+    console.log('1. Testing Telegram credentials...');
+    console.log('Bot token from properties:', TELEGRAM_BOT_TOKEN ? 'EXISTS' : 'MISSING');
+    console.log('Chat ID from properties:', TELEGRAM_CHAT_ID ? 'EXISTS' : 'MISSING');
+    
+    if (!TELEGRAM_BOT_TOKEN) {
+      debugResults.push('❌ TELEGRAM_BOT_TOKEN is missing from Script Properties');
+    } else {
+      debugResults.push('✅ TELEGRAM_BOT_TOKEN found in Script Properties');
+    }
+    
+    if (!TELEGRAM_CHAT_ID) {
+      debugResults.push('❌ TELEGRAM_CHAT_ID is missing from Script Properties');
+    } else {
+      debugResults.push('✅ TELEGRAM_CHAT_ID found in Script Properties');
+    }
+    
+  } catch (credError) {
+    debugResults.push('❌ Error accessing Script Properties: ' + credError.toString());
+  }
+  
+  // 2. TEST GOOGLE SHEETS ACCESS
+  try {
+    console.log('2. Testing Google Sheets access...');
+    var spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+    debugResults.push('✅ Spreadsheet opened successfully');
+    
+    var sheets = spreadsheet.getSheets();
+    debugResults.push('📋 Available sheets: ' + sheets.map(s => s.getName()).join(', '));
+    
+    var sheet = spreadsheet.getSheetByName('Silver Path Quiz Responses');
+    if (!sheet) {
+      debugResults.push('⚠️ "Silver Path Quiz Responses" sheet not found - creating it...');
+      sheet = spreadsheet.insertSheet('Silver Path Quiz Responses');
+      sheet.getRange(1, 1, 1, 9).setValues([['Timestamp', 'Name', 'Email', 'Phone', 'Code', 'Quiz Type', 'SMS Message', 'Status', 'Resend']]);
+      debugResults.push('✅ "Silver Path Quiz Responses" sheet created with headers');
+    } else {
+      debugResults.push('✅ "Silver Path Quiz Responses" sheet found');
+    }
+    
+  } catch (sheetsError) {
+    debugResults.push('❌ Google Sheets error: ' + sheetsError.toString());
+  }
+  
+  // 3. TEST ACTUAL FORM PROCESSING (if form data provided)
+  if (e.parameter.firstName && e.parameter.lastName && e.parameter.phone) {
+    console.log('3. Processing actual form data...');
+    
+    var firstName = e.parameter.firstName;
+    var lastName = e.parameter.lastName;
+    var email = e.parameter.email || 'No email provided';
+    var phone = e.parameter.phone;
+    var code = e.parameter.verificationCode || Math.floor(100000 + Math.random() * 900000).toString();
+    var quizType = e.parameter.quizId === 'arizona-final-expense-quiz-2' ? 'Arizona Quiz' : 'Standard Quiz';
+    var isResend = e.parameter.resend === 'true';
+    
+    // TEST SHEETS WRITE
+    try {
+      var testData = [
+        new Date(),
+        firstName + ' ' + lastName,
+        email,
+        phone,
+        code,
+        quizType,
+        'SMS: Hi ' + firstName + ', your verification code is ' + code,
+        'DEBUG TEST - FORM SUBMISSION',
+        isResend ? 'YES' : 'NO'
+      ];
+      
+      sheet.appendRow(testData);
+      var lastRow = sheet.getLastRow();
+      debugResults.push('✅ Form data written to Google Sheets - Row: ' + lastRow);
+      
+    } catch (writeError) {
+      debugResults.push('❌ Failed to write to Google Sheets: ' + writeError.toString());
+    }
+    
+    // TEST TELEGRAM SEND
+    try {
+      if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
+        var telegramMessage = '🔔 DEBUG TEST - FORM SUBMISSION\n\n' +
+          '👤 Name: ' + firstName + ' ' + lastName + '\n' +
+          '📧 Email: ' + email + '\n' +
+          '📱 Phone: ' + phone + '\n' +
+          '🔢 Code: ' + code + '\n' +
+          '📋 Quiz: ' + quizType + '\n' +
+          '🕒 Time: ' + new Date().toLocaleString();
+        
+        var telegramUrl = 'https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage';
+        var telegramPayload = {
+          'chat_id': TELEGRAM_CHAT_ID,
+          'text': telegramMessage
+        };
+        
+        var telegramOptions = {
+          'method': 'POST',
+          'headers': {
+            'Content-Type': 'application/json'
+          },
+          'payload': JSON.stringify(telegramPayload)
+        };
+        
+        var telegramResponse = UrlFetchApp.fetch(telegramUrl, telegramOptions);
+        var telegramResult = JSON.parse(telegramResponse.getContentText());
+        
+        if (telegramResult.ok) {
+          debugResults.push('✅ Telegram message sent successfully');
+        } else {
+          debugResults.push('❌ Telegram API error: ' + JSON.stringify(telegramResult));
+        }
+        
+      } else {
+        debugResults.push('❌ Cannot send Telegram - missing credentials');
+      }
+      
+    } catch (telegramError) {
+      debugResults.push('❌ Telegram error: ' + telegramError.toString());
+    }
+    
+    // TEST EMAIL SEND
+    try {
+      var emailSubject = 'DEBUG TEST - ' + firstName + ' ' + lastName;
+      var emailBody = 'DEBUG TEST FORM SUBMISSION\n\n' +
+        'Name: ' + firstName + ' ' + lastName + '\n' +
+        'Email: ' + email + '\n' +
+        'Phone: ' + phone + '\n' +
+        'Code: ' + code + '\n' +
+        'Quiz: ' + quizType + '\n' +
+        'Time: ' + new Date().toLocaleString();
+      
+      MailApp.sendEmail('ajboyd96@gmail.com', emailSubject, emailBody);
+      debugResults.push('✅ Email sent successfully');
+      
+    } catch (emailError) {
+      debugResults.push('❌ Email error: ' + emailError.toString());
+    }
+    
+  } else {
+    debugResults.push('ℹ️ No form data provided - skipping form processing tests');
+  }
+  
+  // Return detailed debug results
+  return HtmlService.createHtmlOutput(
+    '<h2>🔧 Debug Results - All Notifications</h2>' +
+    '<div style="font-family: monospace; background: #f5f5f5; padding: 15px; border-radius: 5px;">' +
+    debugResults.map(result => '<p>' + result + '</p>').join('') +
+    '</div>' +
+    '<h3>Parameters Received:</h3>' +
+    '<pre>' + JSON.stringify(e.parameter, null, 2) + '</pre>' +
+    '<h3>Instructions:</h3>' +
+    '<p>1. Check console logs for detailed information</p>' +
+    '<p>2. Fix any issues marked with ❌</p>' +
+    '<p>3. Test with form data by adding firstName, lastName, phone parameters</p>'
+  );
+}
+
+function doPost(e) {
+  console.log('POST request - redirecting to doGet');
+  return doGet(e);
+}
+
+// Test function to check Script Properties
+function testScriptProperties() {
+  console.log('=== SCRIPT PROPERTIES TEST ===');
+  
+  var props = PropertiesService.getScriptProperties();
+  var allProps = props.getProperties();
+  
+  console.log('All Script Properties:', JSON.stringify(allProps, null, 2));
+  
+  var botToken = props.getProperty('TELEGRAM_BOT_TOKEN');
+  var chatId = props.getProperty('TELEGRAM_CHAT_ID');
+  
+  console.log('TELEGRAM_BOT_TOKEN:', botToken ? 'EXISTS' : 'MISSING');
+  console.log('TELEGRAM_CHAT_ID:', chatId ? 'EXISTS' : 'MISSING');
+  
+  if (botToken) {
+    console.log('Bot token starts with:', botToken.substring(0, 10) + '...');
+  }
+  
+  if (chatId) {
+    console.log('Chat ID value:', chatId);
+  }
+}

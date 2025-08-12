@@ -1,0 +1,92 @@
+// Simplified debug version to test Google Sheets logging specifically
+// Deploy this temporarily to see what's failing
+
+var SPREADSHEET_ID = '1MZYgrMksEKzKksiXYf7B2dNnrzu9prScwbCZ0TWmIxc';
+
+function doGet(e) {
+  console.log('=== GOOGLE SHEETS DEBUG TEST ===');
+  console.log('GET request received with params:', JSON.stringify(e.parameter));
+  
+  try {
+    // Test basic spreadsheet access
+    console.log('1. Testing spreadsheet access...');
+    var spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
+    console.log('✅ Spreadsheet opened successfully');
+    
+    // List all sheets
+    var sheets = spreadsheet.getSheets();
+    console.log('2. Available sheets:', sheets.map(s => s.getName()));
+    
+    // Try to get or create Lead Notifications sheet
+    var sheet = spreadsheet.getSheetByName('Lead Notifications');
+    if (!sheet) {
+      console.log('3. Creating Lead Notifications sheet...');
+      sheet = spreadsheet.insertSheet('Lead Notifications');
+      sheet.getRange(1, 1, 1, 9).setValues([['Timestamp', 'Name', 'Email', 'Phone', 'Code', 'Quiz Type', 'SMS Message', 'Status', 'Resend']]);
+      console.log('✅ Sheet created with headers');
+    } else {
+      console.log('3. Lead Notifications sheet already exists');
+    }
+    
+    // Test writing a simple row
+    console.log('4. Testing row write...');
+    var testData = [
+      new Date(),
+      'DEBUG TEST',
+      'debug@test.com',
+      '5551234567',
+      '123456',
+      'Test Quiz',
+      'Test SMS message',
+      'DEBUG STATUS',
+      'NO'
+    ];
+    
+    sheet.appendRow(testData);
+    var lastRow = sheet.getLastRow();
+    console.log('✅ Test row written. Last row number:', lastRow);
+    
+    // Now try to process actual form data if provided
+    if (e.parameter.firstName) {
+      console.log('5. Processing real form data...');
+      var realData = [
+        new Date(),
+        e.parameter.firstName + ' ' + (e.parameter.lastName || ''),
+        e.parameter.email || 'No email',
+        e.parameter.phone || 'No phone',
+        e.parameter.verificationCode || 'No code',
+        e.parameter.quizId === 'arizona-final-expense-quiz-2' ? 'Arizona Quiz' : 'Standard Quiz',
+        'SMS: Hi ' + e.parameter.firstName + ', your code is ' + (e.parameter.verificationCode || 'UNKNOWN'),
+        'FORM SUBMISSION',
+        e.parameter.resend === 'true' ? 'YES' : 'NO'
+      ];
+      
+      sheet.appendRow(realData);
+      console.log('✅ Real form data written');
+    }
+    
+    return HtmlService.createHtmlOutput(
+      '<h2>Debug Test Results</h2>' +
+      '<p style="color: green;">✅ Google Sheets access working!</p>' +
+      '<p>Last row: ' + sheet.getLastRow() + '</p>' +
+      '<p>Check the console logs for detailed information.</p>' +
+      '<p>Spreadsheet ID: ' + SPREADSHEET_ID + '</p>' +
+      '<p>Parameters received: ' + JSON.stringify(e.parameter) + '</p>'
+    );
+    
+  } catch (error) {
+    console.error('❌ ERROR:', error.toString());
+    console.error('Error details:', JSON.stringify(error));
+    
+    return HtmlService.createHtmlOutput(
+      '<h2>Debug Test - ERROR</h2>' +
+      '<p style="color: red;">❌ Error: ' + error.toString() + '</p>' +
+      '<p>Check the execution logs for more details.</p>'
+    );
+  }
+}
+
+function doPost(e) {
+  console.log('POST request - redirecting to doGet');
+  return doGet(e);
+}

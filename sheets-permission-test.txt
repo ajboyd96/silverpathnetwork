@@ -1,0 +1,17 @@
+// Add this function to your Google Apps Script to force permission prompt
+function testSheetsPermission() {
+  try {
+    var spreadsheet = SpreadsheetApp.openById('1MZYgrMksEKzKksiXYf7B2dNnrzu9prScwbCZ0TWmIxc');
+    console.log('Spreadsheet access successful');
+    return 'SUCCESS: Can access spreadsheet';
+  } catch (error) {
+    console.error('Permission error:', error);
+    return 'ERROR: ' + error.toString();
+  }
+}
+
+// Instructions:
+// 1. Add this function to your Google Apps Script
+// 2. Run it manually from the Apps Script editor
+// 3. It will prompt you to grant permissions
+// 4. Once granted, your main script will work
