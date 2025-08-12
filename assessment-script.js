@@ -780,27 +780,15 @@ function sendVerificationCode() {
         }
     }, 3000);
         
-        // Reset button
-        nextBtn.textContent = originalText;
-        nextBtn.disabled = false;
-        
-        // Show success message
-        showMessage('Verification code sent! Check your Telegram and Email for notifications.', 'success');
-        
-        // Go to verification page
-        showVerificationPage();
-    })
-    .catch(error => {
-        console.error('❌ Request failed:', error);
-        
-        // Reset button
-        nextBtn.textContent = originalText;
-        nextBtn.disabled = false;
-        
-        // Show error message but still go to verification page
-        showMessage('Request sent, but please check notifications manually.', 'warning');
-        showVerificationPage();
-    });
+    // Reset button
+    nextBtn.textContent = originalText;
+    nextBtn.disabled = false;
+    
+    // Show success message
+    showMessage('Verification code sent! Check your Telegram and Email for notifications.', 'success');
+    
+    // Go to verification page
+    showVerificationPage();
 }
 
 function showVerificationPage() {
