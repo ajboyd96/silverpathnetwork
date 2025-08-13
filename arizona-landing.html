@@ -27,43 +27,77 @@
             padding: 0 20px;
         }
 
-        /* Header Section */
+        /* Header */
         .header {
-            background: linear-gradient(135deg, #1B365D 0%, #2c5aa0 100%);
-            color: white;
+            background: #fff;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1B365D;
+        }
+
+        .trustpilot {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stars {
+            color: #00b67a;
+            font-size: 18px;
+        }
+
+        .trustpilot-text {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Hero Section */
+        .hero {
             padding: 80px 0;
-            text-align: center;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
         }
 
-        .header h1 {
-            font-size: 3.5rem;
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.2rem;
             font-weight: bold;
+            color: #1B365D;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            line-height: 1.2;
         }
 
-        .header .subtitle {
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .header .guarantee {
-            background: #28a745;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            display: inline-block;
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #666;
             margin-bottom: 40px;
+            line-height: 1.6;
         }
 
-        .cta-button {
+        .hero-button {
             background: #ea9901;
             color: white;
-            padding: 20px 40px;
-            font-size: 1.3rem;
+            padding: 18px 40px;
+            font-size: 1.2rem;
             font-weight: bold;
             border: none;
             border-radius: 8px;
@@ -71,42 +105,63 @@
             text-decoration: none;
             display: inline-block;
             transition: all 0.3s ease;
-            margin: 10px;
             text-transform: uppercase;
             box-shadow: 0 4px 15px rgba(234, 153, 1, 0.3);
         }
 
-        .cta-button:hover {
+        .hero-button:hover {
             background: #d4860a;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(234, 153, 1, 0.4);
         }
 
-        /* Arizona Stats Section */
+        .hero-illustration {
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-illustration::before {
+            content: '🌵';
+            font-size: 8rem;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .hero-illustration::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #ea9901, #f4b942);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        /* Stats Section */
         .stats {
-            background: #f8f9fa;
+            background: #1B365D;
+            color: white;
             padding: 60px 0;
             text-align: center;
         }
 
         .stats h2 {
-            color: #1B365D;
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 50px;
+            font-weight: bold;
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 40px;
-            margin-top: 40px;
         }
 
         .stat-item {
-            background: white;
-            padding: 30px 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 20px;
         }
 
         .stat-number {
@@ -117,146 +172,152 @@
         }
 
         .stat-text {
-            font-size: 1.1rem;
-            color: #666;
-        }
-
-        /* How It Works Section */
-        .how-it-works {
-            padding: 80px 0;
-            background: white;
-        }
-
-        .how-it-works h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            color: #1B365D;
-            margin-bottom: 60px;
-        }
-
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-top: 40px;
-        }
-
-        .step {
-            text-align: center;
-            padding: 30px 20px;
-        }
-
-        .step-number {
-            background: #ea9901;
-            color: white;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-            margin: 0 auto 20px;
-        }
-
-        .step h3 {
-            font-size: 1.3rem;
-            color: #1B365D;
-            margin-bottom: 15px;
-        }
-
-        .step p {
-            color: #666;
             font-size: 1rem;
+            opacity: 0.9;
         }
 
-        /* Arizona Benefits Section */
-        .benefits {
-            background: #1B365D;
-            color: white;
+        /* Info Cards Section */
+        .info-cards {
             padding: 80px 0;
+            background: #f8f9fa;
         }
 
-        .benefits h2 {
+        .info-cards h2 {
             text-align: center;
             font-size: 2.5rem;
+            color: #1B365D;
             margin-bottom: 60px;
+            font-weight: bold;
         }
 
-        .benefits-grid {
+        .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
         }
 
-        .benefit-item {
-            background: rgba(255,255,255,0.1);
-            padding: 30px 25px;
-            border-radius: 10px;
+        .info-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
             text-align: center;
+            transition: transform 0.3s ease;
         }
 
-        .benefit-icon {
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-card h3 {
+            color: #ea9901;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .info-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .info-card .icon {
             font-size: 3rem;
             margin-bottom: 20px;
+            display: block;
         }
 
-        .benefit-item h3 {
-            font-size: 1.3rem;
+        /* FAQ Section */
+        .faq {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .faq h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #1B365D;
+            margin-bottom: 60px;
+            font-weight: bold;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .faq-item {
+            background: linear-gradient(135deg, #ea9901, #f4b942);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(234, 153, 1, 0.3);
+        }
+
+        .faq-item h3 {
+            font-size: 1.2rem;
             margin-bottom: 15px;
-            color: #ea9901;
+            font-weight: bold;
         }
 
-        .benefit-item p {
-            opacity: 0.9;
+        .faq-item p {
+            opacity: 0.95;
+            line-height: 1.5;
         }
 
-        /* Arizona Specific CTA Section */
-        .arizona-cta {
-            background: #f8f9fa;
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #1B365D 0%, #2c5aa0 100%);
+            color: white;
             padding: 80px 0;
             text-align: center;
         }
 
-        .arizona-cta h2 {
-            color: #1B365D;
+        .cta-section h2 {
             font-size: 2.5rem;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            font-weight: bold;
         }
 
-        .arizona-cta p {
+        .cta-section p {
             font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
+            opacity: 0.9;
         }
 
-        .arizona-button {
+        .cta-button {
             background: #ea9901;
             color: white;
-            padding: 25px 50px;
-            font-size: 1.4rem;
+            padding: 20px 50px;
+            font-size: 1.3rem;
             font-weight: bold;
             border: none;
             border-radius: 10px;
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.3s ease;
             display: inline-block;
+            transition: all 0.3s ease;
             text-transform: uppercase;
             box-shadow: 0 6px 20px rgba(234, 153, 1, 0.3);
         }
 
-        .arizona-button:hover {
+        .cta-button:hover {
             background: #d4860a;
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(234, 153, 1, 0.4);
         }
 
+        .cta-features {
+            margin-top: 30px;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
         /* Testimonials */
         .testimonials {
             padding: 80px 0;
-            background: white;
+            background: #f8f9fa;
         }
 
         .testimonials h2 {
@@ -264,6 +325,7 @@
             font-size: 2.5rem;
             color: #1B365D;
             margin-bottom: 60px;
+            font-weight: bold;
         }
 
         .testimonial-grid {
@@ -273,22 +335,35 @@
         }
 
         .testimonial {
-            background: #f8f9fa;
+            background: white;
             padding: 30px;
-            border-radius: 10px;
-            border-left: 5px solid #ea9901;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '"';
+            font-size: 4rem;
+            color: #ea9901;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            line-height: 1;
         }
 
         .testimonial-text {
             font-style: italic;
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-bottom: 20px;
             line-height: 1.6;
+            padding-top: 20px;
         }
 
         .testimonial-author {
             font-weight: bold;
             color: #1B365D;
+            font-size: 0.9rem;
         }
 
         /* Footer */
@@ -307,12 +382,15 @@
         .footer h3 {
             color: #ea9901;
             margin-bottom: 20px;
+            font-size: 1.1rem;
         }
 
         .footer a {
             color: #ccc;
             text-decoration: none;
             transition: color 0.3s ease;
+            display: block;
+            margin-bottom: 8px;
         }
 
         .footer a:hover {
@@ -325,50 +403,80 @@
             padding-top: 30px;
             border-top: 1px solid rgba(255,255,255,0.2);
             color: #ccc;
+            font-size: 0.9rem;
         }
 
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
-            .header h1 {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+
+            .hero-text h1 {
                 font-size: 2.5rem;
             }
 
-            .header .subtitle {
-                font-size: 1.2rem;
+            .hero-illustration::before {
+                font-size: 6rem;
             }
 
-            .cta-button, .arizona-button {
-                padding: 15px 30px;
-                font-size: 1.1rem;
+            .cards-grid,
+            .faq-grid {
+                grid-template-columns: 1fr;
             }
 
             .stats h2,
-            .how-it-works h2,
-            .benefits h2,
-            .arizona-cta h2,
+            .info-cards h2,
+            .faq h2,
+            .cta-section h2,
             .testimonials h2 {
                 font-size: 2rem;
+            }
+
+            .hero-button,
+            .cta-button {
+                padding: 15px 30px;
+                font-size: 1.1rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <section class="header">
+    <!-- Header -->
+    <header class="header">
         <div class="container">
-            <h1>🌵 ARIZONA RESIDENTS</h1>
-            <p class="subtitle">Final Expense Insurance Made Simple</p>
-            <div class="guarantee">✓ NO MEDICAL EXAMS REQUIRED FOR MOST APPLICANTS</div>
-            <div>
-                <a href="#assessment" class="cta-button">Check Your Eligibility Now</a>
+            <div class="header-content">
+                <div class="logo">🌵 SILVER PATH NETWORK</div>
+                <div class="trustpilot">
+                    <div class="stars">★★★★★</div>
+                    <div class="trustpilot-text">Trustpilot<br><strong>4.8/5</strong></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Final expense insurance keeping you up at night? We can help.</h1>
+                    <p>Silver Path Network helps Arizona residents find the right final expense insurance solution, for free. It's quick, easy, and means your family could have peace of mind & financial protection.</p>
+                    <a href="assessment.html?start=true" class="hero-button">Take The Assessment</a>
+                </div>
+                <div class="hero-illustration">
+                    <!-- Arizona cactus illustration will be rendered by CSS -->
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Arizona Stats Section -->
+    <!-- Stats Section -->
     <section class="stats">
         <div class="container">
-            <h2>Trusted by Families Statewide</h2>
+            <h2>Our Partners have helped over 15,000+ get coverage.</h2>
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-number">3,500+</div>
@@ -390,101 +498,87 @@
         </div>
     </section>
 
-    <!-- How It Works Section -->
-    <section class="how-it-works">
+    <!-- Info Cards Section -->
+    <section class="info-cards">
         <div class="container">
-            <h2>Get Coverage in 3 Simple Steps</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Take the Quick Assessment</h3>
-                    <p>Answer 20 simple questions about your health, age, and coverage needs. Designed specifically for residents like you.</p>
+            <h2>Why should I act now to protect my family's future?</h2>
+            <div class="cards-grid">
+                <div class="info-card">
+                    <span class="icon">💰</span>
+                    <h3>Rising Funeral Costs</h3>
+                    <p>Final expenses are not just a weight on your shoulders that can cause stress; it's a financial burden that could impact your family's future and dreams.</p>
                 </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Get Your Instant Quote</h3>
-                    <p>Receive your personalized premium estimate immediately. Our licensed agents will contact you to discuss your options.</p>
+                <div class="info-card">
+                    <span class="icon">⏰</span>
+                    <h3>Don't Wait Too Long</h3>
+                    <p>Don't let embarrassment, stress, and high costs cost you any more than they already have. Don't worry, there's still time if you start now.</p>
                 </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Secure Your Coverage</h3>
-                    <p>Complete your application and get approved quickly. Your family's financial protection starts immediately.</p>
+                <div class="info-card">
+                    <span class="icon">🛡️</span>
+                    <h3>Peace of Mind</h3>
+                    <p>Take the 2-minute assessment and our algorithm finds the best certified partner that is right for your unique situation.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Arizona Benefits Section -->
-    <section class="benefits">
+    <!-- FAQ Section -->
+    <section class="faq">
         <div class="container">
-            <h2>Why Arizona Residents Choose Silver Path Network</h2>
-            <div class="benefits-grid">
-                <div class="benefit-item">
-                    <div class="benefit-icon">🌵</div>
-                    <h3>Local-Focused Service</h3>
-                    <p>We understand your state's unique needs and regulations. Local expertise with personalized service for families like yours.</p>
+            <h2>How to be coverage-stress free:</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>Do You Charge Any Fees?</h3>
+                    <p>Silver Path Network does not charge any kind of fee for the service of matching families with agents. In addition, no agent that you are matched with through Silver Path Network will ask you for any upfront fees.</p>
                 </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">💰</div>
-                    <h3>Competitive Rates</h3>
-                    <p>Coverage starting at just $35/month. We work with top-rated insurers to find you the best available rates.</p>
+                <div class="faq-item">
+                    <h3>What Are Your Closing Costs?</h3>
+                    <p>Silver Path Network does not charge you for using its services. Each agent you are matched with determines their own policy regarding closing costs. We are unable to determine the amount of closing costs or out-of-pocket expenses.</p>
                 </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">🏥</div>
-                    <h3>No Medical Exams</h3>
-                    <p>Most applicants qualify without medical exams. Just answer health questions and get approved quickly.</p>
+                <div class="faq-item">
+                    <h3>When Should I Get Coverage?</h3>
+                    <p>You might consider seeking final expense insurance if you find you don't have sufficient savings to cover funeral costs or if you want to ensure your family isn't burdened with expenses during a difficult time.</p>
                 </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">🛡️</div>
-                    <h3>Guaranteed Acceptance Programs</h3>
-                    <p>Special guaranteed acceptance programs available for residents who may not qualify for traditional coverage.</p>
-                </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">📞</div>
-                    <h3>Licensed Local Agents</h3>
-                    <p>Licensed insurance professionals guide you through every step. Get personalized advice from local experts.</p>
-                </div>
-                <div class="benefit-item">
-                    <div class="benefit-icon">✅</div>
-                    <h3>Immediate Coverage</h3>
-                    <p>Many policies offer immediate coverage. Protect your family's financial future starting today.</p>
+                <div class="faq-item">
+                    <h3>Is It Guaranteed To Work?</h3>
+                    <p>No, getting final expense insurance is no guarantee that you'll have perfect coverage, and don't believe anyone that says otherwise. You are what gets you coverage. Insurance just makes it easier and gives you peace of mind.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Arizona CTA Section -->
-    <section class="arizona-cta" id="assessment">
+    <!-- CTA Section -->
+    <section class="cta-section">
         <div class="container">
             <h2>Ready to Get Your Quote?</h2>
             <p>Take our quick assessment and get your personalized final expense insurance quote</p>
-            <a href="assessment.html?start=true" class="arizona-button">🌵 Start Assessment</a>
-            <div style="margin-top: 40px;">
-                <p style="color: #666; font-size: 1rem;">✓ Free Assessment ✓ No Obligation ✓ Licensed Agents</p>
+            <a href="assessment.html?start=true" class="cta-button">🌵 Take The Assessment</a>
+            <div class="cta-features">
+                ✓ Free Assessment ✓ No Obligation ✓ Licensed Agents
             </div>
         </div>
     </section>
 
-    <!-- Arizona Testimonials -->
+    <!-- Testimonials -->
     <section class="testimonials">
         <div class="container">
             <h2>What Arizona Customers Say</h2>
             <div class="testimonial-grid">
                 <div class="testimonial">
                     <div class="testimonial-text">
-                        "As an Arizona resident, I was worried about finding affordable coverage. Silver Path Network made it incredibly easy and found me a great rate that fits my budget."
+                        As an Arizona resident, I wanted coverage from a company that understood our values. Silver Path Network delivered with great service and affordable rates.
                     </div>
                     <div class="testimonial-author">- Maria S., Phoenix, AZ</div>
                 </div>
                 <div class="testimonial">
                     <div class="testimonial-text">
-                        "The Arizona-specific assessment was simple and straightforward. I got approved the same day without any medical exams. Great service!"
+                        The assessment was simple and straightforward. I got approved the same day without any medical exams. Great service!
                     </div>
                     <div class="testimonial-author">- Robert T., Tucson, AZ</div>
                 </div>
                 <div class="testimonial">
                     <div class="testimonial-text">
-                        "Living in Arizona, I needed coverage that understood our unique needs. Silver Path Network delivered exactly what I was looking for with excellent customer service."
+                        Living in Arizona, I needed coverage that understood our unique needs. Silver Path Network delivered exactly what I was looking for with excellent customer service.
                     </div>
                     <div class="testimonial-author">- Linda M., Mesa, AZ</div>
                 </div>
@@ -502,15 +596,15 @@
                 </div>
                 <div>
                     <h3>Quick Links</h3>
-                    <p><a href="assessment.html?start=true">Take Assessment</a></p>
-                    <p><a href="contact.html">Contact Agent</a></p>
-                    <p><a href="assessment.html">Coverage Info</a></p>
+                    <a href="assessment.html?start=true">Take Assessment</a>
+                    <a href="contact.html">Contact Agent</a>
+                    <a href="assessment.html">Coverage Info</a>
                 </div>
                 <div>
                     <h3>Legal</h3>
-                    <p><a href="privacy-policy.html">Privacy Policy</a></p>
-                    <p><a href="privacy-policy.html#terms">Terms of Service</a></p>
-                    <p><a href="privacy-policy.html#sms-policy">SMS Policy</a></p>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="privacy-policy.html#terms">Terms of Service</a>
+                    <a href="privacy-policy.html#sms-policy">SMS Policy</a>
                 </div>
                 <div>
                     <h3>Contact Info</h3>
@@ -526,20 +620,6 @@
     </footer>
 
     <script>
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
         // Add smooth fade-in animation when elements come into view
         const observerOptions = {
             threshold: 0.1,
@@ -557,7 +637,7 @@
 
         // Initialize animations when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            const elementsToAnimate = document.querySelectorAll('.stat-item, .step, .benefit-item, .testimonial');
+            const elementsToAnimate = document.querySelectorAll('.stat-item, .info-card, .faq-item, .testimonial');
             elementsToAnimate.forEach(el => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(20px)';
