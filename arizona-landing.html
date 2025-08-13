@@ -29,7 +29,7 @@
 
         /* Header */
         .header {
-            background: #fff;
+            background: linear-gradient(135deg, #1B365D 0%, #2c5aa0 100%);
             padding: 20px 0;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
@@ -46,7 +46,7 @@
         .logo {
             font-size: 24px;
             font-weight: bold;
-            color: #1B365D;
+            color: white;
         }
 
         .trustpilot {
@@ -62,7 +62,7 @@
 
         .trustpilot-text {
             font-size: 14px;
-            color: #666;
+            color: white;
         }
 
         /* Hero Section */
@@ -120,11 +120,10 @@
             position: relative;
         }
 
-        .hero-illustration::before {
-            content: '🌵';
-            font-size: 8rem;
-            display: block;
-            margin-bottom: 20px;
+        .hero-illustration img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
         }
 
         .hero-illustration::after {
@@ -221,10 +220,11 @@
             line-height: 1.6;
         }
 
-        .info-card .icon {
-            font-size: 3rem;
+        .info-card img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
             margin-bottom: 20px;
-            display: block;
         }
 
         /* FAQ Section */
@@ -408,6 +408,10 @@
 
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
+            .video-section iframe {
+                width: 280px;
+                height: 500px;
+            }
             .hero-content {
                 grid-template-columns: 1fr;
                 text-align: center;
@@ -467,8 +471,27 @@
                     <a href="assessment.html?start=true" class="hero-button">Take The Assessment</a>
                 </div>
                 <div class="hero-illustration">
-                    <!-- Arizona cactus illustration will be rendered by CSS -->
+                    <img src="seniors-cartoon-1.png" alt="Senior couple using laptop for final expense insurance assessment" />
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section" style="padding: 60px 0; background: white; text-align: center;">
+        <div class="container">
+            <h2 style="font-size: 2.5rem; color: #1B365D; margin-bottom: 30px; font-weight: bold;">See How Easy It Is</h2>
+            <div style="display: flex; justify-content: center; margin-bottom: 40px;">
+                <iframe 
+                    src="https://www.youtube.com/embed/WlpCnFGHjwY" 
+                    width="315" 
+                    height="560"
+                    style="border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen
+                    loading="lazy">
+                </iframe>
             </div>
         </div>
     </section>
@@ -504,17 +527,17 @@
             <h2>Why should I act now to protect my family's future?</h2>
             <div class="cards-grid">
                 <div class="info-card">
-                    <span class="icon">💰</span>
+                    <img src="seniors-cartoon-4.png" alt="Senior couple managing finances" style="width: 120px; height: 120px; object-fit: contain; margin-bottom: 20px;" />
                     <h3>Rising Funeral Costs</h3>
                     <p>Final expenses are not just a weight on your shoulders that can cause stress; it's a financial burden that could impact your family's future and dreams.</p>
                 </div>
                 <div class="info-card">
-                    <span class="icon">⏰</span>
+                    <img src="seniors-cartoon-5.png" alt="Senior man fishing, enjoying retirement" style="width: 120px; height: 120px; object-fit: contain; margin-bottom: 20px;" />
                     <h3>Don't Wait Too Long</h3>
                     <p>Don't let embarrassment, stress, and high costs cost you any more than they already have. Don't worry, there's still time if you start now.</p>
                 </div>
                 <div class="info-card">
-                    <span class="icon">🛡️</span>
+                    <img src="seniors-cartoon-6.png" alt="Senior couple sitting peacefully on bench" style="width: 120px; height: 120px; object-fit: contain; margin-bottom: 20px;" />
                     <h3>Peace of Mind</h3>
                     <p>Take the 2-minute assessment and our algorithm finds the best certified partner that is right for your unique situation.</p>
                 </div>
@@ -555,6 +578,22 @@
             <a href="assessment.html?start=true" class="cta-button">🌵 Take The Assessment</a>
             <div class="cta-features">
                 ✓ Free Assessment ✓ No Obligation ✓ Licensed Agents
+            </div>
+        </div>
+    </section>
+
+    <!-- Family Protection Section -->
+    <section style="padding: 80px 0; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+                <div>
+                    <h2 style="font-size: 2.5rem; color: #1B365D; margin-bottom: 30px; font-weight: bold;">Protecting Your Arizona Family</h2>
+                    <p style="font-size: 1.2rem; color: #666; margin-bottom: 30px; line-height: 1.6;">Your family deserves financial security and peace of mind. Our partners help Arizona families find the right coverage to protect what matters most.</p>
+                    <a href="assessment.html?start=true" style="background: #ea9901; color: white; padding: 18px 40px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; text-decoration: none; display: inline-block; transition: all 0.3s ease; text-transform: uppercase; box-shadow: 0 4px 15px rgba(234, 153, 1, 0.3);">Get Started Today</a>
+                </div>
+                <div style="text-align: center;">
+                    <img src="seniors-cartoon-2.png" alt="Multi-generational Arizona family together" style="max-width: 100%; height: auto; border-radius: 15px;" />
+                </div>
             </div>
         </div>
     </section>
